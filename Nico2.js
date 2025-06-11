@@ -1,0 +1,1 @@
+console.log("Hola soy nico y este es mi segundo archivo <3")
