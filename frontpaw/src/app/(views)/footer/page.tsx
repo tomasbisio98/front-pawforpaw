@@ -1,5 +1,4 @@
 import React from "react";
-
 const Footer = () => {
   return (
     <div>
@@ -8,11 +7,7 @@ const Footer = () => {
           <div className="md:flex md:justify-between">
             <div className="mb-6 md:mb-0">
               <a href="" className="flex items-center">
-                <img
-                  src="@/public/paw.png"
-                  className="h-8 me-3"
-                  alt="Paw logo"
-                />
+                <img src="/paw.png" className="h-40 me-40" alt="Paw logo" />
                 <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white"></span>
               </a>
             </div>
@@ -29,30 +24,17 @@ const Footer = () => {
                   </li>
                 </ul>
               </div>
+              <div></div>
               <div>
                 <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">
                   Contactenos
                 </h2>
                 <ul className="text-gray-500 dark:text-gray-400 font-medium">
                   <li className="mb-4">
-                    <a href="#" className="hover:underline ">
-                      Whatsapp
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" className="hover:underline">
-                      correo@gmail.com
-                    </a>
-                  </li>
-                </ul>
-              </div>
-              <div>
-                <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">
-                  Contactenos
-                </h2>
-                <ul className="text-gray-500 dark:text-gray-400 font-medium">
-                  <li className="mb-4">
-                    <a href="#" className="hover:underline">
+                    <a
+                      href="https://wa.me/+51965336318?text=hola%2C%20quisiera%20hablar%20con%20la%20fundacion"
+                      className="hover:underline"
+                    >
                       whatsapp
                     </a>
                   </li>
@@ -65,11 +47,20 @@ const Footer = () => {
               </div>
             </div>
           </div>
+          <div>
+            <span> SUSCRIBETE A NUESTRO NEWSLETTER </span>
+            <input
+              className="w-20px h-10px border-2 border-gray-300 rounded-md mr-6 ml-6"
+              type="email"
+              placeholder="Correo electronico"
+            />
+            <button>Enviar</button>
+          </div>
           <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
           <div className="sm:flex sm:items-center sm:justify-between">
             <span className="text-sm text-gray-500 sm:text-center dark:text-gray-400">
               © 2025{" "}
-              <a href="https://flowbite.com/" className="hover:underline">
+              <a href="#" className="hover:underline">
                 Fundacion PawforPaw™
               </a>
               . All Rights Reserved. | Desarrollado por Tomas , Mariana, Juan,

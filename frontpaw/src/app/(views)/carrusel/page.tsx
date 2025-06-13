@@ -1,4 +1,5 @@
 import React from "react";
+import { initFlowbite } from "flowbite";
 
 const Carrusel = () => {
   return (

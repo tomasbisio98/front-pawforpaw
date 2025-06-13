@@ -52,12 +52,10 @@ export default function RegisterForm() {
             <Field name="telefono" type="text" className="input" />
             <ErrorMessage name="telefono" component="div" className="text-red-500 text-sm" />
 
-           
             <label htmlFor="email">Correo Electrónico</label>
             <Field name="email" type="email" className="input" />
             <ErrorMessage name="email" component="div" className="text-red-500 text-sm" />
 
-           
             <label htmlFor="password">Contraseña</label>
             <Field name="password" type="password" className="input" />
             <ErrorMessage name="password" component="div" className="text-red-500 text-sm" />
