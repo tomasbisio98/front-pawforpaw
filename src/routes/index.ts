@@ -2,8 +2,8 @@
 export const routes = {
   inicio:"/",
   perritos:"/perritos",
-  AuthPage:"/AuthPage",
-  historia: "/historia",
+  AuthPage:"/authpag",
+  Historia: "/historia",
 
   
 }
