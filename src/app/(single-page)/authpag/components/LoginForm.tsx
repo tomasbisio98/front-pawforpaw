@@ -1,33 +1,25 @@
 'use client';
 
-import { Formik } from 'formik'; 
-import * as Yup from 'yup';        
-import { FormEvent } from 'react';
-
+import { Formik, Field } from 'formik';     
+import { validationLogin } from '@/helpers/validationAuth';
+import Link from 'next/link';
+import styles from '../../../../styles/AuthUsers.module.css'
 type LoginValues = {
   email: string;
   password: string;
 };
 
-const LoginForm = ()=> {
+const initialValues: LoginValues = {
+email: '',
+password: '',
+};
 
-    const initialValues: LoginValues = {
-    email: '',
-    password: '',
-  };
+const validationSchema = validationLogin;
 
-  const validationSchema = Yup.object({
-    email: Yup.string()
-      .email('Correo inválido')
-      .required('El correo es obligatorio'),
-    password: Yup.string()
-      .min(6, 'Mínimo 6 caracteres')
-      .required('La contraseña es obligatoria'),
-  });
+const LoginForm = () => {
 
   const handleLogin = (values: LoginValues) => {
-
-    console.log('Enviando datos:', values);
+  console.log('Enviando datos:', values);
   };
 
     return  (
@@ -36,21 +28,14 @@ const LoginForm = ()=> {
       validationSchema={validationSchema}
       onSubmit={handleLogin}
     >
-      {({ handleSubmit, handleChange, values, touched, errors }) => (
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-              Correo electrónico
-            </label>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              value={values.email}
-              onChange={handleChange}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
-              placeholder="ejemplo@email.com"
-            />
+      {({ handleSubmit, handleChange, values, touched, errors,isSubmitting, isValid}) => (
+        <form onSubmit={handleSubmit} className="justify-center items-center flex flex-col space-y-4">
+
+          <div >
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700">Correo Electrónico</label>
+            <Field name="email" type="email" className={`${styles.input} ${
+              touched.email && errors.email ? styles.inputError : ''
+            }`}placeholder="ejemplo@email.com"/>
             {touched.email && errors.email && (
               <p className="text-sm text-red-500 mt-1">{errors.email}</p>
             )}
@@ -66,7 +51,9 @@ const LoginForm = ()=> {
               type="password"
               value={values.password}
               onChange={handleChange}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
+              className={`${styles.input} ${
+              touched.password && errors.password ? styles.inputError : ''
+            }`}
               placeholder="••••••"
             />
             {touched.password && errors.password && (
@@ -74,9 +61,15 @@ const LoginForm = ()=> {
             )}
           </div>
 
+            <div className="flex items-center justify-between mt-4">
+
+            <Link href="#" className='text-blue-500 text-sm'> ¿Haz olvidado tu contraseña?</Link>
+            </div>
+
           <button
             type="submit"
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition"
+            disabled={!isValid || isSubmitting}
+            className={styles.button}
           >
             Ingresar
           </button>
