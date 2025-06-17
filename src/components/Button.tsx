@@ -14,10 +14,11 @@ const Button: FC<ButtonProps> = ({
 }) => {
   const cssColor = {
     primary:
-      "bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg shadow hover:bg-blue-700 transition-colors duration-200 mt-2 mb-2 justify-center",
+      "bg-[#33A69A] text-white font-semibold py-2 px-4 rounded-lg shadow hover:bg-[#2A5559] transition-colors duration-200 mt-2 mb-2 justify-center",
     secondary:
-      "bg-gray-100 text-gray-800 border border-gray-300 hover:bg-gray-200 font-medium px-4 py-2 rounded-lg transition duration-200 mt-2 mb-2 justify-center",
+      "bg-[#F2F2F0] text-[#2A5559] border border-[#B4D9C4] hover:bg-[#B4D9C4] font-medium px-4 py-2 rounded-lg transition duration-200 mt-2 mb-2 justify-center",
   };
+
   return (
     <button
       className={cs(cssColor[variant], "rounded-md", className)}
