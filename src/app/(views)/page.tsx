@@ -7,8 +7,6 @@ export default function Home() {
 
       <HomeContent />
 
-
-      <div className="bg-slate-600 dark:bg-gray-800 dark:border-gray-700"></div>
     </>
   );
 }
