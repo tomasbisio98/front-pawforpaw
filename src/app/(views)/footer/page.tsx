@@ -8,7 +8,7 @@ import Newletter from "./components/NewLetter";
 const Footer = () => {
   return (
 
-     <footer className="bg-[#2A5559] text-white">
+     <footer className="bg-verdeOscuro text-white">
       <div className="w-full max-w-screen-xl px-4 py-6 mx-auto">
       
         <div className="grid md:grid-cols-3 gap-8 items-start text-sm">
@@ -37,7 +37,7 @@ const Footer = () => {
               <h2 className="mb-1 text-sm font-semibold text-white uppercase">
                 CONTÁCTENOS
               </h2>
-              <ul className="font-medium text-[#daf0e4]  space-y-1">
+              <ul className="font-medium text-blancoConVerde space-y-1">
                 <li>
                   <Link href="#" className="hover:underline">
                     Whatsapp: +51 965 336 318
@@ -53,10 +53,10 @@ const Footer = () => {
         </div>
 
         {/* Línea separadora */}
-        <hr className="my-4 border-[#B4D9C4]" />
+        <hr className="my-4 border-blancoConVerde" />
 
         {/* Footer final */}
-        <section className="text-center text-sm text-[#c7e4d3]">
+        <section className="text-center text-sm text-blancoConVerde">
           © 2025 { " " }
           <Link href={routes.inicio} className="text-white hover:underline">
             Fundación PawforPaw™

@@ -13,7 +13,7 @@ const HomeContent = () => {
   const imagenes = ["/carrusel12.png", "/carrusel2.png", "/carrusel3.png"];
 
   return (
-    <main className="px-6 py-10 space-y-12 bg-[#F2F2F0] text-[#593723]">
+    <main className="px-6 py-10 space-y-12 bg-blancoSuave text-marronOscuro">
       {/* Carrusel */}
       <div className="w-full overflow-hidden rounded-lg h-60 md:h-96">
         <Swiper
