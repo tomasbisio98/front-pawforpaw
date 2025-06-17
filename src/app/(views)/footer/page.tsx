@@ -58,7 +58,7 @@ const Footer = () => {
 
         {/* Footer final */}
         <section className="text-center text-sm text-[#B4D9C4]">
-          © 2025{" "}
+          © 2025
           <Link href={routes.inicio} className="text-white hover:underline">
             Fundación PawforPaw™
           </Link>
