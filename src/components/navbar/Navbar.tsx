@@ -90,6 +90,14 @@ const Navbar = () => {
                     Registro
                   </a>
                 </li>
+                <li>
+                  <a
+                    href={routes.Administrador}
+                    className="block px-3 py-2 text-[#593723] rounded-sm md:p-0 hover:text-[#2A5559]"
+                  >
+                    Administrador
+                  </a>
+                </li>
               </ul>
             </div>
           </div>
@@ -100,4 +108,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
