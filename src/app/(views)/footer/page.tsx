@@ -16,7 +16,7 @@ const Footer = () => {
 
           <div className="flex flex-col gap-2">
             <div className="flex items-center gap-3">
-              <img src="/paw.png" className="h-12" alt="Paw logo" />
+              <img src="/paw.png" className="h-12 rounded-full" alt="Paw logo" />
               <h2 className="font-semibold uppercase text-white">
                 Fundación PawforPaw
               </h2>
