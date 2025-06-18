@@ -1,10 +1,13 @@
-import React from "react";
+import DogsList from "@/components/dogsList/DogsList";
+import { dogs } from "@/helpers/dogs";
+
 
 const Perritos = () => {
   return (
-    <div>
-      <h2>Perritos</h2>
-    </div>
+    <main className="px-4 py-8 space-y-12 bg-blancoSuave">
+      <h2 className="text-2xl text-center font-bold">Perritos</h2>
+       <DogsList list={dogs}/>
+    </main>
   );
 };
 

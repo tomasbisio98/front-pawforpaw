@@ -1,7 +1,8 @@
 export interface IUsers {
-  nombre: string;
+  id:number;
+  name: string;
   dni: string;
-  telefono: string;
+  phone: string;
   email: string;
   password: string;
   confirmPassword: string;
