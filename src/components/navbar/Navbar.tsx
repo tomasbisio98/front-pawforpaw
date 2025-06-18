@@ -7,14 +7,14 @@ import NavList from "./components/NavList";
 
 const Navbar = () => {
   return (
-        <nav className="border-gray-200 bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
+        <nav className="border-gray-500 bg-verdeOscuro  ">
           <div className="flex flex-wrap items-center justify-between max-w-screen-xl p-4 mx-auto">
             <Link
               href={routes.inicio}
               className="flex items-center space-x-3 rtl:space-x-reverse"
             >
-              <img src="/paw.png" className="h-12" alt="Paw logo" />
-              <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
+              <img src="/paw.png" className="h-14 rounded-full " alt="Paw logo" />
+            <span className="self-center text-2xl font-semibold whitespace-nowrap text-white">
                 PawForPaw
               </span>
             </Link>
