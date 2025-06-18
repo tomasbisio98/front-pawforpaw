@@ -1,13 +1,14 @@
 .input {
+  width: 300px;
   padding: 0.5rem;
   border: 1px solid #ccc;
   border-radius: 4px;
-  font-size: 1rem;
+ 
 }
 
 .input:focus {
   outline: none;
-  border-color: #0070f3;
+  border-color: #33A691;
 }
 
 .inputError {
@@ -19,9 +20,10 @@
   font-size: 0.875rem;
 }
 
-.button {
+.buttonLogin {
+  width: 300px;
   padding: 0.75rem;
-  background-color: #0070f3;
+  background-color: #2C5959;
   color: white;
   border: none;
   border-radius: 4px;
@@ -29,9 +31,29 @@
   cursor: pointer;
   transition: background-color 0.2s;
 }
+.buttonLogin:hover {
+  background-color: #1d3f3f;
+}
+
+.buttonLogin:disabled {
+  background-color: #b3b1b1;
+  cursor: not-allowed;
+}
+.button {
+  width: 350px;
+  padding: 0.75rem;
+  background-color: #2C5959;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-top: 20px;
+}
 
 .button:hover {
-  background-color: #0056c1;
+  background-color: #1d3f3f;
 }
 
 .button:disabled {
