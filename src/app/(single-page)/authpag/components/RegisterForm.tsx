@@ -2,23 +2,38 @@
 
 import { validationRegister } from '@/helpers/validationAuth';
 import { IUsers } from '@/interface/IUsers';
-import { Formik, Form, Field } from 'formik';
 import styles from '../../../../styles/AuthUsers.module.css'
+import { postRegister } from '@/service/auth';
+import { Field, Form, Formik } from 'formik';
 
 
 const initialValues: IUsers = {
-  nombre: '',
+  name: '',
   dni: '',
-  telefono: '',
+  phone: '',
   email: '',
   password: '',
-  confirmPassword: '',
+  // confirmPassword: '',
 };
 
 const validationSchema = validationRegister;
 
 export default function RegisterForm() {
-  const onSubmit = (values: IUsers) => {
+ 
+
+  const onSubmit = async (values: IUsers) => {
+       try {
+      const res = await postRegister(values);
+      console.log('Respuesta del backend:', res);
+
+      // Redirige al login si todo salió bien
+      setTimeout(() => {
+        alert('Usuario registrado exitosamente, ya puedes iniciar sesión');
+      }, 2000);
+    } catch (e) {
+      console.warn('Error al registrar el usuario', e);
+      alert('Ocurrió un error al registrarte. Intenta más tarde.');
+    }
     console.log('Datos del formulario:', values);
   };
 
@@ -34,11 +49,11 @@ export default function RegisterForm() {
             
             <div>
             <label htmlFor="nombre" className="block text-sm font-medium text-gray-700">Nombre</label>
-            <Field name="nombre" type="text" className={`${styles.input} ${
-              touched.nombre && errors.nombre ? styles.inputError : ''
+            <Field name="name" type="text" className={`${styles.input} ${
+              touched.name && errors.name ? styles.inputError : ''
             }`} />
-             {touched.nombre && errors.nombre && (
-               <p className="text-sm text-red-500 mt-1">{errors.nombre}</p>
+             {touched.name && errors.name && (
+               <p className="text-sm text-red-500 mt-1">{errors.name}</p>
               )}
             </div>
 
@@ -56,11 +71,11 @@ export default function RegisterForm() {
             <div>
 
             <label htmlFor="telefono" className="block text-sm font-medium text-gray-700">Teléfono</label>
-            <Field name="telefono" type="text" className={`${styles.input} ${
-              touched.telefono && errors.telefono ? styles.inputError : ''
+            <Field name="phone" type="text" className={`${styles.input} ${
+              touched.phone && errors.phone ? styles.inputError : ''
             }`} />
-            {touched.telefono && errors.telefono && (
-              <p className="text-sm text-red-500 mt-1">{errors.telefono}</p>
+            {touched.phone && errors.phone && (
+              <p className="text-sm text-red-500 mt-1">{errors.phone}</p>
             )}
             </div>
 
@@ -96,7 +111,7 @@ export default function RegisterForm() {
                 )}
               </div>
 
-              <div>
+              {/* <div>
                 <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
                   Confirmar Contraseña
                 </label>
@@ -113,7 +128,7 @@ export default function RegisterForm() {
                 {touched.confirmPassword && errors.confirmPassword && (
                   <p className="text-sm text-red-500 mt-1">{errors.confirmPassword}</p>
                 )}
-              </div>
+              </div> */}
 
             <button
               type="submit"
