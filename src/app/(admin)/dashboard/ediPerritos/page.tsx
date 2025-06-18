@@ -1,7 +1,7 @@
 import React from "react";
 import AdminPerritos from "../Components/GestionPerritos/EdiPerritos";
 
-const Ediperritos = () => {
+const ediPerritos = () => {
   return (
     <div>
       <AdminPerritos />
@@ -9,4 +9,4 @@ const Ediperritos = () => {
   );
 };
 
-export default Ediperritos;
+export default ediPerritos;
