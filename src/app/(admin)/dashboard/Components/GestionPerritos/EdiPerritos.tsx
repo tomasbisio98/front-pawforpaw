@@ -1,8 +1,13 @@
 "use client";
 
 import React, { useState } from "react";
+import { Search, Filter, Edit, Package } from "lucide-react";
 
-type Perrito = {
+import { Pagination } from "swiper/modules";
+
+// Tipado
+
+interface Perrito {
   id: number;
   nombre: string;
   imagen: string;
@@ -10,7 +15,7 @@ type Perrito = {
   ciudad: string;
   descripcion: string;
   estado: string;
-};
+}
 
 const mockPerritos: Perrito[] = [
   {
@@ -37,7 +42,6 @@ export default function AdminPerritos() {
   const [perritos, setPerritos] = useState<Perrito[]>(mockPerritos);
   const [modalVisible, setModalVisible] = useState(false);
   const [editando, setEditando] = useState<Perrito | null>(null);
-
   const [form, setForm] = useState<Perrito>({
     id: 0,
     nombre: "",
@@ -87,12 +91,15 @@ export default function AdminPerritos() {
   };
 
   return (
-    <div className="p-6 bg-[#F2F2F0] min-h-screen">
-      <h2 className="mb-4 text-2xl font-bold text-center">
+    <div className="min-h-screen bg-[#F2F2F0] p-6">
+      <h1 className="mb-2 text-3xl font-bold text-center">
         VISUALIZACIÓN DE PERRITOS
+      </h1>
+      <h2 className="mb-6 text-xl font-bold text-center">
+        Gestión de perritos
       </h2>
 
-      <div className="flex items-center justify-between mb-4">
+      <div className="flex flex-col items-center justify-between gap-3 mb-4 sm:flex-row">
         <button
           onClick={() => abrirModal()}
           className="bg-[#B4D9C4] px-4 py-2 rounded-md font-semibold text-[#2A5559]"
@@ -100,11 +107,23 @@ export default function AdminPerritos() {
           + Agregar perrito
         </button>
 
-        <input
-          type="text"
-          placeholder="Buscar..."
-          className="px-3 py-2 border rounded-md"
-        />
+        <div className="flex items-center gap-2">
+          <div className="relative">
+            <input
+              type="text"
+              placeholder="Input text"
+              className="px-3 py-2 pl-10 border rounded-md"
+            />
+            <Search className="absolute left-2 top-2.5 w-5 h-5 text-gray-400" />
+          </div>
+          <button>
+            <Filter className="w-6 h-6 text-[#2A5559]" />
+          </button>
+        </div>
+      </div>
+
+      <div className="text-2xl font-semibold mb-2 text-[#444]">
+        TABLA DE PERRITOS / VISUALIZAR
       </div>
 
       <div className="overflow-x-auto">
@@ -118,7 +137,7 @@ export default function AdminPerritos() {
               <th className="p-2">Descripción</th>
               <th className="p-2">Estado</th>
               <th className="p-2">Editar</th>
-              <th className="p-2">Eliminar</th>
+              <th className="p-2">Productos</th>
             </tr>
           </thead>
           <tbody>
@@ -137,20 +156,12 @@ export default function AdminPerritos() {
                 <td className="p-2">{p.descripcion}</td>
                 <td className="p-2">{p.estado}</td>
                 <td className="p-2">
-                  <button
-                    onClick={() => abrirModal(p)}
-                    className="text-blue-600 hover:underline"
-                  >
-                    Editar
+                  <button onClick={() => abrirModal(p)}>
+                    <Edit className="w-5 h-5 text-[#2A5559]" />
                   </button>
                 </td>
                 <td className="p-2">
-                  <button
-                    onClick={() => eliminarPerrito(p.id)}
-                    className="text-red-600 hover:underline"
-                  >
-                    Eliminar
-                  </button>
+                  <Package className="w-5 h-5 text-[#2A5559]" />
                 </td>
               </tr>
             ))}
