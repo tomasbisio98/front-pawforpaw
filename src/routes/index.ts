@@ -5,4 +5,5 @@ export const routes = {
   Historia: "/historia",
   Administrador: "/Administrador",
   Ediperritos: "/Ediperritos",
+  dog_detail: "/dog-detail",
 };
