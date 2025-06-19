@@ -4,6 +4,9 @@ import { Formik, Field } from 'formik';
 import { validationLogin } from '@/helpers/validationAuth';
 import Link from 'next/link';
 import styles from '../../../../styles/AuthUsers.module.css'
+import { postLogin } from '@/service/auth';
+import { useRouter } from 'next/navigation';
+
 type LoginValues = {
   email: string;
   password: string;
@@ -17,8 +20,26 @@ password: '',
 const validationSchema = validationLogin;
 
 const LoginForm = () => {
+  const router = useRouter();
 
-  const handleLogin = (values: LoginValues) => {
+  const handleLogin = async (values: LoginValues) => {
+   
+        try {
+          const res = await postLogin(values)
+          console.log("response", res);
+          
+
+          alert("Login exitoso")
+
+          setTimeout(()=>{
+              router.push("/")
+          },3000)
+          
+        } catch (e) {
+          console.warn("error al loguearse el usuario", e);
+          alert("Email o contraseña incorrectos")
+        }
+      
   console.log('Enviando datos:', values);
   };
 

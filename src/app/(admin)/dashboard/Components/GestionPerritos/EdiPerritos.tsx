@@ -15,6 +15,7 @@ interface Perrito {
   descripcion: string;
   estado: string;
 }
+}
 
 const mockPerritos: Perrito[] = [
   {
@@ -103,12 +104,18 @@ export default function AdminPerritos() {
   return (
     <div className="min-h-screen bg-[#F2F2F0] p-6">
       <h1 className="mb-2 text-3xl font-bold text-center">
+    <div className="min-h-screen bg-[#F2F2F0] p-6">
+      <h1 className="mb-2 text-3xl font-bold text-center">
         VISUALIZACIÓN DE PERRITOS
+      </h1>
+      <h2 className="mb-6 text-xl font-bold text-center">
+        Gestión de perritos
       </h1>
       <h2 className="mb-6 text-xl font-bold text-center">
         Gestión de perritos
       </h2>
 
+      <div className="flex flex-col items-center justify-between gap-3 mb-4 sm:flex-row">
       <div className="flex flex-col items-center justify-between gap-3 mb-4 sm:flex-row">
         <button
           onClick={() => abrirModal()}
@@ -172,6 +179,7 @@ export default function AdminPerritos() {
               <th className="p-2">Estado</th>
               <th className="p-2">Editar</th>
               <th className="p-2">Productos</th>
+              <th className="p-2">Productos</th>
             </tr>
           </thead>
           <tbody>
@@ -190,6 +198,8 @@ export default function AdminPerritos() {
                 <td className="p-2">{p.descripcion}</td>
                 <td className="p-2">{p.estado}</td>
                 <td className="p-2">
+                  <button onClick={() => abrirModal(p)}>
+                    <Edit className="w-5 h-5 text-[#2A5559]" />
                   <button onClick={() => abrirModal(p)}>
                     <Edit className="w-5 h-5 text-[#2A5559]" />
                   </button>
