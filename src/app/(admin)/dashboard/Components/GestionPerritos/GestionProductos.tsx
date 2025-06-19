@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { useParams, useRouter } from "next/navigation";
 import { Pencil, Package } from "lucide-react";
 import classNames from "classnames";
 
@@ -11,28 +12,61 @@ interface Product {
   image: string;
 }
 
-const products: Product[] = [
-  { name: "Cama", price: 500.0, active: true, image: "/box.png" },
-  { name: "Cama", price: 500.0, active: false, image: "/box.png" },
-  { name: "Cama", price: 500.0, active: true, image: "/box.png" },
-  { name: "Cama", price: 500.0, active: false, image: "/box.png" },
-  { name: "Cama", price: 500.0, active: true, image: "/box.png" },
+interface Perrito {
+  id: string;
+  nombre: string;
+}
+
+// Simulación de datos de perritos
+const perritos: Perrito[] = [
+  { id: "1", nombre: "Milka" },
+  { id: "2", nombre: "Firulais" },
 ];
 
-const ProductTable = () => {
+// Simulación de productos por perrito
+const productosPorPerrito: Record<string, Product[]> = {
+  "1": [
+    { name: "Cama", price: 500.0, active: true, image: "/box.png" },
+    { name: "Juguete", price: 100.0, active: false, image: "/box.png" },
+  ],
+  "2": [
+    { name: "Pelota", price: 50.0, active: true, image: "/box.png" },
+    { name: "Correa", price: 70.0, active: false, image: "/box.png" },
+  ],
+};
+
+export default function ProductTable() {
+  const router = useRouter();
+  const params = useParams();
+  const id = params.id as string;
+
+  const perrito = perritos.find((p) => p.id === id);
+  const products = productosPorPerrito[id] ?? [];
+
+  if (!perrito) {
+    return (
+      <div className="p-6 text-[#593723] text-center font-semibold">
+        Perrito no encontrado 🐾
+      </div>
+    );
+  }
+
   return (
     <div className="p-6 bg-[#F2F2F0] min-h-screen">
       <div className="flex items-center justify-between mb-6">
-        <button className="bg-[#B4D9C4] text-[#2A5559] px-6 py-2 rounded-full font-semibold shadow hover:bg-[#33A69A] transition">
+        <button
+          onClick={router.back}
+          className="bg-[#B4D9C4] text-[#2A5559] px-6 py-2 rounded-full font-semibold shadow hover:bg-[#33A69A] transition"
+        >
           Volver a perritos
         </button>
         <button className="bg-[#D9E400] text-[#2A5559] px-6 py-2 rounded-full font-bold hover:bg-[#C0CC00] transition">
-          + Agregar producto a Milka
+          + Agregar producto a {perrito.nombre}
         </button>
       </div>
 
       <h1 className="text-3xl font-bold text-center text-[#2A5559] mb-8">
-        TABLA DE PRODUCTOS DE MILKA
+        TABLA DE PRODUCTOS DE {perrito.nombre}
       </h1>
 
       <table className="w-full overflow-hidden text-left shadow rounded-xl">
@@ -78,10 +112,14 @@ const ProductTable = () => {
                 </label>
               </td>
               <td className="p-3">
-                <Package className="w-6 h-6 text-[#593723]" />
+                <a>
+                  <Package className="w-6 h-6 text-[#593723]" />
+                </a>
               </td>
               <td className="p-3">
-                <Pencil className="w-5 h-5 text-[#2A5559] hover:text-[#33A69A] cursor-pointer" />
+                <a href="#">
+                  <Pencil className="w-5 h-5 text-[#2A5559] hover:text-[#33A69A] cursor-pointer" />
+                </a>
               </td>
             </tr>
           ))}
@@ -93,6 +131,6 @@ const ProductTable = () => {
       </div>
     </div>
   );
-};
+}
 
-export default ProductTable;
+

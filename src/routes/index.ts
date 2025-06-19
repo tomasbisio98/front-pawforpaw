@@ -4,6 +4,7 @@ export const routes = {
   AuthPage: "/authpag",
   Historia: "/historia",
   Administrador: "/Administrador",
-  Ediperritos: "/Ediperritos",
+  Ediperritos: "/dashboard/ediPerritos",
   dog_detail: "/dog-detail",
+  GestionProductos: "/dashboard/ediProductos",
 };
