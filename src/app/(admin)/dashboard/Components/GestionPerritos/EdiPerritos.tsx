@@ -2,11 +2,10 @@
 
 import React, { useState } from "react";
 import { Search, Filter, Edit, Package } from "lucide-react";
-
-import { Pagination } from "swiper/modules";
+import { routes } from "@/routes";
+import Link from "next/link";
 
 // Tipado
-
 interface Perrito {
   id: number;
   nombre: string;
@@ -42,6 +41,10 @@ export default function AdminPerritos() {
   const [perritos, setPerritos] = useState<Perrito[]>(mockPerritos);
   const [modalVisible, setModalVisible] = useState(false);
   const [editando, setEditando] = useState<Perrito | null>(null);
+  const [busqueda, setBusqueda] = useState(""); // Estado para búsqueda
+  const [filtroVisible, setFiltroVisible] = useState(false); // Mostrar/ocultar filtro
+  const [filtroEstado, setFiltroEstado] = useState(""); // Filtro por estado
+
   const [form, setForm] = useState<Perrito>({
     id: 0,
     nombre: "",
@@ -90,6 +93,13 @@ export default function AdminPerritos() {
     cerrarModal();
   };
 
+  // Filtro por nombre y estado
+  const perritosFiltrados = perritos.filter(
+    (p) =>
+      p.nombre.toLowerCase().includes(busqueda.toLowerCase()) &&
+      (filtroEstado === "" || p.estado === filtroEstado)
+  );
+
   return (
     <div className="min-h-screen bg-[#F2F2F0] p-6">
       <h1 className="mb-2 text-3xl font-bold text-center">
@@ -107,18 +117,42 @@ export default function AdminPerritos() {
           + Agregar perrito
         </button>
 
-        <div className="flex items-center gap-2">
+        <div className="relative flex items-center gap-2">
+          {/* Input de búsqueda */}
           <div className="relative">
             <input
               type="text"
-              placeholder="Input text"
+              placeholder="Buscar por nombre"
               className="px-3 py-2 pl-10 border rounded-md"
+              value={busqueda}
+              onChange={(e) => setBusqueda(e.target.value)}
             />
             <Search className="absolute left-2 top-2.5 w-5 h-5 text-gray-400" />
           </div>
-          <button>
-            <Filter className="w-6 h-6 text-[#2A5559]" />
-          </button>
+
+          {/* Botón de filtro */}
+          <div className="relative">
+            <button onClick={() => setFiltroVisible(!filtroVisible)}>
+              <Filter className="w-6 h-6 text-[#2A5559]" />
+            </button>
+
+            {filtroVisible && (
+              <div className="absolute right-0 z-10 w-40 p-2 mt-2 bg-white border rounded shadow-md">
+                <label className="block text-sm mb-1 font-semibold text-[#2A5559]">
+                  Estado
+                </label>
+                <select
+                  className="w-full p-1 text-sm border rounded"
+                  value={filtroEstado}
+                  onChange={(e) => setFiltroEstado(e.target.value)}
+                >
+                  <option value="">Todos</option>
+                  <option value="Activo">Activo</option>
+                  <option value="Inactivo">Inactivo</option>
+                </select>
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
@@ -141,7 +175,7 @@ export default function AdminPerritos() {
             </tr>
           </thead>
           <tbody>
-            {perritos.map((p) => (
+            {perritosFiltrados.map((p) => (
               <tr key={p.id} className="border-t hover:bg-gray-100">
                 <td className="p-2">{p.nombre}</td>
                 <td className="p-2">
@@ -161,7 +195,12 @@ export default function AdminPerritos() {
                   </button>
                 </td>
                 <td className="p-2">
-                  <Package className="w-5 h-5 text-[#2A5559]" />
+                  <Link
+                    href={routes.GestionProductos}
+                    className="text-[#2A5559] hover:text-black"
+                  >
+                    <Package className="w-5 h-5 text-[#2A5559]" />
+                  </Link>
                 </td>
               </tr>
             ))}
