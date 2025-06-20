@@ -3,6 +3,7 @@ export const routes = {
   perritos: "/perritos",
   AuthPage: "/authpag",
   Historia: "/historia",
+  DashboardUser: "/profile",
   Administrador: "/Administrador",
   Ediperritos: "/dashboard/ediPerritos",
   dog_detail: "/dog-detail",

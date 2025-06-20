@@ -4,6 +4,7 @@ import { routes } from "../../routes";
 import Link from "next/link";
 import { navbarLi } from "@/constants/navbar";
 import NavList from "./components/NavList";
+import AuthNav from "./components/AuthNav";
 
 const Navbar = () => {
   return (
@@ -23,6 +24,7 @@ const Navbar = () => {
                 {navbarLi.map((navbarLi, idx) => (<NavList key={idx} {...navbarLi} />))}
               </ul>
               
+              <AuthNav/>
                 {/* <li>
                   <a
                     href={routes.AuthPage}

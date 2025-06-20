@@ -5,6 +5,7 @@ import { IUsers } from '@/interface/IUsers';
 import styles from '../../../../styles/AuthUsers.module.css'
 import { postRegister } from '@/service/auth';
 import { Field, Form, Formik } from 'formik';
+import { toast } from 'react-toastify';
 
 
 const initialValues: IUsers = {
@@ -22,19 +23,21 @@ export default function RegisterForm() {
  
 
   const onSubmit = async (values: IUsers) => {
-       try {
+    console.log('Datos del formulario:', values);
+    try {
       const res = await postRegister(values);
       console.log('Respuesta del backend:', res);
 
-      // Redirige al login si todo salió bien
+      //
+      toast.success("Usuario registrado exitosamente");
+      
       setTimeout(() => {
-        alert('Usuario registrado exitosamente, ya puedes iniciar sesión');
+        toast.info('Ya puedes iniciar sesión');
       }, 2000);
     } catch (e) {
       console.warn('Error al registrar el usuario', e);
-      alert('Ocurrió un error al registrarte. Intenta más tarde.');
+      toast.error('Ocurrió un error al registrarte. Intenta más tarde.');
     }
-    console.log('Datos del formulario:', values);
   };
 
   return (
