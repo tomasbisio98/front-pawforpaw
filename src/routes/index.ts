@@ -6,5 +6,8 @@ export const routes = {
   Administrador: "/Administrador",
   Ediperritos: "/dashboard/ediPerritos",
   dog_detail: "/dog-detail",
-  GestionProductos: "/dashboard/ediProductos",
+  GestionProductos: (id: number | string) => `/dashboard/productos/  ${id}`,
+  ProductModal: (id: string | number) =>
+    `/dashboard/components/GestionPerritos/ProductModal/${id}`,
+  donaciones: "/dashboard/donaciones",
 };

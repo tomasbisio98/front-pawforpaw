@@ -5,7 +5,6 @@ import { Search, Filter, Edit, Package } from "lucide-react";
 import { routes } from "@/routes";
 import Link from "next/link";
 
-// Tipado
 interface Perrito {
   id: number;
   nombre: string;
@@ -14,7 +13,6 @@ interface Perrito {
   ciudad: string;
   descripcion: string;
   estado: string;
-}
 }
 
 const mockPerritos: Perrito[] = [
@@ -42,9 +40,9 @@ export default function AdminPerritos() {
   const [perritos, setPerritos] = useState<Perrito[]>(mockPerritos);
   const [modalVisible, setModalVisible] = useState(false);
   const [editando, setEditando] = useState<Perrito | null>(null);
-  const [busqueda, setBusqueda] = useState(""); // Estado para búsqueda
-  const [filtroVisible, setFiltroVisible] = useState(false); // Mostrar/ocultar filtro
-  const [filtroEstado, setFiltroEstado] = useState(""); // Filtro por estado
+  const [busqueda, setBusqueda] = useState("");
+  const [filtroVisible, setFiltroVisible] = useState(false);
+  const [filtroEstado, setFiltroEstado] = useState("");
 
   const [form, setForm] = useState<Perrito>({
     id: 0,
@@ -94,7 +92,6 @@ export default function AdminPerritos() {
     cerrarModal();
   };
 
-  // Filtro por nombre y estado
   const perritosFiltrados = perritos.filter(
     (p) =>
       p.nombre.toLowerCase().includes(busqueda.toLowerCase()) &&
@@ -103,19 +100,13 @@ export default function AdminPerritos() {
 
   return (
     <div className="min-h-screen bg-[#F2F2F0] p-6">
-      <h1 className="mb-2 text-3xl font-bold text-center">
-    <div className="min-h-screen bg-[#F2F2F0] p-6">
-      <h1 className="mb-2 text-3xl font-bold text-center">
+      <h1 className="mb-2 text-3xl font-bold text-center text-[#2A5559]">
         VISUALIZACIÓN DE PERRITOS
       </h1>
-      <h2 className="mb-6 text-xl font-bold text-center">
-        Gestión de perritos
-      </h1>
-      <h2 className="mb-6 text-xl font-bold text-center">
+      <h2 className="mb-6 text-xl font-bold text-center text-[#2A5559]">
         Gestión de perritos
       </h2>
 
-      <div className="flex flex-col items-center justify-between gap-3 mb-4 sm:flex-row">
       <div className="flex flex-col items-center justify-between gap-3 mb-4 sm:flex-row">
         <button
           onClick={() => abrirModal()}
@@ -125,7 +116,6 @@ export default function AdminPerritos() {
         </button>
 
         <div className="relative flex items-center gap-2">
-          {/* Input de búsqueda */}
           <div className="relative">
             <input
               type="text"
@@ -137,7 +127,6 @@ export default function AdminPerritos() {
             <Search className="absolute left-2 top-2.5 w-5 h-5 text-gray-400" />
           </div>
 
-          {/* Botón de filtro */}
           <div className="relative">
             <button onClick={() => setFiltroVisible(!filtroVisible)}>
               <Filter className="w-6 h-6 text-[#2A5559]" />
@@ -179,7 +168,6 @@ export default function AdminPerritos() {
               <th className="p-2">Estado</th>
               <th className="p-2">Editar</th>
               <th className="p-2">Productos</th>
-              <th className="p-2">Productos</th>
             </tr>
           </thead>
           <tbody>
@@ -200,13 +188,11 @@ export default function AdminPerritos() {
                 <td className="p-2">
                   <button onClick={() => abrirModal(p)}>
                     <Edit className="w-5 h-5 text-[#2A5559]" />
-                  <button onClick={() => abrirModal(p)}>
-                    <Edit className="w-5 h-5 text-[#2A5559]" />
                   </button>
                 </td>
                 <td className="p-2">
                   <Link
-                    href={routes.GestionProductos}
+                    href={routes.GestionProductos(p.id)}
                     className="text-[#2A5559] hover:text-black"
                   >
                     <Package className="w-5 h-5 text-[#2A5559]" />
@@ -221,7 +207,7 @@ export default function AdminPerritos() {
       {modalVisible && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
           <div className="w-full max-w-md p-6 bg-white rounded-xl">
-            <h3 className="mb-4 text-xl font-bold text-center">
+            <h3 className="mb-4 text-xl font-bold text-center text-[#2A5559]">
               {editando ? "Editar Perrito" : "Agregar Perrito"}
             </h3>
 
