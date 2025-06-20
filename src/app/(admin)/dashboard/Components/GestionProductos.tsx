@@ -2,6 +2,7 @@
 
 import React from "react";
 import { useParams, useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { Pencil, Package } from "lucide-react";
 import classNames from "classnames";
 import { routes } from "@/routes";
@@ -55,6 +56,10 @@ export default function ProductTable() {
   return (
     <div className="p-6 bg-[#F2F2F0] min-h-screen">
       <div className="flex items-center justify-between mb-6">
+        <button
+          onClick={router.back}
+          className="bg-[#B4D9C4] text-[#2A5559] px-6 py-2 rounded-full font-semibold shadow hover:bg-[#33A69A] transition"
+        >
         <button
           onClick={router.back}
           className="bg-[#B4D9C4] text-[#2A5559] px-6 py-2 rounded-full font-semibold shadow hover:bg-[#33A69A] transition"
@@ -116,10 +121,14 @@ export default function ProductTable() {
                 </label>
               </td>
               <td className="p-3">
-                <Package className="w-6 h-6 text-[#593723]" />
+                <a>
+                  <Package className="w-6 h-6 text-[#593723]" />
+                </a>
               </td>
               <td className="p-3">
-                <Pencil className="w-5 h-5 text-[#2A5559] hover:text-[#33A69A] cursor-pointer" />
+                <a href="#">
+                  <Pencil className="w-5 h-5 text-[#2A5559] hover:text-[#33A69A] cursor-pointer" />
+                </a>
               </td>
             </tr>
           ))}

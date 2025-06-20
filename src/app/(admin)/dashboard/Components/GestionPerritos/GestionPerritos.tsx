@@ -1,20 +1,28 @@
-"use client";
+// "use client";
 
+<<<<<<< HEAD
 import React, { useState } from "react";
 import { Pencil, PackageSearch } from "lucide-react";
 import { routes } from "@/routes";
 import Link from "next/link";
+=======
+// import React, { useState } from "react";
+// import { Pencil, PackageSearch } from "lucide-react";
+// import { routes } from "@/routes";
+// import Pagination from "../Pagination";
+>>>>>>> c5a7e977f495c7067bcde377cbf1a31f3a6f2e78
 
-type Perrito = {
-  id: number;
-  nombre: string;
-  imagen: string;
-  genero: string;
-  ciudad: string;
-  descripcion: string;
-  estado: string;
-};
+// type Perrito = {
+//   id: number;
+//   nombre: string;
+//   imagen: string;
+//   genero: string;
+//   ciudad: string;
+//   descripcion: string;
+//   estado: string;
+// };
 
+<<<<<<< HEAD
 const mockPerritos: Perrito[] = [
   {
     id: 1,
@@ -27,10 +35,25 @@ const mockPerritos: Perrito[] = [
   },
   // Puedes duplicar más objetos si quieres más perritos
 ];
+=======
+// const mockPerritos: Perrito[] = [
+//   {
+//     id: 1,
+//     nombre: "Milka",
+//     imagen: "/milka.jpg",
+//     genero: "Hembra",
+//     ciudad: "Bogotá",
+//     descripcion: "Lorem ipsum",
+//     estado: "Activo",
+//   },
+//   // Puedes duplicar o cargar más desde tu backend
+// ];
+>>>>>>> c5a7e977f495c7067bcde377cbf1a31f3a6f2e78
 
-export default function GestionPerritos() {
-  const [perritos, setPerritos] = useState<Perrito[]>(mockPerritos);
+// export default function GestionPerritos() {
+//   const [perritos, setPerritos] = useState<Perrito[]>(mockPerritos);
 
+<<<<<<< HEAD
   return (
     <div className="p-6 bg-[#F2F2F0] min-h-screen">
       <h2 className="mb-4 text-3xl font-bold text-center">
@@ -44,17 +67,32 @@ export default function GestionPerritos() {
         >
           + Agregar perrito
         </Link>
+=======
+//   return (
+//     <div className="p-6 bg-[#F2F2F0] min-h-screen">
+//       <h2 className="mb-4 text-3xl font-bold text-center">
+//         Gestión de Perritos
+//       </h2>
+//       <div className="flex items-center justify-between mb-4">
+//         <a
+//           href={routes.Ediperritos}
+//           className="bg-[#B4D9C4] text-[#2A5559] px-4 py-2 rounded-xl font-semibold hover:bg-[#A3CDB5] transition"
+//         >
+//           + Agregar perrito
+//         </a>
+>>>>>>> c5a7e977f495c7067bcde377cbf1a31f3a6f2e78
 
-        <div className="flex items-center gap-2">
-          <input
-            type="text"
-            placeholder="Buscar..."
-            className="px-3 py-2 border rounded-lg"
-          />
-          <button className="p-2 border rounded-lg">A-Z</button>
-        </div>
-      </div>
+//         <div className="flex items-center gap-2">
+//           <input
+//             type="text"
+//             placeholder="Buscar..."
+//             className="px-3 py-2 border rounded-lg"
+//           />
+//           <button className="p-2 border rounded-lg">A-Z</button>
+//         </div>
+//       </div>
 
+<<<<<<< HEAD
       <table className="w-full border-collapse">
         <thead>
           <tr className="bg-[#33A69A] text-white">
@@ -111,3 +149,57 @@ export default function GestionPerritos() {
     </div>
   );
 }
+=======
+//       <table className="w-full border-collapse">
+//         <thead>
+//           <tr className="bg-[#33A69A] text-white">
+//             <th className="p-2">Nombre</th>
+//             <th>Imagen</th>
+//             <th>Género</th>
+//             <th>Ciudad</th>
+//             <th>Descripción</th>
+//             <th>Estado</th>
+//             <th>Editar</th>
+//             <th>Productos</th>
+//           </tr>
+//         </thead>
+//         <tbody>
+//           {perritos.map((perrito) => (
+//             <tr key={perrito.id} className="text-center bg-white border-b">
+//               <td className="p-2">{perrito.nombre}</td>
+//               <td>
+//                 <img
+//                   src={perrito.imagen}
+//                   alt={perrito.nombre}
+//                   className="object-cover w-12 h-12 mx-auto rounded-full"
+//                 />
+//               </td>
+//               <td>{perrito.genero}</td>
+//               <td>{perrito.ciudad}</td>
+//               <td>{perrito.descripcion}</td>
+//               <td>{perrito.estado}</td>
+//               <td>
+//                 <a
+//                   href={routes.Ediperritos}
+//                   className="text-[#2A5559] hover:text-black"
+//                 >
+//                   <Pencil size={20} />
+//                 </a>
+//               </td>
+//               <td>
+//                 <a href= {routes.GestionProductos} className="text-[#2A5559] hover:text-black">
+//                   <PackageSearch size={20} />
+//                 </a>
+//               </td>
+//             </tr>
+//           ))}
+//         </tbody>
+//       </table>
+
+//       {/* Paginación simple */}
+//       <div className="mt-4 text-center">
+//       <Pagination />
+//     </div>
+//   );
+// };
+>>>>>>> c5a7e977f495c7067bcde377cbf1a31f3a6f2e78
