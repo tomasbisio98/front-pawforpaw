@@ -2,7 +2,6 @@
 
 import React from "react";
 import { useParams, useRouter } from "next/navigation";
-import { useParams, useRouter } from "next/navigation";
 import { Pencil, Package } from "lucide-react";
 import classNames from "classnames";
 import { routes } from "@/routes";
@@ -45,14 +44,6 @@ export default function ProductTable() {
   const perrito = perritos.find((p) => p.id === perritoId);
   const products = productosPorPerrito[perritoId] ?? [];
 
-  // if (!perrito) {
-  //   return (
-  //     <div className="p-6 text-[#593723] text-center font-semibold">
-  //       Perrito no encontrado 🐾
-  //     </div>
-  //   );
-  // }
-
   return (
     <div className="p-6 bg-[#F2F2F0] min-h-screen">
       <div className="flex items-center justify-between mb-6">
@@ -60,14 +51,10 @@ export default function ProductTable() {
           onClick={router.back}
           className="bg-[#B4D9C4] text-[#2A5559] px-6 py-2 rounded-full font-semibold shadow hover:bg-[#33A69A] transition"
         >
-        <button
-          onClick={router.back}
-          className="bg-[#B4D9C4] text-[#2A5559] px-6 py-2 rounded-full font-semibold shadow hover:bg-[#33A69A] transition"
-        >
           Volver a perritos
         </button>
         <Link
-          href={routes.ProductModal(perrito.id)}
+          href={routes.ProductModal(perrito?.id || "")}
           className="bg-[#D9E400] text-[#2A5559] px-6 py-2 rounded-full font-bold hover:bg-[#C0CC00] transition"
         >
           + Agregar producto a {perrito?.nombre}
