@@ -2,8 +2,11 @@
 
 import React from "react";
 import { useParams, useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { Pencil, Package } from "lucide-react";
 import classNames from "classnames";
+import { routes } from "@/routes";
+import Link from "next/link";
 
 interface Product {
   name: string;
@@ -17,13 +20,12 @@ interface Perrito {
   nombre: string;
 }
 
-// Simulación de datos de perritos
+// Datos simulados
 const perritos: Perrito[] = [
   { id: "1", nombre: "Milka" },
   { id: "2", nombre: "Firulais" },
 ];
 
-// Simulación de productos por perrito
 const productosPorPerrito: Record<string, Product[]> = {
   "1": [
     { name: "Cama", price: 500.0, active: true, image: "/box.png" },
@@ -38,18 +40,18 @@ const productosPorPerrito: Record<string, Product[]> = {
 export default function ProductTable() {
   const router = useRouter();
   const params = useParams();
-  const id = params.id as string;
+  const perritoId = params?.perritoId as string;
 
-  const perrito = perritos.find((p) => p.id === id);
-  const products = productosPorPerrito[id] ?? [];
+  const perrito = perritos.find((p) => p.id === perritoId);
+  const products = productosPorPerrito[perritoId] ?? [];
 
-  if (!perrito) {
-    return (
-      <div className="p-6 text-[#593723] text-center font-semibold">
-        Perrito no encontrado 🐾
-      </div>
-    );
-  }
+  // if (!perrito) {
+  //   return (
+  //     <div className="p-6 text-[#593723] text-center font-semibold">
+  //       Perrito no encontrado 🐾
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="p-6 bg-[#F2F2F0] min-h-screen">
@@ -58,15 +60,22 @@ export default function ProductTable() {
           onClick={router.back}
           className="bg-[#B4D9C4] text-[#2A5559] px-6 py-2 rounded-full font-semibold shadow hover:bg-[#33A69A] transition"
         >
+        <button
+          onClick={router.back}
+          className="bg-[#B4D9C4] text-[#2A5559] px-6 py-2 rounded-full font-semibold shadow hover:bg-[#33A69A] transition"
+        >
           Volver a perritos
         </button>
-        <button className="bg-[#D9E400] text-[#2A5559] px-6 py-2 rounded-full font-bold hover:bg-[#C0CC00] transition">
-          + Agregar producto a {perrito.nombre}
-        </button>
+        <Link
+          href={routes.ProductModal(perrito.id)}
+          className="bg-[#D9E400] text-[#2A5559] px-6 py-2 rounded-full font-bold hover:bg-[#C0CC00] transition"
+        >
+          + Agregar producto a {perrito?.nombre}
+        </Link>
       </div>
 
       <h1 className="text-3xl font-bold text-center text-[#2A5559] mb-8">
-        TABLA DE PRODUCTOS DE {perrito.nombre}
+        TABLA DE PRODUCTOS DE {perrito?.nombre}
       </h1>
 
       <table className="w-full overflow-hidden text-left shadow rounded-xl">
@@ -132,5 +141,3 @@ export default function ProductTable() {
     </div>
   );
 }
-
-
