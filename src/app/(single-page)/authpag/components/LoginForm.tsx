@@ -6,6 +6,9 @@ import Link from 'next/link';
 import styles from '../../../../styles/AuthUsers.module.css'
 import { postLogin } from '@/service/auth';
 import { useRouter } from 'next/navigation';
+import { toast } from 'react-toastify';
+import { useAuthContext } from '@/context/authContext';
+
 
 type LoginValues = {
   email: string;
@@ -21,15 +24,17 @@ const validationSchema = validationLogin;
 
 const LoginForm = () => {
   const router = useRouter();
+  const  {saveUserData,} = useAuthContext();
 
   const handleLogin = async (values: LoginValues) => {
    
         try {
           const res = await postLogin(values)
-          console.log("response", res);
+         console.log("👉 response de postLogin", res)
           
+          saveUserData(res)
 
-          alert("Login exitoso")
+          toast.success("Bienvenido a PawForPaw")
 
           setTimeout(()=>{
               router.push("/")
@@ -37,7 +42,7 @@ const LoginForm = () => {
           
         } catch (e) {
           console.warn("error al loguearse el usuario", e);
-          alert("Email o contraseña incorrectos")
+          toast.error("Email o contraseña incorrectos")
         }
       
   console.log('Enviando datos:', values);
@@ -94,6 +99,7 @@ const LoginForm = () => {
           >
             Ingresar
           </button>
+
         </form>
       )}
     </Formik>

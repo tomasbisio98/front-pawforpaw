@@ -1,3 +1,4 @@
+"use server"
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { ILoginInput } from "@/interface/ILoginInput";
 import { ISignupInput } from "@/interface/ISignupInput";
@@ -5,11 +6,11 @@ import axios from "axios";
 
 const axiosApiBack = axios.create({
     //la baseurl es lo que permite llamar por partes la url
-    baseURL: process.env.NEXT_PUBLIC_EXPRESS_API,
+    baseURL: process.env.EXPRESS_API, //si se usa el next public se llama al back al lado del cliente y eso estaria mal
 })
 
 export const postRegister = async (data:ISignupInput) => {
-    console.log("🚀 ENV baseURL:", process.env.NEXT_PUBLIC_EXPRESS_API);
+    console.log("🚀 ENV baseURL:", process.env.EXPRESS_API);
     try {
 
        const response = await axiosApiBack.post("/auth/signup", data)

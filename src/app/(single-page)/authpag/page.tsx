@@ -5,6 +5,9 @@ import LoginForm from "./components/LoginForm"
 import RegisterForm from "./components/RegisterForm";
 import { FiArrowLeft } from "react-icons/fi";
 import { routes } from "@/routes";
+import GoogleAuthButton from "./components/GoogleAuth";
+
+
 
 const AuthPage = () => {
     return (
@@ -33,6 +36,7 @@ const AuthPage = () => {
         Iniciar Sesión
       </h2>
       <LoginForm />
+      <GoogleAuthButton />
     </div>
      
     {/* Register Form */}

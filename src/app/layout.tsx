@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { Nunito, Nunito_Sans } from "next/font/google";
 
 import "./globals.css";
+import { Bounce, ToastContainer } from "react-toastify";
+import { AuthProvider } from "@/context/authContext";
 
 const nunito = Nunito({
   variable: "--font-nunito",
@@ -40,10 +42,25 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-  className={`${geistSans.variable} ${geistMono.variable} ${nunito.variable} ${nunitoSans.variable} antialiased`}
->
+      className={`${geistSans.variable} ${geistMono.variable} ${nunito.variable} ${nunitoSans.variable} antialiased`}
+    >
+      <AuthProvider>
 
         {children}
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick={false}
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+          transition={Bounce}
+          />
+      </AuthProvider>
       </body>
     </html>
   );
