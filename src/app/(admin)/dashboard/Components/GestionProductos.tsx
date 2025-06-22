@@ -1,9 +1,8 @@
 "use client";
 
 import React from "react";
-import { useParams, useRouter } from "next/navigation";
-import { useParams, useRouter } from "next/navigation";
-import { Pencil, Package } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { Pencil } from "lucide-react";
 import classNames from "classnames";
 import { routes } from "@/routes";
 import Link from "next/link";
@@ -20,12 +19,11 @@ interface Perrito {
   nombre: string;
 }
 
-// Datos simulados
-const perritos: Perrito[] = [
-  { id: "1", nombre: "Milka" },
-  { id: "2", nombre: "Firulais" },
-];
+interface Props {
+  perrito: Perrito;
+}
 
+// Datos simulados
 const productosPorPerrito: Record<string, Product[]> = {
   "1": [
     { name: "Cama", price: 500.0, active: true, image: "/box.png" },
@@ -37,29 +35,13 @@ const productosPorPerrito: Record<string, Product[]> = {
   ],
 };
 
-export default function ProductTable() {
+export default function ProductTable({ perrito }: Props) {
   const router = useRouter();
-  const params = useParams();
-  const perritoId = params?.perritoId as string;
-
-  const perrito = perritos.find((p) => p.id === perritoId);
-  const products = productosPorPerrito[perritoId] ?? [];
-
-  // if (!perrito) {
-  //   return (
-  //     <div className="p-6 text-[#593723] text-center font-semibold">
-  //       Perrito no encontrado 🐾
-  //     </div>
-  //   );
-  // }
+  const products = productosPorPerrito[perrito.id] ?? [];
 
   return (
     <div className="p-6 bg-[#F2F2F0] min-h-screen">
       <div className="flex items-center justify-between mb-6">
-        <button
-          onClick={router.back}
-          className="bg-[#B4D9C4] text-[#2A5559] px-6 py-2 rounded-full font-semibold shadow hover:bg-[#33A69A] transition"
-        >
         <button
           onClick={router.back}
           className="bg-[#B4D9C4] text-[#2A5559] px-6 py-2 rounded-full font-semibold shadow hover:bg-[#33A69A] transition"
@@ -70,12 +52,12 @@ export default function ProductTable() {
           href={routes.ProductModal(perrito.id)}
           className="bg-[#D9E400] text-[#2A5559] px-6 py-2 rounded-full font-bold hover:bg-[#C0CC00] transition"
         >
-          + Agregar producto a {perrito?.nombre}
+          + Agregar producto a {perrito.nombre}
         </Link>
       </div>
 
       <h1 className="text-3xl font-bold text-center text-[#2A5559] mb-8">
-        TABLA DE PRODUCTOS DE {perrito?.nombre}
+        TABLA DE PRODUCTOS DE {perrito.nombre}
       </h1>
 
       <table className="w-full overflow-hidden text-left shadow rounded-xl">
@@ -84,7 +66,7 @@ export default function ProductTable() {
             <th className="p-3">Producto</th>
             <th className="p-3">Monto S/</th>
             <th className="p-3">Estado</th>
-            <th className="p-3">Img URL</th>
+            <th className="p-3">Img</th>
             <th className="p-3">Acciones</th>
           </tr>
         </thead>
@@ -121,11 +103,13 @@ export default function ProductTable() {
                 </label>
               </td>
               <td className="p-3">
-                <a>
-                  <Package className="w-6 h-6 text-[#593723]" />
-                </a>
+                <img
+                  src={product.image}
+                  alt="producto"
+                  className="object-cover w-10 h-10 rounded"
+                />
               </td>
-              <td className="p-3">
+              <td className="flex gap-2 p-3">
                 <a href="#">
                   <Pencil className="w-5 h-5 text-[#2A5559] hover:text-[#33A69A] cursor-pointer" />
                 </a>
