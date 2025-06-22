@@ -1,11 +1,21 @@
+<<<<<<< HEAD
 "use client";
+=======
+/* eslint-disable @next/next/no-img-element */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+// "use client";
+>>>>>>> 457298c9b56b5650dad54315032d261a1771a5f7
 
 import React, { useState } from "react";
 import { Pencil, PackageSearch } from "lucide-react";
 import { routes } from "@/routes";
 import Link from "next/link";
 
+<<<<<<< HEAD
 interface Perrito {
+=======
+type Perrito = {
+>>>>>>> 457298c9b56b5650dad54315032d261a1771a5f7
   id: number;
   nombre: string;
   imagen: string;
@@ -43,6 +53,7 @@ export default function GestionPerritos() {
         >
           + Agregar perrito
         </Link>
+<<<<<<< HEAD
       </div>
 
       <table className="w-full border-collapse">
@@ -98,3 +109,72 @@ export default function GestionPerritos() {
     </div>
   );
 }
+=======
+
+        <div className="flex items-center gap-2">
+          <input
+            type="text"
+            placeholder="Buscar..."
+            className="px-3 py-2 border rounded-lg"
+          />
+          <button className="p-2 border rounded-lg">A-Z</button>
+        </div>
+      </div>
+
+      <table className="w-full border-collapse">
+        <thead>
+          <tr className="bg-[#33A69A] text-white">
+            <th className="p-2">Nombre</th>
+            <th className="p-2">Imagen</th>
+            <th className="p-2">Género</th>
+            <th className="p-2">Ciudad</th>
+            <th className="p-2">Descripción</th>
+            <th className="p-2">Estado</th>
+            <th className="p-2">Editar</th>
+            <th className="p-2">Productos</th>
+          </tr>
+        </thead>
+        <tbody>
+          {perritos.map((perrito) => (
+            <tr key={perrito.id} className="text-center bg-white border-b">
+              <td className="p-2">{perrito.nombre}</td>
+              <td className="p-2">
+                <img
+                  src={perrito.imagen}
+                  alt={perrito.nombre}
+                  className="object-cover w-12 h-12 mx-auto rounded-full"
+                />
+              </td>
+              <td className="p-2">{perrito.genero}</td>
+              <td className="p-2">{perrito.ciudad}</td>
+              <td className="p-2">{perrito.descripcion}</td>
+              <td className="p-2">{perrito.estado}</td>
+              <td className="p-2">
+                <Link
+                  href={routes.Ediperritos}
+                  className="text-[#2A5559] hover:text-black"
+                >
+                  <Pencil size={20} />
+                </Link>
+              </td>
+              <td className="p-2">
+                <Link
+                  href={routes.GestionProductos(p.id)}
+                  className="text-[#2A5559] hover:text-black"
+                >
+                  <PackageSearch size={20} />
+                </Link>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      <div className="mt-4 text-center">
+        {/* Paginación simple o futura */}
+        Página 1
+      </div>
+    </div>
+  );
+}
+>>>>>>> 457298c9b56b5650dad54315032d261a1771a5f7

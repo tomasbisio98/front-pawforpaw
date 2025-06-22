@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+
 import React from "react";
 
 const Historia = () => {
@@ -17,14 +18,25 @@ const Historia = () => {
             className="rounded-xl object-cover w-2/5 "
             />
         
-            <section className="text-center lg:text-center ml-2 -mt-20">
-                <h2 className="text-2xl font-semibold text-gray-700 mb-6 ">
-                El comienzo de nuestra misión
-                </h2>
-                <p className="text-gray-600 max-w-2xl mx-auto">
-                Desde nuestros primeros pasos, nuestra fundación ha trabajado por el bienestar de quienes más lo necesitan.
-                Creemos en la solidaridad, el compromiso y la esperanza. Esta es solo una parte del camino que hemos recorrido juntos.
+            <section className="lg:text-center ml-2 m-10 text-gray-600 max-w-2xl mx-auto text-start">
+              
+                <p>
+                Nuestra historia nace del amor por los animales que no tienen voz, pero sí una enorme capacidad de inspirar compasión. </p>
+                <p >
+                  Iniciamos como un pequeño grupo con un gran propósito: brindar ayuda real a quienes más la necesitan.
                 </p>
+                <p >
+                Con el tiempo, entendimos que no basta con rescatar. Para transformar vidas, hace falta una red de apoyo: personas como tú, que creen en un mundo más justo para todos los seres vivos. Gracias a las donaciones, hemos podido cubrir tratamientos médicos, alimento, refugio y todo lo necesario para darles una nueva oportunidad.
+                </p>
+                <p>
+                  Hoy seguimos creciendo, no porque queramos más, sino porque muchos aún nos necesitan. Cada aporte, cada gesto solidario, hace posible que sigamos cuidando, alimentando y protegiendo.
+
+                  Esta fundación no es solo un lugar de paso. Es un hogar temporal lleno de esperanza, donde cada vida tiene valor y cada ayuda deja huella.
+
+                  Gracias por estar del lado que transforma. Tu apoyo realmente cambia vidas.
+
+                </p>
+
             </section>
         </div>
 

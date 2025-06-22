@@ -37,7 +37,11 @@ const productosPorPerrito: Record<string, Product[]> = {
 
 export default function ProductTable({ perrito }: Props) {
   const router = useRouter();
-  const products = productosPorPerrito[perrito.id] ?? [];
+  const params = useParams();
+  const perritoId = params?.perritoId as string;
+
+  const perrito = perritos.find((p) => p.id === perritoId);
+  const products = productosPorPerrito[perritoId] ?? [];
 
   return (
     <div className="p-6 bg-[#F2F2F0] min-h-screen">
@@ -57,7 +61,7 @@ export default function ProductTable({ perrito }: Props) {
       </div>
 
       <h1 className="text-3xl font-bold text-center text-[#2A5559] mb-8">
-        TABLA DE PRODUCTOS DE {perrito.nombre}
+        TABLA DE PRODUCTOS DE {perrito?.nombre}
       </h1>
 
       <table className="w-full overflow-hidden text-left shadow rounded-xl">
