@@ -4,7 +4,7 @@ import ProductTable from "@/app/(admin)/dashboard/Components/GestionProductos";
 const adminProducts = () => {
   return (
     <div>
-      <ProductTable perrito={perrito} />
+      <ProductTable/>
     </div>
   );
 };
