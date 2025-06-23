@@ -16,4 +16,5 @@ export const routes = {
   productModal: (id: string | number) => `/dashboard/productos/${id}`,
   donaciones: "/dashboard/donaciones",
   usuarios: "/dashboard/usuarios",
+
 };

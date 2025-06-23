@@ -17,7 +17,7 @@ const AuthPage = () => {
 
     <div className="flex items-center">
         <Link href={routes.inicio}>
-            <img src="/paw.png" alt="Logo" className="h-12 w-auto rounded-full " />
+            <img src="/paw.png" alt="Logo" className="h-16 w-auto rounded-full " />
         </Link>
     </div>
 
@@ -36,7 +36,9 @@ const AuthPage = () => {
         Iniciar Sesión
       </h2>
       <LoginForm />
+      <div className="p-6">
       <GoogleAuthButton />
+      </div>
     </div>
      
     {/* Register Form */}

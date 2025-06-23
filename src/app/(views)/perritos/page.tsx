@@ -13,9 +13,11 @@ const getData = async () => {
 const Perritos = async () => {
   const { dogs } = await getData();
   return (
-    <main className="px-4 py-8 space-y-12 bg-blancoSuave">
+    <main className="px-4 py-8 space-y-8 bg-blancoSuave">
       <h2 className="text-2xl font-bold text-center">Perritos</h2>
-      <DogsList list={dogs} />
+      <div className="flex justify-center">
+        <DogsList list={dogs} />
+      </div>
     </main>
   );
 };

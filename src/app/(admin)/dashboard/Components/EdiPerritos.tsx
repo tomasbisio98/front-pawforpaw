@@ -1,3 +1,5 @@
+/* eslint-disable @next/next/no-img-element */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import React, { useState } from "react";
@@ -212,14 +214,7 @@ export default function AdminPerritos() {
             </h3>
 
             <div className="space-y-3">
-              {[
-                "nombre",
-                "imagen",
-                "genero",
-                "ciudad",
-                "descripcion",
-                "estado",
-              ].map((campo) => (
+              {["nombre", "imagen", "genero", "ciudad", "descripcion", "estado"].map((campo) => (
                 <input
                   key={campo}
                   type="text"
@@ -263,3 +258,4 @@ export default function AdminPerritos() {
     </div>
   );
 }
+

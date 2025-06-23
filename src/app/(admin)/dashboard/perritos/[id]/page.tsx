@@ -1,15 +1,14 @@
 import React from "react";
-import ProductosTable from "../../components/ProductosTable";
+import ProductosTable from "@/app/(admin)/dashboard/Components/ProductosTable";
 
 export default async function ProductosPorPerrito({
   params,
 }: {
   params: { id: string };
 }) {
-  // Simulación de datos
   const perrito = {
     id: params.id,
-    nombre: "Milka", // Aquí puedes hacer fetch por ID más adelante
+    nombre: "Milka", // Luego reemplazar con fetch por ID
   };
 
   return <ProductosTable perrito={perrito} />;

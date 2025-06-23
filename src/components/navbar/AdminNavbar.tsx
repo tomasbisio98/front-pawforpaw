@@ -31,6 +31,12 @@ export default function AdminNavbar() {
         <Link href={routes.usuarios} className="hover:text-[#B4D9C4]">
           Usuarios
         </Link>
+        <Link href="/dashboard/ediProductos" className="hover:text-[#B4D9C4]">
+          Productos
+        </Link>
+        <Link href="/dashboard/solicitudes" className="hover:text-[#B4D9C4]">
+          Solicitudes
+        </Link>
 
         <div className="flex items-center gap-3">
           {/* Avatar */}
@@ -52,3 +58,6 @@ export default function AdminNavbar() {
     </nav>
   );
 }
+
+
+
