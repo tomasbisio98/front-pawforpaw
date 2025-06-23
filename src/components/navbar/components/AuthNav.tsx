@@ -29,12 +29,12 @@ if(isAuth === null){
 
     if(isAuth){
         return(
-            <div>
-                <Link href={routes.DashboardUser} className="text-white ">
+            <div className="flex items-center space-x-3">
+                <Link href={routes.DashboardUser} className="text-white flex items-center space-x-2 hover:text-verdeSuave transition px-3 ">
                 <span>{user?.name} </span>
                 </Link>
 
-                <p onClick={logoutAction} role="button" className="text-red-600 hover:text-red-800"> cerrar sesión</p>
+                <p onClick={logoutAction} role="button" className="text-red-600 hover:text-red-800 transition"> cerrar sesión</p>
             </div>
 
         )
@@ -42,7 +42,7 @@ if(isAuth === null){
 
 
     return (
-        <div>
+        <div className="flex   gap-4 list-none px-6">
             <NavList href={routes.AuthPage}  name='Iniciar Sesión' /> 
             <NavList href={routes.AuthPage} name='Registro' /> 
         </div>

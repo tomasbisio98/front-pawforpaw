@@ -25,7 +25,10 @@ const Card: FC<IDogs> = (dog) => {
                 <img
                     src={imgUrl}
                     alt={`Foto de ${name}`}
-                    className="w-full h-48 object-cover"
+                    className="w-full h-48 object-cover transition-opacity duration-300"
+                    onError={(e) => {
+    e.currentTarget.src = "https://img.freepik.com/vector-gratis/sello-textura-huellas-patas_78370-2951.jpg?semt=ais_hybrid&w=740";
+  }}
                     />
                 <div className="p-4">
                     <h3 className="text-xl font-bold text-verdeOscuro">{name}</h3>

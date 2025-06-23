@@ -15,11 +15,7 @@ const AdminNavbar = () => {
         <Link href="/dashboard/ediPerritos" className="hover:text-[#B4D9C4]">
           Perritos
         </Link>
-<<<<<<< HEAD
-        <Link href="/dashboard/" className="hover:text-[#B4D9C4]">
-=======
         <Link href="/dashboard/ediProductos" className="hover:text-[#B4D9C4]">
->>>>>>> c5a7e977f495c7067bcde377cbf1a31f3a6f2e78
           Productos
         </Link>
         <Link href="/dashboard/solicitudes" className="hover:text-[#B4D9C4]">
@@ -34,3 +30,4 @@ const AdminNavbar = () => {
 };
 
 export default AdminNavbar;
+
