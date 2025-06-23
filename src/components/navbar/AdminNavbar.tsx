@@ -15,9 +15,11 @@ const AdminNavbar = () => {
         <Link href="/dashboard/ediPerritos" className="hover:text-[#B4D9C4]">
           Perritos
         </Link>
+
         <Link href="/dashboard/ediProductos" className="hover:text-[#B4D9C4]">
           Productos
         </Link>
+
         <Link href="/dashboard/solicitudes" className="hover:text-[#B4D9C4]">
           Solicitudes
         </Link>
