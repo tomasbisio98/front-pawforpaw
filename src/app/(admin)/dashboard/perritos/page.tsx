@@ -1,12 +1,8 @@
+"use client";
+
 import React from "react";
-import AdminPerritos from "../Components/GestionPerritos/EdiPerritos";
+import EdiPerritoForm from "@/app/(admin)/dashboard/Components/EdiPerritoForm";
 
-const perritos = () => {
-  return (
-    <div>
-      <AdminPerritos />
-    </div>
-  );
-};
-
-export default perritos
+export default function PerritosPage() {
+  return <EdiPerritoForm />;
+}

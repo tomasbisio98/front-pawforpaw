@@ -178,7 +178,7 @@ export default function AdminPerritos() {
                 <td className="p-2">{p.nombre}</td>
                 <td className="p-2">
                   <img
-                    src={p.imagen}
+                    src={p.imagen || "/placeholder.jpg"}
                     alt={p.nombre}
                     className="w-12 h-12 rounded"
                   />
@@ -194,7 +194,7 @@ export default function AdminPerritos() {
                 </td>
                 <td className="p-2">
                   <Link
-                    href={routes.GestionProductos(p.id)}
+                    href={routes.gestionProductos(p.id)}
                     className="text-[#2A5559] hover:text-black"
                   >
                     <Package className="w-5 h-5 text-[#2A5559]" />
@@ -231,13 +231,13 @@ export default function AdminPerritos() {
               <div className="flex justify-between mt-4">
                 <button
                   onClick={guardarPerrito}
-                  className="bg-[#aab9f0] px-4 py-2 rounded-md text-white"
+                  className="bg-[#B4D9C4] px-4 py-2 rounded-md text-white"
                 >
                   Guardar
                 </button>
                 <button
                   onClick={cerrarModal}
-                  className="bg-[#fce9b6] px-4 py-2 rounded-md"
+                  className="bg-[#F2F2F0] px-4 py-2 rounded-md"
                 >
                   Cancelar
                 </button>

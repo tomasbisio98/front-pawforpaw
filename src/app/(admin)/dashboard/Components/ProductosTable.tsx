@@ -49,7 +49,7 @@ export default function ProductTable({ perrito }: Props) {
           Volver a perritos
         </button>
         <Link
-          href={routes.ProductModal(perrito.id)}
+          href={routes.productModal(perrito.id)}
           className="bg-[#D9E400] text-[#2A5559] px-6 py-2 rounded-full font-bold hover:bg-[#C0CC00] transition"
         >
           + Agregar producto a {perrito.nombre}

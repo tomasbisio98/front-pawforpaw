@@ -27,7 +27,7 @@ const mockPerritos: Perrito[] = [
   },
 ];
 
-export default function GestionPerritos() {
+export default function PerritosTable() {
   const [perritos, setPerritos] = useState<Perrito[]>(mockPerritos);
 
   return (
@@ -38,7 +38,7 @@ export default function GestionPerritos() {
 
       <div className="flex items-center justify-between mb-4">
         <Link
-          href={routes.Ediperritos}
+          href={routes.perritoAdmin}
           className="bg-[#B4D9C4] text-[#2A5559] px-4 py-2 rounded-xl font-semibold hover:bg-[#A3CDB5] transition"
         >
           + Agregar perrito
@@ -85,7 +85,7 @@ export default function GestionPerritos() {
               <td className="p-2">{perrito.estado}</td>
               <td className="p-2">
                 <Link
-                  href={routes.Ediperritos}
+                  href={routes.perritoAdmin}
                   className="text-[#2A5559] hover:text-black"
                 >
                   <Pencil size={20} />
@@ -93,7 +93,7 @@ export default function GestionPerritos() {
               </td>
               <td className="p-2">
                 <Link
-                  href={routes.GestionProductos(perrito.id)}
+                  href={routes.gestionProductos(perrito.id)}
                   className="text-[#2A5559] hover:text-black"
                 >
                   <PackageSearch size={20} />

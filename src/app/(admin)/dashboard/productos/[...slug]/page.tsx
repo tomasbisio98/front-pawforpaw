@@ -1,12 +1,10 @@
+"use client";
 import React from "react";
-import ProductTable from "@/app/(admin)/dashboard/Components/GestionProductos";
 
-const adminProducts = () => {
+export default function ProductModalPage({ params }: { params: { slug: string[] } }) {
   return (
-    <div>
-      <ProductTable/>
+    <div className="p-6">
+      <h1 className="text-xl font-semibold">Modal de producto para: {params.slug.join(" / ")}</h1>
     </div>
   );
-};
-
-export default adminProducts;
+}
