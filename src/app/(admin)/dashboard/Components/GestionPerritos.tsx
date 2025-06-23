@@ -1,6 +1,4 @@
-/* eslint-disable @next/next/no-img-element */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-// "use client";
+"use client";
 
 import React, { useState } from "react";
 import { Pencil, PackageSearch } from "lucide-react";
@@ -27,7 +25,6 @@ const mockPerritos: Perrito[] = [
     descripcion: "Lorem ipsum",
     estado: "Activo",
   },
-  // Puedes duplicar más objetos si quieres más perritos
 ];
 
 export default function GestionPerritos() {
@@ -47,6 +44,7 @@ export default function GestionPerritos() {
           + Agregar perrito
         </Link>
 
+        {/* Barra de búsqueda y orden */}
         <div className="flex items-center gap-2">
           <input
             type="text"
@@ -95,7 +93,7 @@ export default function GestionPerritos() {
               </td>
               <td className="p-2">
                 <Link
-                  href={routes.GestionProductos(p.id)}
+                  href={routes.GestionProductos(perrito.id)}
                   className="text-[#2A5559] hover:text-black"
                 >
                   <PackageSearch size={20} />
@@ -107,8 +105,7 @@ export default function GestionPerritos() {
       </table>
 
       <div className="mt-4 text-center">
-        {/* Paginación simple o futura */}
-        Página 1
+        Página 1 {/* Aquí puede ir paginación más adelante */}
       </div>
     </div>
   );

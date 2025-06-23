@@ -7,7 +7,6 @@ import { Search, Filter, Edit, Package } from "lucide-react";
 import { routes } from "@/routes";
 import Link from "next/link";
 
-// Tipado
 interface Perrito {
   id: number;
   nombre: string;
@@ -95,7 +94,6 @@ export default function AdminPerritos() {
     cerrarModal();
   };
 
-  // Filtro por nombre y estado
   const perritosFiltrados = perritos.filter(
     (p) =>
       p.nombre.toLowerCase().includes(busqueda.toLowerCase()) &&
@@ -216,14 +214,7 @@ export default function AdminPerritos() {
             </h3>
 
             <div className="space-y-3">
-              {[
-                "nombre",
-                "imagen",
-                "genero",
-                "ciudad",
-                "descripcion",
-                "estado",
-              ].map((campo) => (
+              {["nombre", "imagen", "genero", "ciudad", "descripcion", "estado"].map((campo) => (
                 <input
                   key={campo}
                   type="text"
