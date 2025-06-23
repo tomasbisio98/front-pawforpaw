@@ -10,7 +10,7 @@ import { toast } from 'react-toastify';
 
 const initialValues: IUsers = {
   name: '',
-  dni: '',
+  // dni: '',
   phone: '',
   email: '',
   password: '',
@@ -60,7 +60,7 @@ export default function RegisterForm() {
               )}
             </div>
 
-            <div>
+            {/* <div>
 
             <label htmlFor="dni" className="block text-sm font-medium text-gray-700">DNI</label>
             <Field name="dni" type="text" className={`${styles.input} ${
@@ -69,7 +69,7 @@ export default function RegisterForm() {
              {touched.dni && errors.dni && (
                <p className="text-sm text-red-500 mt-1">{errors.dni}</p>
               )}
-            </div>
+            </div> */}
 
             <div>
 

@@ -31,7 +31,7 @@ if(isAuth === null){
         return(
             <div>
                 <Link href={routes.DashboardUser} className="text-white ">
-                    <span>{user?.name} </span>
+                <span>{user?.name} </span>
                 </Link>
 
                 <p onClick={logoutAction} role="button" className="text-red-600 hover:text-red-800"> cerrar sesión</p>

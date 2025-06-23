@@ -1,7 +1,7 @@
 export interface ISignupInput {
   id?:number;
   name: string;
-  dni: string;
+  // dni: string;
   phone: string;
   email: string;
   password: string;

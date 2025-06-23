@@ -1,6 +1,12 @@
+"use server"
 import { IUsers } from "@/interface/IUsers";
 import { CredentialResponse } from "@react-oauth/google";
 import axios from "axios";
+
+const axiosApiBack = axios.create({
+    //la baseurl es lo que permite llamar por partes la url
+    baseURL: process.env.EXPRESS_API, //si se usa el next public se llama al back al lado del cliente y eso estaria mal
+})
 
 export interface IGoogleAuthResponse {
   user: IUsers;
@@ -14,10 +20,7 @@ export const postGoogleAuth = async (
     const idToken = credentialResponse.credential;
     if (!idToken) throw new Error("Token no recibido");
 
-    const response = await axios.post<IGoogleAuthResponse>(
-      "https://back-pawforpaw-production.up.railway.app/auth/google",
-      { idToken }
-    );
+    const response = await axiosApiBack.post<IGoogleAuthResponse>("/auth/google", { idToken });
 
     return response.data;
   } catch (error) {
