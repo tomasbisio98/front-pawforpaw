@@ -25,22 +25,7 @@ const Navbar = () => {
               </ul>
               
               <AuthNav/>
-                {/* <li>
-                  <a
-                    href={routes.AuthPage}
-                    className="block px-3 py-2 text-white bg-[#2A5559] rounded-sm md:p-0 md:bg-transparent md:text-[#2A5559] hover:text-[#33A69A]"
-                  >
-                    Iniciar Sesión
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href={routes.AuthPage}
-                    className="block px-3 py-2 text-white bg-[#2A5559] rounded-sm md:p-0 md:bg-transparent md:text-[#2A5559] hover:text-[#33A69A]"
-                  >
-                    Registro
-                  </a>
-                </li> */}
+                
             </div>
         </nav>
   );

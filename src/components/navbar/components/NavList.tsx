@@ -12,7 +12,7 @@ const NavList:FC<NavListProps> = ({name, href})=> {
     return (
         <>
             <li>
-                <Link href={href}  className="block px-3 py-2 text-white  hover:text-verdeSuave" > {name}</Link>
+                <Link href={href}  className="block px-3 py-2 text-white  hover:text-verdeSuave transition" > {name}</Link>
             </li>
 
         </>

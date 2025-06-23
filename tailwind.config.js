@@ -18,6 +18,7 @@ module.exports = {
         verdeOscuro: "#2C5959",
         verdeClaro: "#33A691",
         verdeSuave: "#B8D9C4",
+        verdeMOscuro:"1B9780",
         marronOscuro: "#593325",
         blancoSuave: "#F2F2F2",
         negro: "#171717",

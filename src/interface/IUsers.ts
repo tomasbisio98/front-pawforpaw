@@ -1,7 +1,7 @@
 export interface IUsers {
   id?:number;
   name: string;
-  dni: string;
+  // dni: string;
   phone: string;
   email: string;
   password: string;
