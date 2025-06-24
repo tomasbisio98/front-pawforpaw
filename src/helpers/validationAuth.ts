@@ -6,10 +6,16 @@ export const validationRegister = Yup.object({
   // dni: Yup.number().required('El DNI es obligatorio'),
   phone: Yup.string().required('El teléfono es obligatorio'),
   email: Yup.string().email('Correo inválido').required('El correo es obligatorio'),
-  password: Yup.string().min(6, 'Mínimo 6 caracteres').required('Contraseña obligatoria'),
-  // confirmPassword: Yup.string()
-  //   .oneOf([Yup.ref('password')], 'Las contraseñas no coinciden')
-  //   .required('Confirma tu contraseña'),
+  password: Yup.string()
+  .required('Contraseña obligatoria')
+  .min(8, 'Mínimo 8 caracteres')
+  .matches(
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$/,
+    'Incluye mayúscula, minúscula, número y símbolo'
+  ),
+  confirmPassword: Yup.string()
+    .oneOf([Yup.ref('password')], 'Las contraseñas no coinciden')
+    .required('Confirma tu contraseña'),
 });
 
 export const validationLogin = Yup.object({
@@ -17,6 +23,9 @@ export const validationLogin = Yup.object({
     .email('Correo inválido')
     .required('El correo es obligatorio'),
     password: Yup.string()
-    .min(6, 'Mínimo 6 caracteres')
-    .required('La contraseña es obligatoria'),
+  .required('Contraseña obligatoria')
+  .min(8, 'Mínimo 8 caracteres')
+  .matches(
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$/,
+    'Incluye mayúscula, minúscula, número y símbolo')
 });

@@ -14,7 +14,7 @@ const initialValues: IUsers = {
   phone: '',
   email: '',
   password: '',
-  // confirmPassword: '',
+  confirmPassword: '',
 };
 
 const validationSchema = validationRegister;
@@ -22,7 +22,7 @@ const validationSchema = validationRegister;
 export default function RegisterForm() {
  
 
-  const onSubmit = async (values: IUsers) => {
+  const onSubmit = async (values: IUsers,   { resetForm }: { resetForm: () => void }) => {
     console.log('Datos del formulario:', values);
     try {
       const res = await postRegister(values);
@@ -31,6 +31,8 @@ export default function RegisterForm() {
       //
       toast.success("Usuario registrado exitosamente");
       
+      resetForm();
+
       setTimeout(() => {
         toast.info('Ya puedes iniciar sesión');
       }, 2000);
@@ -98,7 +100,7 @@ export default function RegisterForm() {
                 <label htmlFor="password" className="block text-sm font-medium text-gray-700">
                   Contraseña
                 </label>
-                <input
+                <Field
                   id="password"
                   name="password"
                   type="password"
@@ -114,13 +116,13 @@ export default function RegisterForm() {
                 )}
               </div>
 
-              {/* <div>
+              <div>
                 <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
                   Confirmar Contraseña
                 </label>
-                <input
+                <Field
                   id="confirmPassword"
-                  name="confirmPassword" type="confirmPassword"
+                  name="confirmPassword" type="password"
                   value={values.confirmPassword}
                   onChange={handleChange}
                   className={`${styles.input} ${
@@ -131,7 +133,7 @@ export default function RegisterForm() {
                 {touched.confirmPassword && errors.confirmPassword && (
                   <p className="text-sm text-red-500 mt-1">{errors.confirmPassword}</p>
                 )}
-              </div> */}
+              </div>
 
             <button
               type="submit"

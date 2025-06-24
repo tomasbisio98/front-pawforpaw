@@ -21,3 +21,17 @@ export const getDogs = async ():Promise<IDogs[]> => {
         return []
     }
 };
+
+export const getDogId = async (id:number):Promise<IDogs | null> => {
+    try {
+        const response = await axiosApiBack.get("/dogs/" + id)
+        
+        if(!response?.data){
+            return null
+        }
+        return response.data
+    } catch (error) {
+        console.error("Ocurrio un error al obtener el perrito", error)
+        return null
+    }
+};

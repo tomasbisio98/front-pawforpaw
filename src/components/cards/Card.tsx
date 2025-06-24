@@ -11,24 +11,25 @@ const Card: FC<IDogs> = (dog) => {
     return `${routes.dog_detail}/${id}/${name}`;
   };
 
-  return (
-    <div className="overflow-hidden transition bg-white shadow-md rounded-xl w-72 font-nunito hover:scale-105">
-      <Link href={getLinks(name, id)}>
-        <img
-          src={imgUrl}
-          alt={`Foto de ${name}`}
-          className="object-cover w-full h-48 transition-opacity duration-300"
-          onError={(e) => {
-            e.currentTarget.src =
-              "https://img.freepik.com/vector-gratis/sello-textura-huellas-patas_78370-2951.jpg?semt=ais_hybrid&w=740";
-          }}
-        />
-        <div className="p-4">
-          <h3 className="text-xl font-bold text-verdeOscuro">{name}</h3>
-          <p className="mt-1 text-sm text-marronOscuro">Género: {sex}</p>
-          <p className="text-sm text-marronOscuro">Ciudad: {city}</p>
-        </div>
-      </Link>
+    return (
+        <div className="bg-white rounded-xl shadow-md overflow-hidden w-72 font-nunito hover:scale-105 transition">
+            <Link href={getLinks(name, id)} >
+                <img
+                    src={imgUrl}
+                    alt={`Foto de ${name}`}
+
+                    className="w-full h-48 object-cover transition-opacity duration-300"
+                    onError={(e) => {
+    e.currentTarget.src = "https://img.freepik.com/vector-gratis/sello-textura-huellas-patas_78370-2951.jpg?semt=ais_hybrid&w=740";
+  }}
+
+                    />
+                <div className="p-4">
+                    <h3 className="text-xl font-bold text-verdeOscuro">{name}</h3>
+                    <p className="text-sm text-marronOscuro mt-1">Género: {sex}</p>
+                    <p className="text-sm text-marronOscuro">Ciudad: {city}</p>
+                </div>
+            </Link>
     </div>
   );
 };
