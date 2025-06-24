@@ -26,7 +26,7 @@ const LoginForm = () => {
   const router = useRouter();
   const  {saveUserData,} = useAuthContext();
 
-  const handleLogin = async (values: LoginValues) => {
+  const handleLogin = async (values: LoginValues,   { resetForm }: { resetForm: () => void }) => {
    
         try {
           const res = await postLogin(values)
@@ -35,6 +35,7 @@ const LoginForm = () => {
           saveUserData(res)
 
           toast.success("Bienvenido a PawForPaw")
+          resetForm();
 
           setTimeout(()=>{
               router.push("/")
@@ -71,7 +72,7 @@ const LoginForm = () => {
             <label htmlFor="password" className="block text-sm font-medium text-gray-700">
               Contraseña
             </label>
-            <input
+            <Field
               id="password"
               name="password"
               type="password"
@@ -89,7 +90,7 @@ const LoginForm = () => {
 
             <div className="flex items-center justify-between mt-4">
 
-            <Link href="#" className='text-verdeClaro text-sm'> ¿Haz olvidado tu contraseña?</Link>
+            <Link href="#" className='text-verdeClaro text-sm'> ¿Has olvidado tu contraseña?</Link>
             </div>
 
           <button

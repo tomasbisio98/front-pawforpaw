@@ -4,21 +4,20 @@ import Link from "next/link";
 import { HeartHandshake, PawPrint } from "lucide-react";
 import { routes } from "@/routes";
 import { FiArrowLeft } from "react-icons/fi";
+import { getDogId } from "@/service/dogs";
+type Params = Promise<{ slug: string }>;
 
-interface DogDetailPageProps {
-  params: {
-    id: string;
-  };
-}
 
-export default function DogDetailPage({ params }: DogDetailPageProps) {
-  const dog = {
-    id: params.id,
-    name: "Luna",
-    description:
-      "Fue rescatada de la calle. Juguetona, cariñosa y una verdadera dormilona.",
-    image: "https://statics.somosjujuy.com.ar/2020/07/6341f42eb8858.jpg"
-  };
+
+const DogDetailPage = async ({ params } :{ params : Params;}) => {
+ const {slug } =  await params
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [id, name] = slug
+    console.log('params', id);
+    
+    const dog = await getDogId(Number(id));
+    console.log(dog)
+    
 
   return (
    <main className="px-4 py-8 bg-gray-50 min-h-screen flex flex-col items-center justify-center ">
@@ -35,14 +34,16 @@ export default function DogDetailPage({ params }: DogDetailPageProps) {
       <div className="flex flex-col items-center justify-center w-full max-w-lg rounded-2xl shadow-md bg-white mb-6 px-6 py-8">
         <div className="w-3/4">
           <img
-            src={dog.image}
-            alt={`Photo of ${dog.name}`}
+            src={dog?.imgUrl}
+            alt={`Photo of ${dog?.name}`}
             className="rounded-xl object-cover w-full h-64 mb-6 shadow"
           />
         </div>
         <div className="text-center">
-          <h2 className="text-2xl font-semibold text-gray-800 mb-2">{dog.name}</h2>
-          <p className="text-gray-700 text-base">{dog.description}</p>
+          <h2 className="text-2xl font-semibold text-gray-800 mb-2">{dog?.name}</h2>
+          <p className="text-gray-700 text-base">{dog?.description}</p>
+          <p className="text-gray-700 text-base" >Genero: {dog?.sex}</p>
+          <p className="text-gray-700 text-base">Ciudad: {dog?.city}</p>
         </div>
       </div>
 
@@ -67,3 +68,5 @@ export default function DogDetailPage({ params }: DogDetailPageProps) {
     </main>
   );
 }
+
+export default DogDetailPage;
