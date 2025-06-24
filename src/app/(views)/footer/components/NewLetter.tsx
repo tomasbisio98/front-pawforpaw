@@ -38,9 +38,17 @@ const Newsletter = () => {
 
   return (
     <section className="mt-6 space-y-2">
-      <h3 className="text-lg font-semibold text-[#2A5559]">SUSCRÍBETE A NUESTRO NEWSLETTER</h3>
+      <h3 className="text-lg font-semibold text-[#2A5559]">
+        SUSCRÍBETE A NUESTRO NEWSLETTER
+      </h3>
 
-      <div className="flex flex-wrap items-center gap-3">
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleSubscribe();
+        }}
+        className="flex flex-wrap items-center gap-3"
+      >
         <input
           type="email"
           value={email}
@@ -50,13 +58,13 @@ const Newsletter = () => {
         />
 
         <button
-          onClick={handleSubscribe}
+          type="submit"
           disabled={status === 'loading'}
           className="h-10 px-6 rounded-lg bg-[#33A69A] text-white hover:bg-[#2A5559] transition-colors disabled:opacity-60"
         >
           {status === 'loading' ? 'Enviando...' : 'Suscribirme'}
         </button>
-      </div>
+      </form>
 
       {message && (
         <p className={`text-sm ${status === 'success' ? 'text-green-600' : 'text-red-600'}`}>
