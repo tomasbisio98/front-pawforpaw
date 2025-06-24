@@ -1,15 +1,26 @@
 import React from "react";
-import ProductosTable from "@/app/(admin)/dashboard/Components/ProductosTable";
 
+// 1) Hacer la función async
 export default async function ProductosPorPerrito({
+  // 2) Indicar que params es una Promise
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
+  // 3) Await para obtener id
+  const { id } = await params;
+
+  // Ahora ya puedes usar id con normalidad
   const perrito = {
-    id: params.id,
-    nombre: "Milka", // Luego reemplazar con fetch por ID
+    id,
+    nombre: "Milka", // más adelante reemplazarás con fetch por ID
   };
 
-  return <ProductosTable perrito={perrito} />;
+  return (
+    <div>
+      <h1>Detalle de Perrito #{perrito.id}</h1>
+      <p>Nombre: {perrito.nombre}</p>
+    </div>
+  );
 }
+
