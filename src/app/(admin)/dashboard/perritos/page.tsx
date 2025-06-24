@@ -1,12 +1,14 @@
 import React from "react";
-import AdminPerritos from "../Components/GestionPerritos/EdiPerritos";
+import EdiPerritoForm from "@/app/(admin)/dashboard/Components/EdiPerritoForm";
+import { getDogs } from "@/service/dogs"; // Asegúrate de importar getDogs
 
-const perritos = () => {
-  return (
-    <div>
-      <AdminPerritos />
-    </div>
-  );
+const getData = async () => {
+  const dogs = await getDogs();
+  return { dogs };
 };
 
-export default perritos
+export default async function PerritosPage() {
+  const { dogs } = await getData();
+
+  return <EdiPerritoForm />;
+}
