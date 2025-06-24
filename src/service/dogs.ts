@@ -1,6 +1,7 @@
 import { IDogs } from "@/interface/IDogs";
 import axios from "axios";
 
+
 const axiosApiBack = axios.create({
     //la baseurl es lo que permite llamar por partes la url
     baseURL: process.env.EXPRESS_API,

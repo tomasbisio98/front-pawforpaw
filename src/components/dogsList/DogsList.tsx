@@ -1,4 +1,5 @@
 "use client"
+"use client"
 import Card from "@/components/cards/Card";
 import { IDogs } from "@/interface/IDogs";
 import { Search } from "lucide-react";
@@ -31,6 +32,13 @@ const DogsList: FC<DogsListProps> = ({list}) => {
       dog.name.toLowerCase().includes(normalizedSearch)
     );
   
+
+
+  const [filter, setFilter] = useState<string>("")
+  const filterDogs = filter
+  ? list.filter((dog)=> dog.sex === filter)
+  : list;
+console.log("Valores reales del sex:", list.map((d) => d.sex));
 
   return (
     <div className="px-6">
@@ -72,6 +80,8 @@ const DogsList: FC<DogsListProps> = ({list}) => {
         {filterDogs?.map((dog, idx) => (
           <Card key={idx} {...dog} />
         ))}
+      </div>
+    </div>
       </div>
     </div>
   );

@@ -1,6 +1,4 @@
-/* eslint-disable @next/next/no-img-element */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-// "use client";
+"use client";
 
 import React, { useState } from "react";
 import { Pencil, PackageSearch } from "lucide-react";
@@ -27,10 +25,9 @@ const mockPerritos: Perrito[] = [
     descripcion: "Lorem ipsum",
     estado: "Activo",
   },
-  // Puedes duplicar más objetos si quieres más perritos
 ];
 
-export default function GestionPerritos() {
+export default function PerritosTable() {
   const [perritos, setPerritos] = useState<Perrito[]>(mockPerritos);
 
   return (
@@ -41,12 +38,13 @@ export default function GestionPerritos() {
 
       <div className="flex items-center justify-between mb-4">
         <Link
-          href={routes.Ediperritos}
+          href={routes.perritoAdmin}
           className="bg-[#B4D9C4] text-[#2A5559] px-4 py-2 rounded-xl font-semibold hover:bg-[#A3CDB5] transition"
         >
           + Agregar perrito
         </Link>
 
+        {/* Barra de búsqueda y orden */}
         <div className="flex items-center gap-2">
           <input
             type="text"
@@ -87,7 +85,7 @@ export default function GestionPerritos() {
               <td className="p-2">{perrito.estado}</td>
               <td className="p-2">
                 <Link
-                  href={routes.Ediperritos}
+                  href={routes.perritoAdmin}
                   className="text-[#2A5559] hover:text-black"
                 >
                   <Pencil size={20} />
@@ -95,7 +93,11 @@ export default function GestionPerritos() {
               </td>
               <td className="p-2">
                 <Link
-                  href={routes.GestionProductos(p.id)}
+<<<<<<<< HEAD:src/app/(admin)/dashboard/Components/PerritosTable.tsx
+                  href={routes.gestionProductos(perrito.id)}
+========
+                  href={routes.GestionProductos(perrito.id)}
+>>>>>>>> 7a03f49bdfe4f24668690061e1e8f9f634178b70:src/app/(admin)/dashboard/Components/GestionPerritos.tsx
                   className="text-[#2A5559] hover:text-black"
                 >
                   <PackageSearch size={20} />
@@ -107,8 +109,7 @@ export default function GestionPerritos() {
       </table>
 
       <div className="mt-4 text-center">
-        {/* Paginación simple o futura */}
-        Página 1
+        Página 1 {/* Aquí puede ir paginación más adelante */}
       </div>
     </div>
   );

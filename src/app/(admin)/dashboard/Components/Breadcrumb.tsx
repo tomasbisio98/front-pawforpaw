@@ -4,7 +4,7 @@ import Link from "next/link";
 const Breadcrumb = () => {
   const links = [
     { emoji: "📊", label: "Dashboard", href: "/dashboard" },
-    { emoji: "🐶", label: "Perritos", href: "/dashboard/ediPerritos" },
+    { emoji: "🐶", label: "Perritos", href: "/dashboard/perritos" },
     { emoji: "🧾", label: "Donaciones", href: "/dashboard/donaciones" },
     { emoji: "👥", label: "Usuarios", href: "/dashboard/usuarios" },
   ];

@@ -4,20 +4,12 @@ import { routes } from "@/routes";
 import Link from "next/link";
 import { FC } from "react";
 
-
-
 const Card: FC<IDogs> = (dog) => {
-    const {
-        name,
-        sex,
-        city,
-        imgUrl,
-       id
-    } = dog;
+  const { name, sex, city, imgUrl, id } = dog;
 
-    const getLinks = (name:string, id:IDogs["id"]) =>{
-        return `${routes.dog_detail}/${id}/${name}`;
-    }
+  const getLinks = (name: string, id: IDogs["id"]) => {
+    return `${routes.dog_detail}/${id}/${name}`;
+  };
 
     return (
         <div className="bg-white rounded-xl shadow-md overflow-hidden w-72 font-nunito hover:scale-105 transition">
@@ -37,7 +29,7 @@ const Card: FC<IDogs> = (dog) => {
                 </div>
             </Link>
     </div>
-    )
-}
+  );
+};
 
-export default Card; 
+export default Card;

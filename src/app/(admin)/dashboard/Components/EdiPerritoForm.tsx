@@ -1,53 +1,21 @@
-/* eslint-disable @next/next/no-img-element */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Search, Filter, Edit, Package } from "lucide-react";
 import { routes } from "@/routes";
 import Link from "next/link";
-
-// Tipado
-interface Perrito {
-  id: number;
-  nombre: string;
-  imagen: string;
-  genero: string;
-  ciudad: string;
-  descripcion: string;
-  estado: string;
-}
-
-const mockPerritos: Perrito[] = [
-  {
-    id: 1,
-    nombre: "Milka",
-    imagen: "https://placedog.net/200/200?id=1",
-    genero: "Hembra",
-    ciudad: "Bogotá",
-    descripcion: "Lorem ipsum",
-    estado: "Activo",
-  },
-  {
-    id: 2,
-    nombre: "Firulais",
-    imagen: "https://placedog.net/200/200?id=2",
-    genero: "Macho",
-    ciudad: "Lima",
-    descripcion: "Lorem ipsum",
-    estado: "Inactivo",
-  },
-];
+import { getDogs } from "@/service/dogs";
+import { IDogs } from "@/interface/IDogs";
 
 export default function AdminPerritos() {
-  const [perritos, setPerritos] = useState<Perrito[]>(mockPerritos);
+  const [perritos, setPerritos] = useState<IDogs[]>([]);
   const [modalVisible, setModalVisible] = useState(false);
-  const [editando, setEditando] = useState<Perrito | null>(null);
+  const [editando, setEditando] = useState<IDogs | null>(null);
   const [busqueda, setBusqueda] = useState("");
   const [filtroVisible, setFiltroVisible] = useState(false);
   const [filtroEstado, setFiltroEstado] = useState("");
 
-  const [form, setForm] = useState<Perrito>({
+  const [form, setForm] = useState<IDogs>({
     id: 0,
     nombre: "",
     imagen: "",
@@ -57,7 +25,16 @@ export default function AdminPerritos() {
     estado: "",
   });
 
-  const abrirModal = (perrito?: Perrito) => {
+  // Llama a la API cuando se monta el componente
+  useEffect(() => {
+    const fetchPerritos = async () => {
+      const data = await getDogs();
+      setPerritos(data);
+    };
+    fetchPerritos();
+  }, []);
+
+  const abrirModal = (perrito?: IDogs) => {
     if (perrito) {
       setEditando(perrito);
       setForm(perrito);
@@ -95,7 +72,6 @@ export default function AdminPerritos() {
     cerrarModal();
   };
 
-  // Filtro por nombre y estado
   const perritosFiltrados = perritos.filter(
     (p) =>
       p.nombre.toLowerCase().includes(busqueda.toLowerCase()) &&
@@ -180,7 +156,7 @@ export default function AdminPerritos() {
                 <td className="p-2">{p.nombre}</td>
                 <td className="p-2">
                   <img
-                    src={p.imagen}
+                    src={p.imagen || "/placeholder.jpg"}
                     alt={p.nombre}
                     className="w-12 h-12 rounded"
                   />
@@ -196,7 +172,7 @@ export default function AdminPerritos() {
                 </td>
                 <td className="p-2">
                   <Link
-                    href={routes.GestionProductos(p.id)}
+                    href={routes.gestionProductos(p.id)}
                     className="text-[#2A5559] hover:text-black"
                   >
                     <Package className="w-5 h-5 text-[#2A5559]" />
@@ -208,6 +184,7 @@ export default function AdminPerritos() {
         </table>
       </div>
 
+      {/* Modal */}
       {modalVisible && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
           <div className="w-full max-w-md p-6 bg-white rounded-xl">
@@ -240,13 +217,13 @@ export default function AdminPerritos() {
               <div className="flex justify-between mt-4">
                 <button
                   onClick={guardarPerrito}
-                  className="bg-[#aab9f0] px-4 py-2 rounded-md text-white"
+                  className="bg-[#B4D9C4] px-4 py-2 rounded-md text-white"
                 >
                   Guardar
                 </button>
                 <button
                   onClick={cerrarModal}
-                  className="bg-[#fce9b6] px-4 py-2 rounded-md"
+                  className="bg-[#F2F2F0] px-4 py-2 rounded-md"
                 >
                   Cancelar
                 </button>
@@ -267,4 +244,3 @@ export default function AdminPerritos() {
     </div>
   );
 }
-
