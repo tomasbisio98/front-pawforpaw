@@ -11,9 +11,8 @@ export default function AdminNavbar() {
   const handleLogout = () => {
     // Aquí puedes limpiar auth, tokens, etc.
     console.log("Cerrando sesión...");
-    router.push("/login"); // Ajusta si usas otra ruta de login
+    router.push(routes.AuthPage); // Ajusta si usas otra ruta de login
   };
-
   return (
     <nav className="bg-[#2A5559] text-white px-6 py-4 flex justify-between items-center shadow">
       <div className="text-xl font-bold tracking-wide">Admin PawForPaw</div>
@@ -22,7 +21,7 @@ export default function AdminNavbar() {
         <Link href={routes.Dashboard} className="hover:text-[#B4D9C4]">
           Inicio
         </Link>
-        <Link href={routes.perritos} className="hover:text-[#B4D9C4]">
+        <Link href={routes.perritoAdmin} className="hover:text-[#B4D9C4]">
           Perritos
         </Link>
         <Link href={routes.donaciones} className="hover:text-[#B4D9C4]">
@@ -30,12 +29,6 @@ export default function AdminNavbar() {
         </Link>
         <Link href={routes.usuarios} className="hover:text-[#B4D9C4]">
           Usuarios
-        </Link>
-        <Link href="/dashboard/ediProductos" className="hover:text-[#B4D9C4]">
-          Productos
-        </Link>
-        <Link href="/dashboard/solicitudes" className="hover:text-[#B4D9C4]">
-          Solicitudes
         </Link>
 
         <div className="flex items-center gap-3">
@@ -58,6 +51,3 @@ export default function AdminNavbar() {
     </nav>
   );
 }
-
-
-
