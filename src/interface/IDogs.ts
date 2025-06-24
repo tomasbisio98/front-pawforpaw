@@ -1,9 +1,10 @@
 export interface IDogs {
-    id?:number,
-    name: string,
-    sex: string,
-    city: string,
-    description: string,
-    imgUrl: string,
-    status: boolean,
+  dogId: string; // UUID enviado por el backend
+  name: string;
+  sex: "M" | "H"; // mejor tipado si solo aceptás esos valores
+  city: string;
+  description: string;
+  imgUrl: string;
+  status: boolean;
+  createdAt?: string; // opcional si lo llegás a usar
 }

@@ -36,7 +36,7 @@ export const getDogs = async (filters?: {
 };
 
 // getDogId (sin cambios)
-export const getDogId = async (id: number): Promise<IDogs | null> => {
+export const getDogId = async (id: string): Promise<IDogs | null> => {
   try {
     const response = await axiosApiBack.get("/dogs/" + id);
 
