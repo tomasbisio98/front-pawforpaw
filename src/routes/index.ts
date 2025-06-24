@@ -11,8 +11,4 @@ export const routes = {
   ProductModal: (id: string | number) =>
     `/dashboard/components/GestionPerritos/ProductModal/${id}`,
   donaciones: "/dashboard/donaciones",
-<<<<<<< HEAD
-  usuarios: "/dashboard/usuarios",
-=======
->>>>>>> 457298c9b56b5650dad54315032d261a1771a5f7
 };
