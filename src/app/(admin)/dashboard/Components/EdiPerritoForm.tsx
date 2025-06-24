@@ -1,52 +1,21 @@
-/* eslint-disable @next/next/no-img-element */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Search, Filter, Edit, Package } from "lucide-react";
 import { routes } from "@/routes";
 import Link from "next/link";
-
-interface Perrito {
-  id: number;
-  nombre: string;
-  imagen: string;
-  genero: string;
-  ciudad: string;
-  descripcion: string;
-  estado: string;
-}
-
-const mockPerritos: Perrito[] = [
-  {
-    id: 1,
-    nombre: "Milka",
-    imagen: "https://placedog.net/200/200?id=1",
-    genero: "Hembra",
-    ciudad: "Bogotá",
-    descripcion: "Lorem ipsum",
-    estado: "Activo",
-  },
-  {
-    id: 2,
-    nombre: "Firulais",
-    imagen: "https://placedog.net/200/200?id=2",
-    genero: "Macho",
-    ciudad: "Lima",
-    descripcion: "Lorem ipsum",
-    estado: "Inactivo",
-  },
-];
+import { getDogs } from "@/service/dogs";
+import { IDogs } from "@/interface/IDogs";
 
 export default function AdminPerritos() {
-  const [perritos, setPerritos] = useState<Perrito[]>(mockPerritos);
+  const [perritos, setPerritos] = useState<IDogs[]>([]);
   const [modalVisible, setModalVisible] = useState(false);
-  const [editando, setEditando] = useState<Perrito | null>(null);
+  const [editando, setEditando] = useState<IDogs | null>(null);
   const [busqueda, setBusqueda] = useState("");
   const [filtroVisible, setFiltroVisible] = useState(false);
   const [filtroEstado, setFiltroEstado] = useState("");
 
-  const [form, setForm] = useState<Perrito>({
+  const [form, setForm] = useState<IDogs>({
     id: 0,
     nombre: "",
     imagen: "",
@@ -56,7 +25,16 @@ export default function AdminPerritos() {
     estado: "",
   });
 
-  const abrirModal = (perrito?: Perrito) => {
+  // Llama a la API cuando se monta el componente
+  useEffect(() => {
+    const fetchPerritos = async () => {
+      const data = await getDogs();
+      setPerritos(data);
+    };
+    fetchPerritos();
+  }, []);
+
+  const abrirModal = (perrito?: IDogs) => {
     if (perrito) {
       setEditando(perrito);
       setForm(perrito);
@@ -206,6 +184,7 @@ export default function AdminPerritos() {
         </table>
       </div>
 
+      {/* Modal */}
       {modalVisible && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
           <div className="w-full max-w-md p-6 bg-white rounded-xl">
@@ -214,7 +193,14 @@ export default function AdminPerritos() {
             </h3>
 
             <div className="space-y-3">
-              {["nombre", "imagen", "genero", "ciudad", "descripcion", "estado"].map((campo) => (
+              {[
+                "nombre",
+                "imagen",
+                "genero",
+                "ciudad",
+                "descripcion",
+                "estado",
+              ].map((campo) => (
                 <input
                   key={campo}
                   type="text"
@@ -258,4 +244,3 @@ export default function AdminPerritos() {
     </div>
   );
 }
-

@@ -93,11 +93,7 @@ export default function PerritosTable() {
               </td>
               <td className="p-2">
                 <Link
-<<<<<<<< HEAD:src/app/(admin)/dashboard/Components/PerritosTable.tsx
                   href={routes.gestionProductos(perrito.id)}
-========
-                  href={routes.GestionProductos(perrito.id)}
->>>>>>>> 7a03f49bdfe4f24668690061e1e8f9f634178b70:src/app/(admin)/dashboard/Components/GestionPerritos.tsx
                   className="text-[#2A5559] hover:text-black"
                 >
                   <PackageSearch size={20} />
