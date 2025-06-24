@@ -19,7 +19,7 @@ const initialValues: IUsers = {
 
 const validationSchema = validationRegister;
 
-export default function RegisterForm() {
+const RegisterForm = () => {
  
 
   const onSubmit = async (values: IUsers,   { resetForm }: { resetForm: () => void }) => {
@@ -147,3 +147,5 @@ export default function RegisterForm() {
       </Formik>
   );
 }
+
+export default RegisterForm;

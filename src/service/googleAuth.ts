@@ -9,6 +9,7 @@ const axiosApiBack = axios.create({
 })
 
 export interface IGoogleAuthResponse {
+  data: { user: IUsers; token: string; };
   user: IUsers;
   token: string;
 }
