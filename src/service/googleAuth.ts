@@ -5,7 +5,7 @@ import axios from "axios";
 
 const axiosApiBack = axios.create({
     //la baseurl es lo que permite llamar por partes la url
-    baseURL: process.env.NEXT_PUBLIC_EXPRESS_API, //si se usa el next public se llama al back al lado del cliente y eso estaria mal
+    baseURL: process.env.NEXT_PUBLIC_API_URL, //si se usa el next public se llama al back al lado del cliente y eso estaria mal
 })
 
 export interface IGoogleAuthResponse {

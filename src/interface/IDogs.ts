@@ -1,5 +1,5 @@
 export interface IDogs {
-    id?:number,
+    dogId?:string,
     name: string,
     sex: string,
     city: string,
@@ -7,3 +7,5 @@ export interface IDogs {
     imgUrl: string,
     status: boolean,
 }
+
+export type DogFormData = Omit<IDogs, "id">;

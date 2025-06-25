@@ -1,6 +1,6 @@
 'use client';
 
-import { Formik, Field } from 'formik';     
+import { Formik, Field } from 'formik';
 import { validationLogin } from '@/helpers/validationAuth';
 import Link from 'next/link';
 import styles from '../../../../styles/AuthUsers.module.css'
@@ -27,11 +27,11 @@ const LoginForm = () => {
   const  {saveUserData,} = useAuthContext();
 
   const handleLogin = async (values: LoginValues,   { resetForm }: { resetForm: () => void }) => {
-   
+
         try {
           const res = await postLogin(values)
          console.log("👉 response de postLogin", res)
-          
+
           saveUserData(res)
 
           toast.success("Bienvenido a PawForPaw")
@@ -49,7 +49,7 @@ const LoginForm = () => {
           console.warn("error al loguearse el usuario", e);
           toast.error("Email o contraseña incorrectos")
         }
-      
+
   console.log('Enviando datos:', values);
   };
 
@@ -94,7 +94,8 @@ const LoginForm = () => {
 
             <div className="flex items-center justify-between mt-4">
 
-            <Link href="#" className='text-verdeClaro text-sm'> ¿Has olvidado tu contraseña?</Link>
+            <Link href="/forgot-password" className="text-verdeClaro text-sm hover:underline"> ¿Has olvidado tu contraseña? </Link>
+
             </div>
 
           <button

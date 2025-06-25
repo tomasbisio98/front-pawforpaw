@@ -6,11 +6,11 @@ import axios from "axios";
 
 const axiosApiBack = axios.create({
     //la baseurl es lo que permite llamar por partes la url
-    baseURL: process.env.NEXT_PUBLIC_EXPRESS_API, //si se usa el next public se llama al back al lado del cliente y eso estaria mal
+    baseURL: process.env.NEXT_PUBLIC_API_URL, //si se usa el next public se llama al back al lado del cliente y eso estaria mal
 })
 
 export const postRegister = async (data:ISignupInput) => {
-    console.log("🚀 ENV baseURL:", process.env.EXPRESS_API);
+    console.log("🚀 ENV baseURL:", process.env.NEXT_PUBLIC_API_URL);
     try {
 
        const response = await axiosApiBack.post("/auth/signup", data)
