@@ -9,6 +9,7 @@ const axiosApiBack = axios.create({
 })
 
 export interface IGoogleAuthResponse {
+  data: { user: IUsers; token: string; };
   user: IUsers;
   token: string;
 }
@@ -19,7 +20,7 @@ export const postGoogleAuth = async (
   try {
     const idToken = credentialResponse.credential;
     if (!idToken) throw new Error("Token no recibido");
-
+    
     const response = await axiosApiBack.post<IGoogleAuthResponse>("/auth/google", { idToken });
 
     return response.data;

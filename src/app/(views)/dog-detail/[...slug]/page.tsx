@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 
 import Link from "next/link";
-import { HeartHandshake, PawPrint } from "lucide-react";
+import { PawPrint } from "lucide-react";
 import { routes } from "@/routes";
 import { FiArrowLeft } from "react-icons/fi";
 import { getDogId } from "@/service/dogs";
@@ -31,31 +31,37 @@ const DogDetailPage = async ({ params } :{ params : Params;}) => {
         </Link>
       </div>
 
-      <div className="flex flex-col items-center justify-center w-full max-w-lg rounded-2xl shadow-md bg-white mb-6 px-6 py-8">
-        <div className="w-3/4">
-          <img
-            src={dog?.imgUrl}
-            alt={`Photo of ${dog?.name}`}
-            className="rounded-xl object-cover w-full h-64 mb-6 shadow"
-          />
-        </div>
-        <div className="text-center">
-          <h2 className="text-2xl font-semibold text-gray-800 mb-2">{dog?.name}</h2>
-          <p className="text-gray-700 text-base">{dog?.description}</p>
-          <p className="text-gray-700 text-base" >Genero: {dog?.sex}</p>
-          <p className="text-gray-700 text-base">Ciudad: {dog?.city}</p>
-        </div>
+     <h1 className="text-4xl font-bold text-center text-verdeOscuro mb-4">
+        {dog?.name}
+      </h1>
+
+      {/* Card */}
+      <div className="flex flex-col items-center w-full max-w-md rounded-2xl shadow-md bg-white mb-6 px-6 py-6">
+        <img
+          src={dog?.imgUrl}
+          alt={`Photo of ${dog?.name}`}
+          className="rounded-xl object-cover w-full h-64 mb-4 shadow"
+        />
       </div>
+        <div className="space-y-2 text-center">
+          <p className="text-gray-700 text-base">{dog?.description}</p>
+          <p className="text-gray-700 text-base">
+            <span className="font-medium text-gray-900">Género:</span> {dog?.sex}
+          </p>
+          <p className="text-gray-700 text-base">
+            <span className="font-medium text-gray-900">Ciudad:</span> {dog?.city}
+          </p>
+        </div>
 
     
       <div className="flex gap-4  pt-9 pb-24">
-        <Link
-          href="/donar"
+        {/* <Link
+          href={routes.productsDogs}
           className="flex items-center gap-2 bg-pink-500 hover:bg-pink-600 text-white font-semibold py-2 px-5 rounded-2xl shadow transition-all"
         >
           <HeartHandshake className="w-5 h-5" />
           Donar
-        </Link>
+        </Link> */}
 
         <Link
           href={`#`}

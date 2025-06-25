@@ -19,7 +19,7 @@ const AuthNav = () => {
             location.assign(routes.inicio)
         }, 500)
     }
-    console.log("authContext", authContext);
+    // console.log("authContext", authContext);
     
 if(isAuth === null){
     return <div className="flex items-center justify-center  text-white">loading...</div>
