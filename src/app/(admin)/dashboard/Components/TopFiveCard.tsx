@@ -1,34 +1,36 @@
-import React from "react";
-import { PawPrint } from "lucide-react";
+"use client";
 
-const topList = [
-  { name: "🐶 Milka", amount: 6 },
-  { name: "🥈 Felipe", amount: 4 },
-  { name: "🥉 Nina", amount: 3 },
-  { name: "🐾 Moco", amount: 2 },
-  { name: "🐾 Roco", amount: 2 },
-];
+import { useDashboardData } from "./useDashboardData";
+import { Dog } from "lucide-react";
 
-const TopFiveCard = () => {
+export default function TopFiveCard() {
+  const { data, loading, error } = useDashboardData();
+
+  if (loading) return <p className="text-gray-500 text-sm">Cargando top 5...</p>;
+  if (error || !data) return <p className="text-red-500 text-sm">No se pudo cargar el top 5.</p>;
+
   return (
-    <div className="bg-white rounded-2xl shadow-md p-4 border border-[#B4D9C4]">
-      <div className="flex items-center gap-2 mb-4">
-        <PawPrint className="text-[#2A5559]" />
-        <h2 className="text-[#2A5559] font-semibold text-sm">
-          TOP 5 Perritos con más productos donados
+    <div className="bg-white p-6 rounded-2xl shadow-xl border border-verdeSuave">
+      <div className="flex items-center mb-4">
+        <Dog className="w-6 h-6 text-verdeClaro mr-2" />
+        <h2 className="text-xl font-semibold text-verdeOscuro tracking-tight">
+          Top 5 Perritos Más Donados 🏆
         </h2>
       </div>
 
-      <ul className="space-y-2 text-[#593723] text-sm">
-        {topList.map((dog, index) => (
-          <li key={index} className="flex items-center justify-between">
-            <span>{dog.name}</span>
-            <span className="font-semibold">{dog.amount} productos</span>
+      <ul className="space-y-3">
+        {data.topDonatedDogs.map((dog, index) => (
+          <li
+            key={index}
+            className="flex items-center justify-between px-3 py-2 bg-blancoConVerde rounded-lg hover:bg-verdeSuave/30 transition"
+          >
+            <span className="font-medium text-verdeOscuro">
+              {index + 1}. {dog.name}
+            </span>
+            <span className="text-sm text-gray-600">{dog.donations} donaciones</span>
           </li>
         ))}
       </ul>
     </div>
   );
-};
-
-export default TopFiveCard;
+}

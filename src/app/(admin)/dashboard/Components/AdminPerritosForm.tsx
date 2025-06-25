@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import { Search, Filter, Edit, Package } from "lucide-react";
 import { routes } from "@/routes";
 import Link from "next/link";
-import { createDog, getDogs, updateDog } from "@/service/dogs";
+import { createDog, getDogs, getDogsFilter, updateDog } from "@/service/dogs";
 import { DogFormData, IDogs } from "@/interface/IDogs";
 import { toast } from 'react-toastify';
 
@@ -41,8 +41,8 @@ export default function AdminPerritos() {
   useEffect(() => {
     const fetchPerritos = async () => {
       try {
-        const data = await getDogs();
-        setPerritos(data);
+        const { data } = await getDogsFilter();
+        setPerritos(data); // ✅ siempre es un array
       } catch (error) {
         console.error("❌ Error en fetchPerritos:", error);
       }
