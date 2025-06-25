@@ -6,4 +6,5 @@ export interface IUsers {
   email: string;
   password: string;
   confirmPassword: string;
+  isAdmin?:boolean;
 }

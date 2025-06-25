@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import DogsList from '@/components/dogsList/DogsList';
-import { getDogs } from '@/service/dogs';
+import { getDogsFilter } from '@/service/dogs';
 import FiltroPerritos from '@/components/filters/filtroPerritos'; // lo vas a crear
 import { IDogs } from '@/interface/IDogs';
 
@@ -20,7 +20,7 @@ const Perritos = () => {
 
   useEffect(() => {
     const fetchDogs = async () => {
-      const { data, total } = await getDogs(filters);
+      const { data, total } = await getDogsFilter(filters);
       setDogs(data);
       setTotal(total);
     };

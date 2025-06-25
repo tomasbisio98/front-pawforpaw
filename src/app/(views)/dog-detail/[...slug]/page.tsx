@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getDogs } from "@/service/dogs";
+import { getDogsFilter } from "@/service/dogs";
 import Link from "next/link";
 import Image from "next/image";
 import { useParams } from "next/navigation";
@@ -22,8 +22,8 @@ const DogDetailPage = () => {
       const [id] = slug;
       if (!id || id === "undefined") return;
 
-      const dogs = await getDogs();
-      const fetchedDog = dogs.data.find((d: IDogs) => d.dogId === id);
+      const dogsResponse = await getDogsFilter();
+      const fetchedDog = dogsResponse.data.find((d: IDogs) => d.dogId === id);
       setDog(fetchedDog || null);
     };
 
