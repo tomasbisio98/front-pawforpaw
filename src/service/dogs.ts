@@ -18,11 +18,10 @@ export const getDogs = async (): Promise<IDogs[]> => {
   }
 };
 
-
 export const getDogId = async (id:number):Promise<IDogs | null> => {
     try {
         const response = await axiosApiBack.get("/dogs/" + id)
-        
+
         if(!response?.data){
             return null
         }
