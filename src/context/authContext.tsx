@@ -21,22 +21,23 @@ export const AuthProvider = ({children}:{children:ReactNode}) => {
     const [token, setToken ] = useState <string | null>(null);
     const [isAuth, setIsAuth ] = useState <AuthContextType ["isAuth"]> (null);
 
-    const saveUserData = (data:{user: IUsers, token: string}) => 
-    {
+const saveUserData = (data:{user:IUsers; token: string}) => {
         console.log("data", data);
         setUser(data.user);
         setIsAuth(true);
         setToken(data.token);
-        //persistencia de datos en localStorage
 
+        //persistir datos en localStorage
         localStorage.setItem("user", JSON.stringify(data));
         
     };
+
     const resetUserData = () => {
         setUser(null);
         setIsAuth(false);
         setToken(null);
         localStorage.removeItem("user");
+
     };
 
     useEffect(()=> {

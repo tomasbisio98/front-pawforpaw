@@ -8,9 +8,12 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
+    
+
     <div className="min-h-screen flex flex-col bg-[#F2F2F0]">
       <AdminNavbar />
       <main className="flex-1 p-6">{children}</main>
     </div>
+
   );
 }

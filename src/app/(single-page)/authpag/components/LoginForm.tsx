@@ -37,10 +37,14 @@ const LoginForm = () => {
           toast.success("Bienvenido a PawForPaw")
           resetForm();
 
-          setTimeout(()=>{
-              router.push("/")
-          },3000)
-
+          setTimeout(() => {
+            if (res.user.isAdmin) {
+              router.push("/dashboard");
+            } else {
+              router.push("/");
+            }
+          }, 3000);
+          
         } catch (e) {
           console.warn("error al loguearse el usuario", e);
           toast.error("Email o contraseña incorrectos")
