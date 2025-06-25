@@ -5,7 +5,6 @@ const axiosApiBack = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
 });
 
-// Nuevo getDogs con filtros y paginación
 export const getDogs = async (filters?: {
   name?: string;
   gender?: string;
@@ -24,29 +23,28 @@ export const getDogs = async (filters?: {
 
     const response = await axiosApiBack.get(`/dogs?${params.toString()}`);
 
-    if (!response?.data) {
-      return { data: [], total: 0 };
+    console.log("📥 Backend response completa:", response.data);
+
+    // Caso 1: response.data tiene forma { data: [], total: 12 }
+    if (Array.isArray(response.data?.data)) {
+      return {
+        data: response.data.data,
+        total: response.data.total || 0,
+      };
     }
 
-    return response.data;
-  } catch (error) {
-    console.error("Ocurrió un error al obtener los perritos", error);
+    // Caso 2: response.data es directamente el array
+    if (Array.isArray(response.data)) {
+      return {
+        data: response.data,
+        total: response.data.length,
+      };
+    }
+
+    // Cualquier otro caso inesperado
     return { data: [], total: 0 };
-  }
-};
-
-// getDogId (sin cambios)
-export const getDogId = async (id: string): Promise<IDogs | null> => {
-  try {
-    const response = await axiosApiBack.get("/dogs/" + id);
-
-    if (!response?.data) {
-      return null;
-    }
-
-    return response.data;
   } catch (error) {
-    console.error("Ocurrió un error al obtener el perrito", error);
-    return null;
+    console.error("❌ Ocurrió un error al obtener los perritos", error);
+    return { data: [], total: 0 };
   }
 };

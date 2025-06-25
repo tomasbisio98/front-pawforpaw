@@ -1,11 +1,14 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 
 const Newsletter = () => {
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [message, setMessage] = useState('');
+
+  const pathname = usePathname(); // Detectar cambio de ruta
 
   const handleSubscribe = async () => {
     if (!email.trim()) {
@@ -35,6 +38,25 @@ const Newsletter = () => {
       setMessage(msg);
     }
   };
+
+  // 🧹 Limpieza automática después de 5 segundos
+  useEffect(() => {
+    if (status === 'success' || status === 'error') {
+      const timer = setTimeout(() => {
+        setMessage('');
+        setStatus('idle');
+        setEmail('');
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [status]);
+
+  // 🧼 Limpieza cuando cambia la ruta
+  useEffect(() => {
+    setMessage('');
+    setStatus('idle');
+    setEmail('');
+  }, [pathname]);
 
   return (
     <section className="mt-6 space-y-2">
