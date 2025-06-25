@@ -1,9 +1,13 @@
+''
+
 import UserDataUI from "./components/UserDataUI";
 
-const profile = () => {
+
+const profile = async () => {
+    
     return(
         <>
-        <UserDataUI/>
+        <UserDataUI  />
         </>
     )
 }
