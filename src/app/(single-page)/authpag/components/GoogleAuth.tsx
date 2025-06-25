@@ -19,9 +19,13 @@ const GoogleAuthButton = () => {
       saveUserData(res);
       toast.success("Bienvenido a PawForPaw");
 
-      setTimeout(() => {
-        router.push("/");
-      }, 3000);
+          setTimeout(() => {
+            if (res.user.isAdmin) {
+              router.push("/dashboard");
+            } else {
+              router.push("/");
+            }
+          }, 3000);
     } catch (e) {
       console.warn("error al loguearse el usuario", e);
       toast.error("Email o contraseña incorrectos");
