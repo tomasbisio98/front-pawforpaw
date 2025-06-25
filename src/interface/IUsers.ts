@@ -1,4 +1,4 @@
-export interface IUsers {
+export interface IUser {
   id?:number;
   name: string;
   // dni: string;
@@ -7,4 +7,7 @@ export interface IUsers {
   password: string;
   confirmPassword: string;
   isAdmin?:boolean;
+  estado: boolean;
+  montoDonado: number;
 }
+export type IUsers = IUser[];

@@ -24,7 +24,22 @@ export const getUser = async ():Promise<IUsers> =>{
         return response.data
     } catch (error) {
         console.error("Ocurrio un error al obtener los datos del usuario", error)
-         throw Error("Error al obtener los datos")
+        throw Error("Error al obtener los datos")
     }
 
 }
+
+export const blockUser = async (userId: string): Promise<void> => {
+  try {
+    const token = localStorage.getItem("token");
+
+    await axiosApiBack.patch(`/users/${userId}/block`, null, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  } catch (error) {
+    console.error("Error al bloquear el usuario:", error);
+    throw new Error("No se pudo bloquear el usuario");
+  }
+};
