@@ -23,8 +23,6 @@ export const getDogsFilter = async (filters?: {
 
     const response = await axiosApiBack.get(`/dogs?${params.toString()}`);
 
-    console.log("📥 Backend response completa:", response.data);
-
     // Caso 1: response.data tiene forma { data: [], total: 12 }
     if (Array.isArray(response.data?.data)) {
       return {
@@ -62,7 +60,7 @@ export const getDogs = async (): Promise<IDogs[]> => {
 };
 
 
-export const getDogId = async (id:number):Promise<IDogs | null> => {
+export const getDogId = async (id:string):Promise<IDogs | null> => {
     try {
         const response = await axiosApiBack.get("/dogs/" + id)
 
@@ -96,6 +94,13 @@ export const updateDog = async (id: string, dogData: Partial<IDogs>): Promise<ID
     console.error("❌ Error al actualizar perrito:", error);
     return null;
   }
+};
+
+export const assignProductsToDog = async (dogId: string, productIds: string[]) => {
+  const response = await axios.patch(`/dogs/${dogId}/products`, {
+    productIds,
+  });
+  return response.data;
 };
 
 // export const deleteDog = async (id: string): Promise<boolean> => {

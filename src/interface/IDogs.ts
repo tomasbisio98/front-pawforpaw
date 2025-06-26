@@ -1,3 +1,5 @@
+import { IProduct } from "./IProducts";
+
 export interface IDogs {
     dogId?:string,
     name: string,
@@ -6,6 +8,7 @@ export interface IDogs {
     description: string,
     imgUrl: string,
     status: boolean,
+    products?: IProduct[];
 }
 
 export type DogFormData = Omit<IDogs, "id">;

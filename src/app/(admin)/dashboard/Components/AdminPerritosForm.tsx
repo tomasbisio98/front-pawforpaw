@@ -5,12 +5,17 @@ import React, { useEffect, useState } from "react";
 import { Search, Filter, Edit, Package } from "lucide-react";
 import { routes } from "@/routes";
 import Link from "next/link";
-import { createDog, getDogs, updateDog } from "@/service/dogs";
+import { createDog, getDogsFilter, updateDog } from "@/service/dogs";
 import { DogFormData, IDogs } from "@/interface/IDogs";
 import { toast } from 'react-toastify';
 
 export default function AdminPerritos() {
-  const [perritos, setPerritos] = useState<IDogs[]>([]);
+  const [perritos, setPerritos] = useState<{ data: IDogs[]; total: number }>({
+    data: [],
+    total: 0,
+  });
+  const [page, setPage] = useState(1);
+  const [limit] = useState(10);
   const [modalVisible, setModalVisible] = useState(false);
   const [editando, setEditando] = useState<IDogs | null>(null);
   const [busqueda, setBusqueda] = useState("");
@@ -19,6 +24,7 @@ export default function AdminPerritos() {
   const esUrlImagen = (url: string): boolean => {
     return /\.(jpeg|jpg|gif|png|webp|bmp)$/i.test(url);
   };
+
   const validarImagen = (url: string): Promise<boolean> => {
     return new Promise((resolve) => {
       const img = new Image();
@@ -40,16 +46,12 @@ export default function AdminPerritos() {
 
   useEffect(() => {
     const fetchPerritos = async () => {
-      try {
-        const data = await getDogs();
-        setPerritos(data);
-      } catch (error) {
-        console.error("❌ Error en fetchPerritos:", error);
-      }
+      const response = await getDogsFilter({ page, limit });
+      setPerritos(response); // 👈 ya no es necesario extraer .data, se guarda todo
     };
 
     fetchPerritos();
-  }, []);
+  }, [page, limit]);
 
   const abrirModal = (perrito?: IDogs) => {
     if (perrito) {
@@ -99,7 +101,7 @@ export default function AdminPerritos() {
         toast.success(" El perrito fue creado correctamente.");
       }
 
-      const perritosActualizados = await getDogs();
+      const perritosActualizados = await getDogsFilter();
       setPerritos(perritosActualizados);
 
       cerrarModal();
@@ -123,10 +125,11 @@ export default function AdminPerritos() {
   //   }
   // };
 
-  const perritosFiltrados = perritos.filter(p =>
+  const perritosFiltrados = (perritos.data ?? []).filter(p =>
     p.name.toLowerCase().includes(busqueda.toLowerCase()) &&
     (filtroEstado === "" || (p.status ? "Activo" : "Inactivo") === filtroEstado)
   );
+
 
   return (
     <div className="min-h-screen bg-[#F2F2F0] p-6">
@@ -246,6 +249,37 @@ export default function AdminPerritos() {
             ))}
           </tbody>
         </table>
+      </div>
+
+      <div className="flex justify-center items-center gap-6 mt-8">
+        <button
+          onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+          disabled={page === 1}
+          className={`px-5 py-2 rounded-md text-white font-semibold transition ${page === 1
+            ? 'bg-gray-400 cursor-not-allowed'
+            : 'bg-[#B4D9C4] hover:bg-[#9fceb3] cursor-pointer'
+            }`}
+        >
+          ← Anterior
+        </button>
+
+        <span className="text-lg font-medium text-gray-700">
+          Página {page} de {Math.ceil(perritos.total / limit)}
+        </span>
+
+        <button
+          onClick={() => {
+            const totalPages = Math.ceil(perritos.total / limit);
+            if (page < totalPages) setPage((prev) => prev + 1);
+          }}
+          disabled={page >= Math.ceil(perritos.total / limit)}
+          className={`px-5 py-2 rounded-md text-white font-semibold transition ${page >= Math.ceil(perritos.total / limit)
+            ? 'bg-gray-400 cursor-not-allowed'
+            : 'bg-[#B4D9C4] hover:bg-[#9fceb3] cursor-pointer'
+            }`}
+        >
+          Siguiente →
+        </button>
       </div>
 
       {/* Modal */}
