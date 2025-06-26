@@ -44,7 +44,7 @@ const LoginForm = () => {
               router.push("/");
             }
           }, 3000);
-          
+
         } catch (e) {
           console.warn("error al loguearse el usuario", e);
           toast.error("Email o contraseña incorrectos")

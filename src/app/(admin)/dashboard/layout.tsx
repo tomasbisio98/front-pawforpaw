@@ -1,4 +1,3 @@
-// app/(admin)/dashboard/layout.tsx
 import React from "react";
 import AdminNavbar from "@/components/navbar/AdminNavbar"; // Asegúrate de que este componente exista
 
@@ -8,7 +7,7 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    
+
 
     <div className="min-h-screen flex flex-col bg-[#F2F2F0]">
       <AdminNavbar />
