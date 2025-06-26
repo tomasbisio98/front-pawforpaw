@@ -61,7 +61,7 @@ export const getDogs = async (): Promise<IDogs[]> => {
   }
 };
 
-export const getDogId = async (id:number):Promise<IDogs | null> => {
+export const getDogId = async (id:string):Promise<IDogs | null> => {
     try {
         const response = await axiosApiBack.get("/dogs/" + id)
 
