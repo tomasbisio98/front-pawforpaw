@@ -47,7 +47,7 @@ export default function AdminPerritos() {
   useEffect(() => {
     const fetchPerritos = async () => {
       const response = await getDogsFilter({ page, limit });
-      setPerritos(response); // 👈 ya no es necesario extraer .data, se guarda todo
+      setPerritos(response);
     };
 
     fetchPerritos();
@@ -140,7 +140,6 @@ export default function AdminPerritos() {
         Gestión de perritos
       </h2>
 
-      {/* Botones y filtros */}
       <div className="flex flex-col items-center justify-between gap-3 mb-4 sm:flex-row">
         <button
           onClick={() => abrirModal()}
@@ -186,7 +185,6 @@ export default function AdminPerritos() {
         </div>
       </div>
 
-      {/* Tabla */}
       <div className="text-2xl font-semibold mb-2 text-[#444]">
         TABLA DE PERRITOS / VISUALIZAR
       </div>
@@ -282,7 +280,6 @@ export default function AdminPerritos() {
         </button>
       </div>
 
-      {/* Modal */}
       {modalVisible && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
           <div className="w-full max-w-md p-6 bg-white rounded-xl">
@@ -339,7 +336,6 @@ export default function AdminPerritos() {
                 <option value="Inactivo">Inactivo</option>
               </select>
 
-              {/* Botones modal */}
               <div className="flex justify-between mt-4">
                 <button
                   onClick={guardarPerrito}
@@ -369,5 +365,4 @@ export default function AdminPerritos() {
       )}
     </div>
   );
-
 }

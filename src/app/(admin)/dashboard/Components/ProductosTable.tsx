@@ -3,12 +3,12 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Pencil } from "lucide-react";
-import classNames from "classnames";
 import { getDogId } from "@/service/dogs";
 import { IProducts } from "@/interface/IProducts";
 import ProductModal from "./ProductModal";
-import { assignProductToDog, createProduct } from "@/service/products";
+import { assignProductToDog, createProduct, updateProduct } from "@/service/products";
 import { toast } from "react-toastify"
+import classNames from "classnames";
 
 interface Perrito {
   id: string;
@@ -77,7 +77,7 @@ export default function ProductTable({ perrito, refreshKey }: Props) {
             <thead className="bg-[#D0CBC7] text-[#593723]">
               <tr>
                 <th className="p-3">Producto</th>
-                <th className="p-3">Monto S/</th>
+                <th className="p-3">Precio</th>
                 <th className="p-3">Estado</th>
                 <th className="p-3">Img</th>
                 <th className="p-3">Acciones</th>
@@ -99,7 +99,22 @@ export default function ProductTable({ perrito, refreshKey }: Props) {
                       <input
                         type="checkbox"
                         checked={product.status}
-                        readOnly
+                        onChange={async () => {
+                          try {
+                            await updateProduct(product.productId!, {
+                              status: !product.status,
+                            });
+                            toast.success(
+                              product.status
+                                ? "Producto desactivado 📴"
+                                : "Producto activado ✅"
+                            );
+                            setRefreshTrigger((prev) => prev + 1);
+                          } catch (error) {
+                            toast.error("Error al cambiar el estado del producto 😓");
+                            console.error("Error al actualizar estado:", error);
+                          }
+                        }}
                         className="sr-only peer"
                       />
                       <div
@@ -117,6 +132,7 @@ export default function ProductTable({ perrito, refreshKey }: Props) {
                       </div>
                     </label>
                   </td>
+
                   <td className="p-3">
                     <img
                       src={product.imgUrl}
@@ -126,7 +142,13 @@ export default function ProductTable({ perrito, refreshKey }: Props) {
                   </td>
                   <td className="flex gap-2 p-3">
                     <a href="#">
-                      <Pencil className="w-5 h-5 text-[#2A5559] hover:text-[#33A69A] cursor-pointer" />
+                      <Pencil
+                        className="w-5 h-5 text-[#2A5559] hover:text-[#33A69A] cursor-pointer"
+                        onClick={() => {
+                          setSelectedProduct(product); // <- setea el producto actual
+                          setShowModal(true);          // <- abre el modal
+                        }}
+                      />
                     </a>
                   </td>
                 </tr>
@@ -145,27 +167,41 @@ export default function ProductTable({ perrito, refreshKey }: Props) {
           product={selectedProduct ?? undefined}
           onSave={async (product) => {
             try {
-              // 1. Crear el producto
-              const nuevoProducto = await createProduct({
-                name: product.name,
-                price: product.price,
-                imgUrl: product.imgUrl,
-              });
+              if (selectedProduct) {
+                // 🔁 MODO EDICIÓN
+                await updateProduct(product.productId!, {
+                  name: product.name,
+                  price: product.price,
+                  imgUrl: product.imgUrl,
+                });
+                toast.success("Producto actualizado correctamente 🛠️");
+              } else {
+                // 🆕 MODO CREACIÓN
+                const nuevoProducto = await createProduct({
+                  name: product.name,
+                  price: product.price,
+                  imgUrl: product.imgUrl,
+                });
 
-              // 2. Asignar el producto al perrito
-              await assignProductToDog(perrito.id, nuevoProducto.productId);
-              toast.success("Producto agregado correctamente 🐶");
+                await assignProductToDog(perrito.id, nuevoProducto.productId);
+                toast.success("Producto agregado correctamente 🐶");
+              }
 
-              // 3. Cerrar el modal y refrescar la tabla
+              // 🔄 Finalizar
               setShowModal(false);
+              setSelectedProduct(null);
               setRefreshTrigger((prev) => prev + 1);
             } catch (error) {
               toast.error("Ocurrió un error al guardar el producto 😥");
               console.error("Error al guardar el producto:", error);
             }
           }}
-          onClose={() => setShowModal(false)}
+          onClose={() => {
+            setShowModal(false);
+            setSelectedProduct(null);
+          }}
         />
+
       )}
     </div>
   );

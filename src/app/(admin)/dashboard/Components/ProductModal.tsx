@@ -1,9 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { toast } from "react-toastify";
 
 interface Product {
-  id?: string;
+  productId?: string;
   name: string;
   imgUrl: string;
   price: number;
@@ -19,7 +20,6 @@ interface ProductModalProps {
 export default function ProductModal({
   product,
   onSave,
-  onDelete,
   onClose,
 }: ProductModalProps) {
   const [name, setName] = useState("");
@@ -35,8 +35,16 @@ export default function ProductModal({
   }, [product]);
 
   const handleSave = () => {
-    if (!name || !imgUrl || !price)
+    const validExtensions = /\.(jpg|jpeg|png|webp|gif)$/i;
+
+    if (!name || !imgUrl || !price) {
       return alert("Todos los campos son obligatorios");
+    }
+
+    if (!validExtensions.test(imgUrl)) {
+      return toast.error("La imagen debe ser .jpg, .jpeg, .png, .webp o .gif");
+    }
+
     onSave({ ...product, name, imgUrl, price: parseFloat(price) });
   };
 
@@ -87,12 +95,12 @@ export default function ProductModal({
 
         {product && (
           <div className="mt-4 text-center">
-            <button
+            {/* <button
               onClick={onDelete}
               className="px-4 py-2 text-white transition bg-red-400 rounded hover:bg-red-600"
             >
               Eliminar
-            </button>
+            </button> */}
           </div>
         )}
       </div>

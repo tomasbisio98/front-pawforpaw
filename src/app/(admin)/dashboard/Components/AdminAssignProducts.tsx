@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { assignProductsToDog } from "@/service/dogs";
 import { getAllProducts } from "@/service/products";
-import { IProduct } from "@/interface/IProducts";
+import { IProducts } from "@/interface/IProducts";
 
 interface Props {
     dogId: string;
@@ -9,7 +9,7 @@ interface Props {
 }
 
 export default function AssignProducts({ dogId, onAssignSuccess }: Props) {
-    const [products, setProducts] = useState<IProduct[]>([]);
+    const [products, setProducts] = useState<IProducts[]>([]);
     const [selectedProducts, setSelectedProducts] = useState<string[]>([]);
 
     useEffect(() => {

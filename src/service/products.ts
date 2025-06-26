@@ -33,3 +33,15 @@ export const assignProductToDog = async (dogId: string, productId: string) => {
     throw error;
   }
 };
+
+export const updateProduct = async (
+  productId: string,
+  productData: { name?: string; price?: number; imgUrl?: string; status?: boolean; }
+) => {
+  try {
+    await axiosApiBack.put(`/products/${productId}`, productData);
+  } catch (error) {
+    console.error("Error actualizando producto:", error);
+    throw error;
+  }
+};
