@@ -29,3 +29,14 @@ export const validationLogin = Yup.object({
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$/,
     'Incluye mayúscula, minúscula, número y símbolo')
 });
+
+
+export const validationInfoUser = Yup.object({
+  name: Yup.string()
+    .min(3, "El nombre es muy corto")
+    .required("El nombre es obligatorio"),
+  phone: Yup.string()
+    .matches(/^[0-9]+$/, "Sólo se permiten números")
+    .min(7, "Mínimo 7 dígitos")
+    .max(15, "Máximo 15 dígitos"),
+});

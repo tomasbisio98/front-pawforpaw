@@ -1,5 +1,5 @@
 export interface IUsers {
-  id?:number;
+  id?:string;
   name: string;
   // dni: string;
   phone: string;
