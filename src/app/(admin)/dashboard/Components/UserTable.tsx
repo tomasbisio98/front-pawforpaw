@@ -1,19 +1,19 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { getUser } from "@/service/user";
-import { IUser } from "@/interface/IUsers";
-import { updateStatusUsuario } from "@/service/user";
+import { getUser2 } from "@/service/user";
+import { IAllUser } from "@/interface/IallUser";
+import { updateStatusUsuario2 } from "@/service/user";
 
 const UserTable = () => {
-  const [usuarios, setUsuarios] = useState<IUser[]>([]);
+  const [usuarios, setUsuarios] = useState<IAllUser[]>([]);
   const [paginaActual, setPaginaActual] = useState(1);
   const itemsPorPagina = 15;
 
   useEffect(() => {
     const fetchUsuarios = async () => {
       try {
-        const data = await getUser();
+        const data = await getUser2();
         setUsuarios(data);
       } catch (error) {
         console.error("Error al obtener usuarios:", error);
@@ -35,7 +35,7 @@ const toggleEstado = async (id: string, currentStatus: boolean) => {
     const newStatus = !currentStatus;
 
     // 1. Actualiza en backend
-    await updateStatusUsuario(id, newStatus);
+    await updateStatusUsuario2(id, newStatus);
 
     // 2. Refleja el cambio en frontend
     setUsuarios((prev) =>
@@ -75,7 +75,7 @@ const toggleEstado = async (id: string, currentStatus: boolean) => {
                 onChange={() => toggleEstado(u.id, u.status)}
                 className="sr-only peer"
               />
-                <div className="w-11 h-6 bg-gray-300 peer-checked:bg-green-500 rounded-full peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-green-500 transition-colors duration-300" />
+                <div className="h-6 transition-colors duration-300 bg-gray-300 rounded-full w-11 peer-checked:bg-green-500 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-green-500" />
                 <span className="absolute left-0.5 top-0.5 w-5 h-5 bg-white rounded-full shadow transform transition-transform duration-300 peer-checked:translate-x-5"></span>
               </label>
               </td>
