@@ -10,4 +10,3 @@ export interface IUsers {
   status: boolean;
   montoDonado: number;
 }
-export type IUsers = IUser[];
