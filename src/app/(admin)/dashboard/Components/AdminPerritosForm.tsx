@@ -5,12 +5,15 @@ import React, { useEffect, useState } from "react";
 import { Search, Filter, Edit, Package } from "lucide-react";
 import { routes } from "@/routes";
 import Link from "next/link";
-import { createDog, getDogs, getDogsFilter, updateDog } from "@/service/dogs";
+import { createDog, getDogsFilter, updateDog } from "@/service/dogs";
 import { DogFormData, IDogs } from "@/interface/IDogs";
 import { toast } from 'react-toastify';
 
 export default function AdminPerritos() {
-  const [perritos, setPerritos] = useState<IDogs[]>([]);
+  const [perritos, setPerritos] = useState<{ data: IDogs[]; total: number }>({
+    data: [],
+    total: 0,
+  });
   const [modalVisible, setModalVisible] = useState(false);
   const [editando, setEditando] = useState<IDogs | null>(null);
   const [busqueda, setBusqueda] = useState("");
@@ -38,14 +41,10 @@ export default function AdminPerritos() {
     status: false,
   });
 
-  useEffect(() => {
+useEffect(() => {
     const fetchPerritos = async () => {
-      try {
-        const { data } = await getDogsFilter();
-        setPerritos(data); // ✅ siempre es un array
-      } catch (error) {
-        console.error("❌ Error en fetchPerritos:", error);
-      }
+      const response = await getDogsFilter();
+      setPerritos(response); //  ya no es necesario extraer .data, se guarda todo
     };
 
     fetchPerritos();
@@ -99,7 +98,7 @@ export default function AdminPerritos() {
         toast.success(" El perrito fue creado correctamente.");
       }
 
-      const perritosActualizados = await getDogs();
+      const perritosActualizados = await getDogsFilter();
       setPerritos(perritosActualizados);
 
       cerrarModal();
@@ -123,7 +122,7 @@ export default function AdminPerritos() {
   //   }
   // };
 
-  const perritosFiltrados = perritos.filter(p =>
+  const perritosFiltrados = (perritos.data ?? []).filter(p =>
     p.name.toLowerCase().includes(busqueda.toLowerCase()) &&
     (filtroEstado === "" || (p.status ? "Activo" : "Inactivo") === filtroEstado)
   );
