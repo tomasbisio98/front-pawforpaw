@@ -1,33 +1,24 @@
-import React from "react";
+"use client";
+
+import DashboardContent from "./Components/DashboardContent";
 import TopFiveCard from "./Components/TopFiveCard";
-import Breadcrumb from "@/app/(admin)/dashboard/Components/Breadcrumb";
-import DashboardContent from "@/app/(admin)/dashboard/Components/DashboardContent";
 
-const DashboardPage = () => {
+export default function DashboardPage() {
   return (
-    <div className="min-h-screen bg-[#F2F2F0] flex flex-col">
-      {/* Navbar superior */}
+    <div className="min-h-screen bg-[#F2F2F0] p-6 flex flex-col items-center">
+      <h1 className="text-2xl font-bold text-center mb-6 text-[#2A5559]">
+        Bienvenido/a al Panel de Administración
+      </h1>
 
-      {/* Contenido principal con grid */}
-      <main className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-6 p-6">
-        {/* Contenido del dashboard */}
-        <section className="w-full">
+      {/* Sección de KPIs y Navegación */}
+      <div className="w-full max-w-7xl">
+        <DashboardContent />
+      </div>
 
-          <h1 className="text-2xl font-bold text-[#2A5559] mb-4 text-center">
-            Bienvenido/a al Panel de Administración
-          </h1>
-          <Breadcrumb />
-          <DashboardContent />
-
-        </section>
-
-        {/* Panel lateral con el ranking */}
-        <aside className="w-full">
-          <TopFiveCard />
-        </aside>
-      </main>
+      {/* Sección inferior centrada para el Top 5 */}
+      <div className="w-full max-w-xl mt-10">
+        <TopFiveCard />
+      </div>
     </div>
   );
-};
-
-export default DashboardPage;
+}
