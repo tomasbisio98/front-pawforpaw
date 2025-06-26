@@ -1,6 +1,7 @@
 'use client';
 import { IUsers } from "@/interface/IUsers";
 import axios from "axios";
+import { IUsers2 } from "@/interface/IUsers2";
 
 const axiosApiBack = axios.create({
     //la baseurl es lo que permite llamar por partes la url
@@ -112,3 +113,23 @@ export const updateUserById = async (id: string, data: Partial<IUsers>, token: s
   }
 };
 
+
+
+
+
+export const getUser2 = async (): Promise<IUsers2[]> => {
+  try {
+    const token = localStorage.getItem("token");
+
+    const response = await axiosApiBack.get("/users/list", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error("Ocurrió un error al obtener los datos del usuario", error);
+    throw Error("Error al obtener los datos");
+  }
+};

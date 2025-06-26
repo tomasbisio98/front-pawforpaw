@@ -1,19 +1,19 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { getUser } from "@/service/user";
-import { IUser } from "@/interface/IUsers";
+import { getUser2 } from "@/service/user";
+import { IUsers2  } from "@/interface/IUsers2";
 import { updateStatusUsuario } from "@/service/user";
 
 const UserTable = () => {
-  const [usuarios, setUsuarios] = useState<IUser[]>([]);
+const [usuarios, setUsuarios] = useState<IUsers2[]>([]);
   const [paginaActual, setPaginaActual] = useState(1);
-  const itemsPorPagina = 15;
+  const itemsPorPagina = 20;
 
   useEffect(() => {
     const fetchUsuarios = async () => {
       try {
-        const data = await getUser();
+        const data = await getUser2();
         setUsuarios(data);
       } catch (error) {
         console.error("Error al obtener usuarios:", error);
