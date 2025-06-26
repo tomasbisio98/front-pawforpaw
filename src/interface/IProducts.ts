@@ -4,4 +4,5 @@ export interface IProducts {
   price: number;
   imgUrl: string;
   status: boolean;
+  dogId?: string;
 }

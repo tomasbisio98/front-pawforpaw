@@ -1,16 +1,16 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { getDogId } from '@/service/dogs';
-import Link from 'next/link';
-import Image from 'next/image';
-import { useParams } from 'next/navigation';
-import { routes } from '@/routes';
-import { IDogs } from '@/interface/IDogs';
-import { IProducts } from '@/interface/IProducts';
-import { FiArrowLeft } from 'react-icons/fi';
-import { HeartHandshake, PawPrint } from 'lucide-react';
-import DonationModal from '@/components/modals/DonationModal';
+import { useEffect, useState } from "react";
+import { getDogId } from "@/service/dogs";
+import Link from "next/link";
+import Image from "next/image";
+import { useParams } from "next/navigation";
+import { routes } from "@/routes";
+import { IDogs } from "@/interface/IDogs";
+import { IProducts } from "@/interface/IProducts";
+import { FiArrowLeft } from "react-icons/fi";
+import { HeartHandshake, PawPrint } from "lucide-react";
+import DonationModal from "@/components/modals/DonationModal";
 
 export default function DogDetailPage() {
   const params = useParams();
@@ -18,14 +18,16 @@ export default function DogDetailPage() {
   const [dog, setDog] = useState<IDogs | null>(null);
   const [showAdoptModal, setShowAdoptModal] = useState(false);
   const [showDonationModal, setShowDonationModal] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState<IProducts | null>(null);
-  const [sortOption, setSortOption] = useState<'name' | 'price' | ''>('');
+  const [selectedProduct, setSelectedProduct] = useState<IProducts | null>(
+    null
+  );
+  const [sortOption, setSortOption] = useState<"name" | "price" | "">("");
 
   useEffect(() => {
     const fetchDog = async () => {
       if (!slug || slug.length === 0) return;
       const [id] = slug;
-      if (!id || id === 'undefined') return;
+      if (!id || id === "undefined") return;
 
       const fetchedDog = await getDogId(id);
       setDog(fetchedDog || null);
@@ -34,11 +36,10 @@ export default function DogDetailPage() {
     fetchDog();
   }, [slug]);
 
-  const sortedProducts = dog?.products
-    ?.slice()
-    ?.sort((a, b) => {
-      if (sortOption === 'name') return a.name.localeCompare(b.name);
-      if (sortOption === 'price') return Number(a.price) - Number(b.price);
+  const sortedProducts =
+    dog?.products?.slice()?.sort((a, b) => {
+      if (sortOption === "name") return a.name.localeCompare(b.name);
+      if (sortOption === "price") return Number(a.price) - Number(b.price);
       return 0;
     }) || [];
 
@@ -67,10 +68,12 @@ export default function DogDetailPage() {
           </div>
 
           <div className="text-center mb-6">
-            <h2 className="text-2xl font-semibold text-gray-800 mb-2">{dog.name}</h2>
+            <h2 className="text-2xl font-semibold text-gray-800 mb-2">
+              {dog.name}
+            </h2>
             <p className="text-gray-700 text-base">{dog.description}</p>
             <p className="text-gray-700 text-base">
-              Género: {dog.sex === 'M' ? 'Macho' : 'Hembra'}
+              Género: {dog.sex === "M" ? "Macho" : "Hembra"}
             </p>
             <p className="text-gray-700 text-base mb-4">Ciudad: {dog.city}</p>
 
@@ -85,10 +88,14 @@ export default function DogDetailPage() {
 
           <div className="w-full max-w-5xl px-6">
             <div className="flex flex-wrap gap-4 items-center justify-end mb-6">
-              <label className="text-sm font-medium text-gray-700">Ordenar por:</label>
+              <label className="text-sm font-medium text-gray-700">
+                Ordenar por:
+              </label>
               <select
                 value={sortOption}
-                onChange={(e) => setSortOption(e.target.value as 'name' | 'price' | '')}
+                onChange={(e) =>
+                  setSortOption(e.target.value as "name" | "price" | "")
+                }
                 className="border border-gray-300 rounded-md px-3 py-1 text-sm"
               >
                 <option value="">Sin ordenar</option>
@@ -110,8 +117,12 @@ export default function DogDetailPage() {
                     height={150}
                     className="rounded-md mb-3 object-cover"
                   />
-                  <h3 className="font-semibold text-lg text-gray-800">{product.name}</h3>
-                  <p className="text-gray-700 mb-3">${Number(product.price).toFixed(2)}</p>
+                  <h3 className="font-semibold text-lg text-gray-800">
+                    {product.name}
+                  </h3>
+                  <p className="text-gray-700 mb-3">
+                    ${Number(product.price).toFixed(2)}
+                  </p>
 
                   <button
                     onClick={() => {
@@ -134,7 +145,7 @@ export default function DogDetailPage() {
               <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm text-center">
                 <h2 className="text-xl font-bold mb-4">¿Querés adoptar?</h2>
                 <p className="text-gray-700 mb-4">
-                  Contactanos a{' '}
+                  Contactanos a{" "}
                   <a
                     href="mailto:pawforpaw2025@gmail.com"
                     className="text-blue-600 underline"
@@ -153,11 +164,12 @@ export default function DogDetailPage() {
           )}
 
           {/* MODAL DONACIÓN */}
-          {selectedProduct && (
+          {selectedProduct && dog && (
             <DonationModal
               open={showDonationModal}
               setOpen={setShowDonationModal}
               product={selectedProduct}
+              dogId={dog.dogId!} // ← obligatorio que este sea un UUID
             />
           )}
         </>
