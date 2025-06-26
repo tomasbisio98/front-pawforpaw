@@ -1,17 +1,17 @@
-import { IProduct } from "@/interface/IProducts";
+import { IProducts } from "@/interface/IProducts";
 import axios from "axios";
 
 const axiosApiBack = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
 });
 
-export const getAllProducts = async (): Promise<IProduct[]> => {
+export const getAllProducts = async (): Promise<IProducts[]> => {
   const response = await axiosApiBack.get("/products"); 
   return response.data;
 };
 
 export const createProduct = async (
-  productData: Omit<IProduct, "productId" | "status">
+  productData: Omit<IProducts, "productId" | "status">
 ) => {
   try {
     const res = await axiosApiBack.post("/products", productData);

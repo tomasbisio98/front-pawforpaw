@@ -5,10 +5,9 @@ import { useRouter } from "next/navigation";
 import { Pencil } from "lucide-react";
 import classNames from "classnames";
 import { getDogId } from "@/service/dogs";
-import { IProduct } from "@/interface/IProducts";
+import { IProducts } from "@/interface/IProducts";
 import ProductModal from "./ProductModal";
 import { assignProductToDog, createProduct } from "@/service/products";
-import { assignProductsToDog } from "@/service/assignProducts";
 import { toast } from "react-toastify"
 
 interface Perrito {
@@ -23,9 +22,9 @@ interface Props {
 
 export default function ProductTable({ perrito, refreshKey }: Props) {
   const router = useRouter();
-  const [products, setProducts] = useState<IProduct[]>([]);
+  const [products, setProducts] = useState<IProducts[]>([]);
   const [showModal, setShowModal] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState<IProduct | null>(null);
+  const [selectedProduct, setSelectedProduct] = useState<IProducts | null>(null);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
 
   useEffect(() => {

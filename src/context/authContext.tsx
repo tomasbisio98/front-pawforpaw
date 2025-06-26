@@ -29,6 +29,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
         //persistir datos en localStorage
         localStorage.setItem("user", JSON.stringify(data));
+        localStorage.setItem("token", data.token); // 🔥 ESTA LÍNEA
+        console.log("🔐 TOKEN guardado en localStorage:", localStorage.getItem("token"));
+
 
     };
 
@@ -37,6 +40,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setIsAuth(false);
         setToken(null);
         localStorage.removeItem("user");
+        localStorage.removeItem("token");
 
     };
 
