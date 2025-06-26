@@ -1,5 +1,5 @@
 export interface IUser {
-  id?:number;
+  id: string;
   name: string;
   // dni: string;
   phone: string;
@@ -7,7 +7,7 @@ export interface IUser {
   password: string;
   confirmPassword: string;
   isAdmin?:boolean;
-  estado: boolean;
+  status: boolean;
   montoDonado: number;
 }
 export type IUsers = IUser[];

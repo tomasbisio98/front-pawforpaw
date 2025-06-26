@@ -3,11 +3,12 @@
 import React, { useEffect, useState } from "react";
 import { getUser } from "@/service/user";
 import { IUser } from "@/interface/IUsers";
+import { updateStatusUsuario } from "@/service/user";
 
 const UserTable = () => {
   const [usuarios, setUsuarios] = useState<IUser[]>([]);
   const [paginaActual, setPaginaActual] = useState(1);
-  const itemsPorPagina = 5;
+  const itemsPorPagina = 15;
 
   useEffect(() => {
     const fetchUsuarios = async () => {
@@ -29,6 +30,25 @@ const UserTable = () => {
     paginaActual * itemsPorPagina
   );
 
+const toggleEstado = async (id: string, currentStatus: boolean) => {
+  try {
+    const newStatus = !currentStatus;
+
+    // 1. Actualiza en backend
+    await updateStatusUsuario(id, newStatus);
+
+    // 2. Refleja el cambio en frontend
+    setUsuarios((prev) =>
+      prev.map((user) =>
+        user.id === id ? { ...user, status: newStatus } : user
+      )
+    );
+  } catch (error) {
+    console.error("Error al actualizar estado:", error);
+    alert("No se pudo actualizar el estado del usuario.");
+  }
+};
+
   return (
     <div className="overflow-x-auto">
       <table className="w-full text-sm text-center bg-white rounded-lg shadow">
@@ -47,7 +67,18 @@ const UserTable = () => {
               <td className="p-2">{u.name}</td>
               <td>{u.email}</td>
               <td>{u.phone}</td>
-              <td>{u.estado ? "Activo" : "Bloqueado"}</td>
+              <td>
+              <label className="relative inline-flex items-center cursor-pointer">
+              <input
+                type="checkbox"
+                checked={u.status}
+                onChange={() => toggleEstado(u.id, u.status)}
+                className="sr-only peer"
+              />
+                <div className="w-11 h-6 bg-gray-300 peer-checked:bg-green-500 rounded-full peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-green-500 transition-colors duration-300" />
+                <span className="absolute left-0.5 top-0.5 w-5 h-5 bg-white rounded-full shadow transform transition-transform duration-300 peer-checked:translate-x-5"></span>
+              </label>
+              </td>
               <td>S/ {u.montoDonado?.toFixed(2)}</td>
             </tr>
           ))}
