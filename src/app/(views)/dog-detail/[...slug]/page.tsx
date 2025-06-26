@@ -1,37 +1,49 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import { getDogsFilter } from "@/service/dogs";
-import Link from "next/link";
-import Image from "next/image";
-import { useParams } from "next/navigation";
-import { routes } from "@/routes";
-import { FiArrowLeft } from "react-icons/fi";
-import { HeartHandshake, PawPrint } from "lucide-react";
-import { IDogs } from "@/interface/IDogs";
+import { useEffect, useState } from 'react';
+import { getDogId } from '@/service/dogs';
+import Link from 'next/link';
+import Image from 'next/image';
+import { useParams } from 'next/navigation';
+import { routes } from '@/routes';
+import { IDogs } from '@/interface/IDogs';
+import { IProducts } from '@/interface/IProducts';
+import { FiArrowLeft } from 'react-icons/fi';
+import { HeartHandshake, PawPrint } from 'lucide-react';
+import DonationModal from '@/components/modals/DonationModal';
 
-const DogDetailPage = () => {
+export default function DogDetailPage() {
   const params = useParams();
   const slug = params?.slug as string[]; // [...slug] = [id, name]
   const [dog, setDog] = useState<IDogs | null>(null);
+  const [showAdoptModal, setShowAdoptModal] = useState(false);
+  const [showDonationModal, setShowDonationModal] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<IProducts | null>(null);
+  const [sortOption, setSortOption] = useState<'name' | 'price' | ''>('');
 
   useEffect(() => {
     const fetchDog = async () => {
       if (!slug || slug.length === 0) return;
-
       const [id] = slug;
-      if (!id || id === "undefined") return;
+      if (!id || id === 'undefined') return;
 
-      const dogsResponse = await getDogsFilter();
-      const fetchedDog = dogsResponse.data.find((d: IDogs) => d.dogId === id);
+      const fetchedDog = await getDogId(id);
       setDog(fetchedDog || null);
     };
 
     fetchDog();
   }, [slug]);
 
+  const sortedProducts = dog?.products
+    ?.slice()
+    ?.sort((a, b) => {
+      if (sortOption === 'name') return a.name.localeCompare(b.name);
+      if (sortOption === 'price') return Number(a.price) - Number(b.price);
+      return 0;
+    }) || [];
+
   return (
-    <main className="px-4 py-8 bg-gray-50 min-h-screen flex flex-col items-center justify-center">
+    <main className="px-4 py-8 bg-gray-50 min-h-screen flex flex-col items-center">
       <div className="w-full flex justify-start mb-6 px-8">
         <Link
           href={routes.perritos}
@@ -44,48 +56,114 @@ const DogDetailPage = () => {
       {dog ? (
         <>
           <div className="flex flex-col items-center justify-center w-full max-w-lg rounded-2xl shadow-md bg-white mb-6 px-6 py-8">
-              <Image
-                src={dog.imgUrl}
-                alt={`Foto de ${dog.name}`}
-                width={400}
-                height={256}
-                className="rounded-xl object-cover w-full h-64 mb-6 shadow"
-                style={{ objectFit: "cover" }}
-                priority
-              />
+            <Image
+              src={dog.imgUrl}
+              alt={`Foto de ${dog.name}`}
+              width={400}
+              height={256}
+              className="rounded-xl object-cover w-full h-64 mb-6 shadow"
+              priority
+            />
           </div>
-          <div className="text-center">
+
+          <div className="text-center mb-6">
             <h2 className="text-2xl font-semibold text-gray-800 mb-2">{dog.name}</h2>
             <p className="text-gray-700 text-base">{dog.description}</p>
             <p className="text-gray-700 text-base">
-              Género: {dog.sex === "M" ? "Macho" : "Hembra"}
+              Género: {dog.sex === 'M' ? 'Macho' : 'Hembra'}
             </p>
-            <p className="text-gray-700 text-base">Ciudad: {dog.city}</p>
-          </div>
+            <p className="text-gray-700 text-base mb-4">Ciudad: {dog.city}</p>
 
-          <div className="flex gap-4 pt-9 pb-24">
-            <Link
-              href="/donar"
-              className="flex items-center gap-2 bg-pink-500 hover:bg-pink-600 text-white font-semibold py-2 px-5 rounded-2xl shadow transition-all"
-            >
-              <HeartHandshake className="w-5 h-5" />
-              Donar
-            </Link>
-
-            <Link
-              href="#"
-              className="flex items-center gap-2 bg-verdeClaro hover:bg-[#1B9780] text-white font-semibold py-2 px-5 rounded-2xl shadow transition-all"
+            <button
+              onClick={() => setShowAdoptModal(true)}
+              className="flex items-center gap-2 bg-verdeClaro hover:bg-[#1B9780] text-white font-semibold py-2 px-5 rounded-2xl shadow transition-all mt-4"
             >
               <PawPrint className="w-5 h-5" />
               Adoptar
-            </Link>
+            </button>
           </div>
+
+          <div className="w-full max-w-5xl px-6">
+            <div className="flex flex-wrap gap-4 items-center justify-end mb-6">
+              <label className="text-sm font-medium text-gray-700">Ordenar por:</label>
+              <select
+                value={sortOption}
+                onChange={(e) => setSortOption(e.target.value as 'name' | 'price' | '')}
+                className="border border-gray-300 rounded-md px-3 py-1 text-sm"
+              >
+                <option value="">Sin ordenar</option>
+                <option value="name">Nombre (A-Z)</option>
+                <option value="price">Precio (menor a mayor)</option>
+              </select>
+            </div>
+
+            <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
+              {sortedProducts.map((product) => (
+                <div
+                  key={product.productId}
+                  className="border rounded-xl shadow bg-white p-4 flex flex-col items-center"
+                >
+                  <Image
+                    src={product.imgUrl}
+                    alt={product.name}
+                    width={200}
+                    height={150}
+                    className="rounded-md mb-3 object-cover"
+                  />
+                  <h3 className="font-semibold text-lg text-gray-800">{product.name}</h3>
+                  <p className="text-gray-700 mb-3">${Number(product.price).toFixed(2)}</p>
+
+                  <button
+                    onClick={() => {
+                      setSelectedProduct(product);
+                      setShowDonationModal(true);
+                    }}
+                    className="flex items-center gap-2 bg-pink-500 hover:bg-pink-600 text-white font-semibold py-2 px-4 rounded-xl transition"
+                  >
+                    <HeartHandshake className="w-4 h-4" />
+                    Donar
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* MODAL ADOPTAR */}
+          {showAdoptModal && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+              <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm text-center">
+                <h2 className="text-xl font-bold mb-4">¿Querés adoptar?</h2>
+                <p className="text-gray-700 mb-4">
+                  Contactanos a{' '}
+                  <a
+                    href="mailto:pawforpaw2025@gmail.com"
+                    className="text-blue-600 underline"
+                  >
+                    pawforpaw2025@gmail.com
+                  </a>
+                </p>
+                <button
+                  onClick={() => setShowAdoptModal(false)}
+                  className="mt-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold px-4 py-2 rounded"
+                >
+                  Cerrar
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* MODAL DONACIÓN */}
+          {selectedProduct && (
+            <DonationModal
+              open={showDonationModal}
+              setOpen={setShowDonationModal}
+              product={selectedProduct}
+            />
+          )}
         </>
       ) : (
         <p className="text-gray-600 text-center">Cargando perrito...</p>
       )}
     </main>
   );
-};
-
-export default DogDetailPage;
+}
