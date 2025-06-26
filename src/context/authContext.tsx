@@ -29,7 +29,10 @@ const saveUserData = (data:{user:IUsers; token: string}) => {
 
         //persistir datos en localStorage
         localStorage.setItem("user", JSON.stringify(data));
-        
+        localStorage.setItem("token", data.token); // 🔥 ESTA LÍNEA
+        console.log("🔐 TOKEN guardado en localStorage:", localStorage.getItem("token"));
+
+
     };
 
     const resetUserData = () => {
@@ -37,6 +40,7 @@ const saveUserData = (data:{user:IUsers; token: string}) => {
         setIsAuth(false);
         setToken(null);
         localStorage.removeItem("user");
+        localStorage.removeItem("token");
 
     };
 

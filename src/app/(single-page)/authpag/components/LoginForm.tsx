@@ -32,6 +32,7 @@ const LoginForm = () => {
           const res = await postLogin(values)
          console.log("👉 response de postLogin", res)
 
+         localStorage.setItem("token", res.token);
           saveUserData(res)
 
           toast.success("Bienvenido a PawForPaw")
