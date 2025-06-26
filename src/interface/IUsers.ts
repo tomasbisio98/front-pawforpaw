@@ -7,4 +7,7 @@ export interface IUsers {
   password: string;
   confirmPassword: string;
   isAdmin?:boolean;
+  status: boolean;
+  montoDonado: number;
 }
+export type IUsers = IUser[];

@@ -2,7 +2,6 @@
 'use client';
 
 import { getUserById, updateUserById } from '@/service/user';
-import { IUsers } from '@/interface/IUsers';
 import { useEffect, useState } from 'react';
 import { Field, Form, Formik, ErrorMessage } from 'formik';
 import { useAuthContext } from '@/context/authContext';
@@ -10,6 +9,9 @@ import { toast } from 'react-toastify';
 import { validationInfoUser } from '@/helpers/validationAuth';
 import { FaUserEdit } from 'react-icons/fa';
 import { HiOutlineInformationCircle } from 'react-icons/hi';
+import { IUsers } from '@/interface/IUsers';
+
+
 
 const UserDataUI = () => {
   const { user, token, saveUserData } = useAuthContext();
