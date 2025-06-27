@@ -76,6 +76,10 @@ export default function AdminPerritos() {
 
   const guardarPerrito = async () => {
     try {
+      if (form.sex !== "H" && form.sex !== "M") {
+      toast.error("El sexo debe ser 'H' (Hembra) o 'M' (Macho).");
+      return;
+    }
       if (!esUrlImagen(form.imgUrl)) {
         toast.error("La URL debe terminar en .jpg, .png, .webp, etc.");
         return;
