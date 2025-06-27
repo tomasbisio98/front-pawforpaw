@@ -1,12 +1,12 @@
-// components/ProductModal.tsx
-"use private";
+"use client";
 
 import { useState, useEffect } from "react";
+import { toast } from "react-toastify";
 
 interface Product {
-  id?: string;
+  productId?: string;
   name: string;
-  imageUrl: string;
+  imgUrl: string;
   price: number;
 }
 
@@ -20,32 +20,39 @@ interface ProductModalProps {
 export default function ProductModal({
   product,
   onSave,
-  onDelete,
   onClose,
 }: ProductModalProps) {
   const [name, setName] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
+  const [imgUrl, setImgUrl] = useState("");
   const [price, setPrice] = useState("");
 
   useEffect(() => {
     if (product) {
       setName(product.name);
-      setImageUrl(product.imageUrl);
+      setImgUrl(product.imgUrl);
       setPrice(product.price.toString());
     }
   }, [product]);
 
   const handleSave = () => {
-    if (!name || !imageUrl || !price)
+    const validExtensions = /\.(jpg|jpeg|png|webp|gif)$/i;
+
+    if (!name || !imgUrl || !price) {
       return alert("Todos los campos son obligatorios");
-    onSave({ ...product, name, imageUrl, price: parseFloat(price) });
+    }
+
+    if (!validExtensions.test(imgUrl)) {
+      return toast.error("La imagen debe ser .jpg, .jpeg, .png, .webp o .gif");
+    }
+
+    onSave({ ...product, name, imgUrl, price: parseFloat(price) });
   };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-30">
       <div className="bg-[#F2F2F0] p-6 rounded-xl shadow-lg w-full max-w-md">
         <h2 className="text-xl font-semibold text-[#2A5559] mb-4 text-center">
-          MODAL DE PRODUCTO / AGREGAR o EDITAR
+          AGREGA UN NUEVO PRODUCTO
         </h2>
 
         <div className="space-y-3">
@@ -58,8 +65,8 @@ export default function ProductModal({
           <input
             className="w-full border border-gray-300 rounded p-2 text-[#2A5559] placeholder:text-gray-500"
             placeholder="URL de la imagen"
-            value={imageUrl}
-            onChange={(e) => setImageUrl(e.target.value)}
+            value={imgUrl}
+            onChange={(e) => setImgUrl(e.target.value)}
           />
           <input
             type="number"
@@ -88,12 +95,12 @@ export default function ProductModal({
 
         {product && (
           <div className="mt-4 text-center">
-            <button
+            {/* <button
               onClick={onDelete}
               className="px-4 py-2 text-white transition bg-red-400 rounded hover:bg-red-600"
             >
               Eliminar
-            </button>
+            </button> */}
           </div>
         )}
       </div>

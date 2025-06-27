@@ -14,6 +14,8 @@ export default function AdminPerritos() {
     data: [],
     total: 0,
   });
+  const [page, setPage] = useState(1);
+  const [limit] = useState(10);
   const [modalVisible, setModalVisible] = useState(false);
   const [editando, setEditando] = useState<IDogs | null>(null);
   const [busqueda, setBusqueda] = useState("");
@@ -22,6 +24,7 @@ export default function AdminPerritos() {
   const esUrlImagen = (url: string): boolean => {
     return /\.(jpeg|jpg|gif|png|webp|bmp)$/i.test(url);
   };
+
   const validarImagen = (url: string): Promise<boolean> => {
     return new Promise((resolve) => {
       const img = new Image();
@@ -41,14 +44,14 @@ export default function AdminPerritos() {
     status: false,
   });
 
-useEffect(() => {
+  useEffect(() => {
     const fetchPerritos = async () => {
-      const response = await getDogsFilter();
-      setPerritos(response); //  ya no es necesario extraer .data, se guarda todo
+      const response = await getDogsFilter({ page, limit });
+      setPerritos(response);
     };
 
     fetchPerritos();
-  }, []);
+  }, [page, limit]);
 
   const abrirModal = (perrito?: IDogs) => {
     if (perrito) {
@@ -127,6 +130,7 @@ useEffect(() => {
     (filtroEstado === "" || (p.status ? "Activo" : "Inactivo") === filtroEstado)
   );
 
+
   return (
     <div className="min-h-screen bg-[#F2F2F0] p-6">
       <h1 className="mb-2 text-3xl font-bold text-center text-[#2A5559]">
@@ -136,7 +140,6 @@ useEffect(() => {
         Gestión de perritos
       </h2>
 
-      {/* Botones y filtros */}
       <div className="flex flex-col items-center justify-between gap-3 mb-4 sm:flex-row">
         <button
           onClick={() => abrirModal()}
@@ -182,7 +185,6 @@ useEffect(() => {
         </div>
       </div>
 
-      {/* Tabla */}
       <div className="text-2xl font-semibold mb-2 text-[#444]">
         TABLA DE PERRITOS / VISUALIZAR
       </div>
@@ -247,7 +249,37 @@ useEffect(() => {
         </table>
       </div>
 
-      {/* Modal */}
+      <div className="flex justify-center items-center gap-6 mt-8">
+        <button
+          onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+          disabled={page === 1}
+          className={`px-5 py-2 rounded-md text-white font-semibold transition ${page === 1
+            ? 'bg-gray-400 cursor-not-allowed'
+            : 'bg-[#B4D9C4] hover:bg-[#9fceb3] cursor-pointer'
+            }`}
+        >
+          ← Anterior
+        </button>
+
+        <span className="text-lg font-medium text-gray-700">
+          Página {page} de {Math.ceil(perritos.total / limit)}
+        </span>
+
+        <button
+          onClick={() => {
+            const totalPages = Math.ceil(perritos.total / limit);
+            if (page < totalPages) setPage((prev) => prev + 1);
+          }}
+          disabled={page >= Math.ceil(perritos.total / limit)}
+          className={`px-5 py-2 rounded-md text-white font-semibold transition ${page >= Math.ceil(perritos.total / limit)
+            ? 'bg-gray-400 cursor-not-allowed'
+            : 'bg-[#B4D9C4] hover:bg-[#9fceb3] cursor-pointer'
+            }`}
+        >
+          Siguiente →
+        </button>
+      </div>
+
       {modalVisible && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
           <div className="w-full max-w-md p-6 bg-white rounded-xl">
@@ -304,7 +336,6 @@ useEffect(() => {
                 <option value="Inactivo">Inactivo</option>
               </select>
 
-              {/* Botones modal */}
               <div className="flex justify-between mt-4">
                 <button
                   onClick={guardarPerrito}
@@ -334,5 +365,4 @@ useEffect(() => {
       )}
     </div>
   );
-
 }
