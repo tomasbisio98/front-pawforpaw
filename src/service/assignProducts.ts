@@ -10,8 +10,12 @@ export const assignProductsToDog = async (dogId: string, productIds: string[]) =
       productIds,
     });
     return response.data;
-  } catch (error: any) {
-    console.error("Error asignando productos:", error);
+  } catch (error: unknown) {
+    if (axios.isAxiosError(error)) {
+      console.error("Error asignando productos:", error.response?.data || error.message);
+    } else {
+      console.error("Error inesperado:", error);
+    }
     throw error;
   }
 };

@@ -11,4 +11,5 @@ export interface IDogs {
   products?: IProducts[];
 }
 
-export type DogFormData = Omit<IDogs, "id">;
+export type DogFormData = Omit<IDogs, "dogId" | "products">;
+

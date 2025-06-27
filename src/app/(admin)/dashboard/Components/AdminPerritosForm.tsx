@@ -22,7 +22,8 @@ export default function AdminPerritos() {
   const [filtroVisible, setFiltroVisible] = useState(false);
   const [filtroEstado, setFiltroEstado] = useState("");
 
-  const esUrlImagen = (url: string): boolean => /\.(jpeg|jpg|gif|png|webp|bmp)$/i.test(url);
+  const esUrlImagen = (url: string): boolean =>
+    /\.(jpeg|jpg|gif|png|webp|bmp)$/i.test(url);
 
   const validarImagen = (url: string): Promise<boolean> => {
     return new Promise((resolve) => {
@@ -53,8 +54,8 @@ export default function AdminPerritos() {
   const abrirModal = (perrito?: IDogs) => {
     if (perrito) {
       setEditando(perrito);
-      const { dogId, ...resto } = perrito;
-      setForm(resto);
+      // dogId is not used, so we can skip destructuring
+      setForm({ ...perrito });
     } else {
       setEditando(null);
       setForm({
@@ -108,7 +109,8 @@ export default function AdminPerritos() {
   const perritosFiltrados = perritos.data.filter(
     (p) =>
       p.name.toLowerCase().includes(busqueda.toLowerCase()) &&
-      (filtroEstado === "" || (p.status ? "Activo" : "Inactivo") === filtroEstado)
+      (filtroEstado === "" ||
+        (p.status ? "Activo" : "Inactivo") === filtroEstado)
   );
 
   return (
@@ -177,7 +179,10 @@ export default function AdminPerritos() {
           </thead>
           <tbody>
             {perritosFiltrados.map((p) => (
-              <tr key={p.dogId} className="border-t hover:bg-gray-100 text-black">
+              <tr
+                key={p.dogId}
+                className="border-t hover:bg-gray-100 text-black"
+              >
                 <td className="p-2">{p.name}</td>
                 <td className="p-2">
                   <img
@@ -254,13 +259,13 @@ export default function AdminPerritos() {
             </h3>
 
             <div className="space-y-3 text-black">
-              {["name", "imgUrl", "sex", "city", "description"].map((field) => (
+              {(["name", "imgUrl", "sex", "city", "description"] as Array<keyof DogFormData>).map((field) => (
                 <input
                   key={field}
                   type="text"
                   placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
                   className="w-full p-2 border rounded-md"
-                  value={(form as any)[field]}
+                  value={form[field] as string}
                   onChange={(e) =>
                     setForm({ ...form, [field]: e.target.value })
                   }
