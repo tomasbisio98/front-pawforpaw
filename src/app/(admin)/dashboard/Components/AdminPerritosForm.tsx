@@ -9,7 +9,6 @@ import { createDog, getDogsFilter, updateDog } from "@/service/dogs";
 import { DogFormData, IDogs } from "@/interface/IDogs";
 import { toast } from "react-toastify";
 
-
 export default function AdminPerritos() {
   const [perritos, setPerritos] = useState<{ data: IDogs[]; total: number }>({
     data: [],
@@ -78,6 +77,10 @@ export default function AdminPerritos() {
 
   const guardarPerrito = async () => {
     try {
+      if (form.sex !== "H" && form.sex !== "M") {
+      toast.error("El sexo debe ser 'H' (Hembra) o 'M' (Macho).");
+      return;
+    }
       if (!esUrlImagen(form.imgUrl)) {
         toast.error("La URL debe terminar en .jpg, .png, .webp, etc.");
         return;
@@ -112,12 +115,8 @@ export default function AdminPerritos() {
 
   return (
     <div className="min-h-screen bg-[#F2F2F0] p-6">
-      <h1 className="mb-2 text-3xl font-bold text-center text-[#2A5559]">
-        VISUALIZACIÓN DE PERRITOS
-      </h1>
-      <h2 className="mb-6 text-xl font-bold text-center text-[#2A5559]">
-        Gestión de perritos
-      </h2>
+      <h1 className="mb-2 text-3xl font-bold text-center text-[#2A5559]">VISUALIZACIÓN DE PERRITOS</h1>
+      <h2 className="mb-6 text-xl font-bold text-center text-[#2A5559]">Gestión de perritos</h2>
 
       <div className="flex flex-col items-center justify-between gap-3 mb-4 sm:flex-row">
         <button
@@ -146,9 +145,7 @@ export default function AdminPerritos() {
 
             {filtroVisible && (
               <div className="absolute right-0 z-10 w-40 p-2 mt-2 bg-white border rounded shadow-md">
-                <label className="block text-sm mb-1 font-semibold text-[#2A5559]">
-                  Estado
-                </label>
+                <label className="block text-sm mb-1 font-semibold text-[#2A5559]">Estado</label>
                 <select
                   className="w-full p-1 text-sm border rounded"
                   value={filtroEstado}
@@ -164,9 +161,7 @@ export default function AdminPerritos() {
         </div>
       </div>
 
-      <div className="text-2xl font-semibold mb-2 text-[#444]">
-        TABLA DE PERRITOS / VISUALIZAR
-      </div>
+      <div className="text-2xl font-semibold mb-2 text-[#444]">TABLA DE PERRITOS / VISUALIZAR</div>
 
       <div className="overflow-x-auto">
         <table className="w-full text-left bg-white rounded-lg shadow-md">
