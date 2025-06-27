@@ -1,7 +1,7 @@
 import { IProducts } from "./IProducts";
 
 export interface IDogs {
-  dogId?: string;
+  dogId: string;
   name: string;
   sex: string;
   city: string;

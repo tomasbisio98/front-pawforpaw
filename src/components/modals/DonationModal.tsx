@@ -1,16 +1,60 @@
-'use client';
+"use client";
 
-import { IProducts } from '@/interface/IProducts';
-import Image from 'next/image';
+import { IProducts } from "@/interface/IProducts";
+import Image from "next/image";
+import { useAuthContext } from "@/context/authContext";
 
 interface DonationModalProps {
   open: boolean;
   setOpen: (value: boolean) => void;
   product: IProducts | null;
+  dogId: string; // 👈 Nuevo prop
 }
 
-const DonationModal = ({ open, setOpen, product }: DonationModalProps) => {
+const DonationModal = ({
+  open,
+  setOpen,
+  product,
+  dogId,
+}: DonationModalProps) => {
+  const { token } = useAuthContext();
+
   if (!open || !product) return null;
+
+  const handleDonate = async () => {
+    const payload = {
+      products: [
+        {
+          productId: product.productId,
+          price_unit: Number(product.price),
+          dogs: [dogId],
+        },
+      ],
+    };
+    console.log("🧪 dogId:", dogId);
+    console.log("🐶 Payload que se enviará:", payload);
+    console.log("🔐 Token:", token);
+
+    try {
+      const response = await fetch("/api/stripe-donate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await response.json();
+      if (data?.url) {
+        window.location.href = data.url;
+      } else {
+        console.error("⚠️ Respuesta sin URL:", data);
+      }
+    } catch (error) {
+      console.error("❌ Error en donación:", error);
+    }
+  };
 
   return (
     <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center">
@@ -42,10 +86,10 @@ const DonationModal = ({ open, setOpen, product }: DonationModalProps) => {
 
         <div className="flex justify-center">
           <button
-            onClick={() => setOpen(false)}
+            onClick={handleDonate}
             className="bg-pink-500 hover:bg-pink-600 text-white px-5 py-2 rounded-lg transition"
           >
-            Cerrar
+            Donar
           </button>
         </div>
       </div>
