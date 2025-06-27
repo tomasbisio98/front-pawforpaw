@@ -6,9 +6,12 @@ import UserDataUI from "./components/UserDataUI";
 const profile = async () => {
     
     return(
-        <div className="p-20">
+        
+            
+        <div className="mt-6">
         <UserDataUI  />
         </div >
+        
     )
 }
 

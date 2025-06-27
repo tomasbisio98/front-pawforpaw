@@ -1,8 +1,11 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { IProducts } from "@/interface/IProducts";
-import Image from "next/image";
+
 import { useAuthContext } from "@/context/authContext";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 interface DonationModalProps {
   open: boolean;
@@ -17,11 +20,19 @@ const DonationModal = ({
   product,
   dogId,
 }: DonationModalProps) => {
-  const { token } = useAuthContext();
+  const { token, isAuth } = useAuthContext();
+  const router = useRouter()
 
   if (!open || !product) return null;
 
   const handleDonate = async () => {
+    if (!isAuth) {
+    // Mostrar mensaje y redirigir
+    toast.warn("Tienes que tener cuenta para poder donar 🐾", {
+      onClose: () => router.push("/authpag"), // o "/auth/register"
+    })
+    return
+  }
     const payload = {
       products: [
         {
@@ -71,7 +82,7 @@ const DonationModal = ({
         </h3>
 
         <div className="flex flex-col items-center">
-          <Image
+          <img
             src={product.imgUrl}
             alt={product.name}
             width={220}

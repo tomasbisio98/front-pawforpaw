@@ -10,6 +10,7 @@ import { validationInfoUser } from '@/helpers/validationAuth';
 import { FaUserEdit } from 'react-icons/fa';
 import { HiOutlineInformationCircle } from 'react-icons/hi';
 import { IUsers } from '@/interface/IUsers';
+import usePrivate from '@/hooks/usePrivate';
 
 
 
@@ -17,6 +18,9 @@ const UserDataUI = () => {
   const { user, token, saveUserData } = useAuthContext();
   const [userData, setUserData] = useState<IUsers | null>(null);
   const [loading, setLoading] = useState(true);
+usePrivate()
+
+
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -34,16 +38,16 @@ const UserDataUI = () => {
   }, [token, user?.id]);
 
   if (!token || !user?.id || loading) {
-    return <p className="text-center text-emerald-600">Cargando tu perfil...</p>;
+    return <p className="text-center text-verdeOscuro p-15" >Cargando tu perfil...</p>;
   }
 
   if (!userData) {
-    return <p className="text-center text-red-500">No se pudo cargar tu información 😥</p>;
+    return <p className="text-center text-red-500 pt-10">No se pudo cargar tu información 😥</p>;
   }
 
   return (
-    <div className="flex justify-center items-start bg-blancoSuave p-6">
-      <div className="max-w-5xl w-full grid grid-cols-1 md:grid-cols-2 gap-8">
+    <div className="flex justify-center items-start p-28">
+      <div className="max-w-5xl w-full grid grid-cols-1 md:grid-cols-2 gap-8 bg-blancoSuave p-6">
 
         {/* lado no editable */}
         <div className="bg-white p-6 rounded-xl shadow space-y-4 border-2 border-verdeClaro">

@@ -1,15 +1,20 @@
 /* eslint-disable @next/next/no-img-element */
-
+'use client'
 import Link from "next/link";
 import LoginForm from "./components/LoginForm"
 import RegisterForm from "./components/RegisterForm";
 import { FiArrowLeft } from "react-icons/fi";
 import { routes } from "@/routes";
 import GoogleAuthButton from "./components/GoogleAuth";
+import usePublic from "@/hooks/usePublic";
+
 
 
 
 const AuthPage = () => {
+  const blockIfLoggedIn = usePublic()
+
+  if (blockIfLoggedIn) return blockIfLoggedIn
     return (
       <main className="min-h-screen bg-blancoSuave p-4 pt-11 flex flex-col items-center">
   

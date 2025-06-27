@@ -28,7 +28,7 @@ const Footer = () => {
 
           
             {/* Newsletter + título */}
-            <div className="flex flex-col items-center  ">
+            <div className="flex flex-col items-center pl-10 ">
               <Newletter />
             </div>
 

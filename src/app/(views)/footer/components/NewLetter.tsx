@@ -60,7 +60,7 @@ const Newsletter = () => {
 
   return (
     <section className="mt-6 space-y-2">
-      <h3 className="text-lg font-semibold text-[#2A5559]">
+      <h3 className="text-lg font-semibold text-blancoSuave">
         SUSCRÍBETE A NUESTRO NEWSLETTER
       </h3>
 
@@ -82,7 +82,7 @@ const Newsletter = () => {
         <button
           type="submit"
           disabled={status === 'loading'}
-          className="h-10 px-6 rounded-lg bg-[#33A69A] text-white hover:bg-[#2A5559] transition-colors disabled:opacity-60"
+          className="h-10 px-6 rounded-lg bg-verdeClaro text-white hover:bg-verdeMOscuro transition-colors disabled:opacity-60 items-center"
         >
           {status === 'loading' ? 'Enviando...' : 'Suscribirme'}
         </button>
