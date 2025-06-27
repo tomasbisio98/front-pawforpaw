@@ -12,11 +12,11 @@ export default function ForgotPasswordPage() {
     e.preventDefault()
     try {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/recover/request-password`, {
-      email,
+        email,
       })
       setMessage(response.data.message || 'Revisa tu correo para continuar.')
       setError('')
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       setError(err.response?.data?.message || 'Error al enviar solicitud')
       setMessage('')

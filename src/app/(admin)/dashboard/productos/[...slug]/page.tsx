@@ -3,7 +3,7 @@ import { useParams } from "next/navigation";
 
 export default function ProductModalPage() {
   const params = useParams();
-  const slug = Array.isArray(params.slug) ? params.slug : [];
+  const slug = Array.isArray(params?.slug) ? params.slug : [];
 
   return (
     <div className="p-6">
