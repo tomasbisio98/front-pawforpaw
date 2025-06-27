@@ -1,11 +1,14 @@
 import { getDogId } from "@/service/dogs";
 import ProductsClient from "../../Components/ProductsClient";
 
-export default async function ProductosPorPerrito(props: {
-  params: { id: string };
-}) {
-  const id = props.params.id;
-  const dog = await getDogId(id);
+type PageProps = {
+  params: {
+    id: string;
+  };
+};
+
+export default async function ProductosPorPerrito({ params }: PageProps) {
+  const dog = await getDogId(params.id);
 
   if (!dog) {
     return (
