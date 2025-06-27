@@ -6,7 +6,8 @@ import axios from 'axios'
 import Image from 'next/image'
 
 export default function ResetPasswordPage() {
-  const { token } = useParams()
+  const params = useParams();
+  const token = params?.token as string | undefined;
   const router = useRouter()
 
   const [password, setPassword] = useState('')
@@ -29,7 +30,7 @@ export default function ResetPasswordPage() {
 
       setMessage(response.data.message || 'Contraseña actualizada correctamente')
       setError('')
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       setError(err.response?.data?.message || 'Error al restablecer la contraseña')
       setMessage('')
