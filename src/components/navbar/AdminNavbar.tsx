@@ -24,8 +24,6 @@ export default function AdminNavbar() {
         <Link href={routes.perritoAdmin} className="hover:text-[#B4D9C4]">
           Perritos
         </Link>
-        <Link href="/dashboard/ediProductos" className="hover:text-[#B4D9C4]">
-          Productos </Link>
         <Link href={routes.donaciones} className="hover:text-[#B4D9C4]">
           Donaciones
         </Link>

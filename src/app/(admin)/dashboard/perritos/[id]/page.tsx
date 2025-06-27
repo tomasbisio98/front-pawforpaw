@@ -1,26 +1,24 @@
-import React from "react";
+import { getDogId } from "@/service/dogs";
+import ProductsClient from "../../Components/ProductsClient";
 
-// 1) Hacer la función async
-export default async function ProductosPorPerrito({
-  // 2) Indicar que params es una Promise
-  params,
-}: {
-  params: Promise<{ id: string }>;
+export default async function ProductosPorPerrito(props: {
+  params: { id: string };
 }) {
-  // 3) Await para obtener id
-  const { id } = await params;
+  const id = props.params.id;
+  const dog = await getDogId(id);
 
-  // Ahora ya puedes usar id con normalidad
+  if (!dog) {
+    return (
+      <div className="p-6">
+        <h1 className="text-red-500 text-xl font-bold">Perrito no encontrado</h1>
+      </div>
+    );
+  }
+
   const perrito = {
-    id,
-    nombre: "Milka", // más adelante reemplazarás con fetch por ID
+    id: dog.dogId!,
+    nombre: dog.name,
   };
 
-  return (
-    <div>
-      <h1>Detalle de Perrito #{perrito.id}</h1>
-      <p>Nombre: {perrito.nombre}</p>
-    </div>
-  );
+  return <ProductsClient perrito={perrito} />;
 }
-
