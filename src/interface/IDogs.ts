@@ -1,7 +1,7 @@
 import { IProducts } from "./IProducts";
 
 export interface IDogs {
-  dogId?: string;
+  dogId: string;
   name: string;
   sex: string;
   city: string;
@@ -11,4 +11,5 @@ export interface IDogs {
   products?: IProducts[];
 }
 
-export type DogFormData = Omit<IDogs, "id">;
+export type DogFormData = Omit<IDogs, "dogId" | "products">;
+
