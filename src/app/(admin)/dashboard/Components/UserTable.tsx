@@ -63,7 +63,7 @@ const UserTable = () => {
         </thead>
         <tbody>
           {usuariosPaginados.map((u) => (
-            <tr key={u.id} className="border-t hover:bg-gray-100">
+            <tr key={u.id} className="border-t hover:bg-gray-100 text-gray-800">
               <td className="p-2">{u.name}</td>
               <td>{u.email}</td>
               <td>{u.phone}</td>
