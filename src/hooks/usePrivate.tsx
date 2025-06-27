@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 // hooks/protection/usePrivate.ts
 'use client'
 
@@ -24,9 +25,11 @@ const usePrivate = () => {
     }
   }, [isAuth])
 
-  if (loading) return <div className="flex items-center justify-center ">
-        <div className="w-7 h-7 border-4 border-white border-t-transparent rounded-full animate-spin" />
+  if (loading) return (
+    <div className="flex items-center justify-center h-screen bg-white">
+      <div className="w-8 h-8 border-4 border-verdeOscuro border-t-transparent rounded-full animate-spin" />
     </div>
+  )
 
   return null
 }

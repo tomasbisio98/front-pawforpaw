@@ -22,7 +22,9 @@ const AuthNav = () => {
     // console.log("authContext", authContext);
     
 if(isAuth === null){
-    return <div className="flex items-center justify-center  text-white">loading...</div>
+    return <div className="flex items-center justify-center ">
+        <div className="w-7 h-7 border-4 border-white border-t-transparent rounded-full animate-spin" />
+    </div>
 
 }
 

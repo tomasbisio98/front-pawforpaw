@@ -38,7 +38,7 @@ usePrivate()
   }, [token, user?.id]);
 
   if (!token || !user?.id || loading) {
-    return <p className="text-center text-verdeOscuro pt-15" >Cargando tu perfil...</p>;
+    return <p className="text-center text-verdeOscuro p-15" >Cargando tu perfil...</p>;
   }
 
   if (!userData) {

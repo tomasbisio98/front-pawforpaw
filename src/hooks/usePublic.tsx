@@ -24,10 +24,10 @@ const usePublic = () => {
 
   // Mientras se evalúa el estado de auth, mostramos cargando
   if (loading) {
-    return  <div className="flex items-center justify-center ">
-        <div className="w-7 h-7 border-4 border-white border-t-transparent rounded-full animate-spin" />
-    </div>
-  }
+    return  (<div className="flex items-center justify-center h-screen bg-white">
+      <div className="w-8 h-8 border-4 border-verdeOscuro border-t-transparent rounded-full animate-spin" />
+    </div> )
+    }
 
   return null
 }
