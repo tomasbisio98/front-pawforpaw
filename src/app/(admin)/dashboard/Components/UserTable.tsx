@@ -44,17 +44,14 @@ const UserTable = () => {
     try {
       const newStatus =!currentStatus;
 
-      // Actualiza en el backend
       await updateStatusUsuario(id, newStatus);
 
-      // Actualiza en frontend (optimista)
       setUsuarios((prev) =>
         prev.map((user) =>
           user.id === id? {...user, status: newStatus}: user
   )
   );
 
-      // Identifica el usuario actualizado
       const usuarioActualizado = usuarios.find((u) => u.id === id);
       if (usuarioActualizado) {
         setMensaje(
@@ -63,8 +60,7 @@ const UserTable = () => {
   }.`
   );
 
-      // Oculta el mensaje después de 4 segundos
-      setTimeout(() => setMensaje(""), 4000);
+      setTimeout(() => setMensaje(""), 3750);
 }
 } catch (error) {
     console.error("Error al actualizar estado:", error);
