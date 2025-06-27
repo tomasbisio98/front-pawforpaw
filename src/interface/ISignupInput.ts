@@ -1,5 +1,5 @@
 export interface ISignupInput {
-  id?:number;
+  id?:string;
   name: string;
   // dni: string;
   phone: string;

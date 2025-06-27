@@ -1,0 +1,34 @@
+// hooks/protection/usePrivate.ts
+'use client'
+
+import { useAuthContext } from "@/context/authContext"
+import { routes } from "@/routes"
+import { useRouter } from "next/navigation"
+import { useEffect, useState } from "react"
+
+/**
+ * Bloquea acceso a páginas privadas si no hay sesión.
+ * Usar en /perfil, /mis-turnos, etc.
+ */
+const usePrivate = () => {
+  const { isAuth } = useAuthContext()
+  const router = useRouter()
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    if (isAuth === null) return
+    if (!isAuth) {
+      router.push(routes.AuthPage)
+    } else {
+      setLoading(false)
+    }
+  }, [isAuth])
+
+  if (loading) return <div className="flex items-center justify-center ">
+        <div className="w-7 h-7 border-4 border-white border-t-transparent rounded-full animate-spin" />
+    </div>
+
+  return null
+}
+
+export default usePrivate

@@ -4,14 +4,21 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { routes } from "@/routes";
 import { LogOut } from "lucide-react";
+import { useAuthContext } from "@/context/authContext";
 
 export default function AdminNavbar() {
   const router = useRouter();
-
-  const handleLogout = () => {
-    // Aquí puedes limpiar auth, tokens, etc.
+   const authContext = useAuthContext();
+      const {resetUserData} = authContext;
+  
+const handleLogout = () => {
+    
+     resetUserData();
     console.log("Cerrando sesión...");
-    router.push(routes.AuthPage); // Ajusta si usas otra ruta de login
+    setTimeout(()=>{
+        router.push(routes.AuthPage); // Ajusta si usas otra ruta de login
+            
+    }, 500)
   };
   return (
     <nav className="bg-[#2A5559] text-white px-6 py-4 flex justify-between items-center shadow">

@@ -7,6 +7,6 @@ export interface IUsers {
   password: string;
   confirmPassword: string;
   isAdmin?:boolean;
-  status: boolean;
-  montoDonado: number;
+  status?: boolean;
+  montoDonado?: number;
 }
