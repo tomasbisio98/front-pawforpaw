@@ -7,8 +7,7 @@ const Newsletter = () => {
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [message, setMessage] = useState('');
-
-  const pathname = usePathname(); // Detectar cambio de ruta
+  const pathname = usePathname();
 
   const handleSubscribe = async () => {
     if (!email.trim()) {
@@ -26,7 +25,6 @@ const Newsletter = () => {
       });
 
       const data = await res.json();
-
       if (!res.ok) throw new Error(data.message || 'Error al suscribirse');
 
       setStatus('success');
@@ -39,7 +37,6 @@ const Newsletter = () => {
     }
   };
 
-  // 🧹 Limpieza automática después de 5 segundos
   useEffect(() => {
     if (status === 'success' || status === 'error') {
       const timer = setTimeout(() => {
@@ -51,7 +48,6 @@ const Newsletter = () => {
     }
   }, [status]);
 
-  // 🧼 Limpieza cuando cambia la ruta
   useEffect(() => {
     setMessage('');
     setStatus('idle');
@@ -59,9 +55,9 @@ const Newsletter = () => {
   }, [pathname]);
 
   return (
-    <section className="mt-6 space-y-2">
-      <h3 className="text-lg font-semibold text-blancoSuave">
-        SUSCRÍBETE A NUESTRO NEWSLETTER
+    <section className="space-y-2 text-sm">
+      <h3 className="text-base font-semibold text-white text-center md:text-left">
+        Suscríbete a nuestro newsletter🐶
       </h3>
 
       <form
@@ -69,27 +65,26 @@ const Newsletter = () => {
           e.preventDefault();
           handleSubscribe();
         }}
-        className="flex flex-wrap items-center gap-3"
+        className="flex flex-col sm:flex-row sm:items-center gap-2"
       >
         <input
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="Correo electrónico"
-          className="h-10 w-64 px-4 rounded-lg text-[#2A5559] bg-[#F2F2F0] placeholder:text-[#3f271a] focus:outline-none"
+          className="h-9 px-4 w-full sm:w-64 rounded-md text-verdeOscuro bg-white placeholder:text-gray-500 focus:outline-none"
         />
-
         <button
           type="submit"
           disabled={status === 'loading'}
-          className="h-10 px-6 rounded-lg bg-verdeClaro text-white hover:bg-verdeMOscuro transition-colors disabled:opacity-60 items-center"
+          className="h-9 px-4 rounded-md bg-verdeClaro hover:bg-verdeMOscuro text-white text-sm transition-all disabled:opacity-60"
         >
           {status === 'loading' ? 'Enviando...' : 'Suscribirme'}
         </button>
       </form>
 
       {message && (
-        <p className={`text-sm ${status === 'success' ? 'text-green-600' : 'text-red-600'}`}>
+        <p className={`text-xs mt-1 ${status === 'success' ? 'text-green-400' : 'text-red-400'}`}>
           {message}
         </p>
       )}

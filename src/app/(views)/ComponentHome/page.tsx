@@ -10,12 +10,13 @@ import "swiper/css/pagination";
 import { routes } from "@/routes";
 
 const HomeContent = () => {
-  const imagenes = ["/public/carrusel12.png", "/public/carrusel23.png", "/public/carrusel3.png"];
+  const imagenes = ["/carrusel12.png", "/carrusel23.png", "/carrusel3.png"];
 
   return (
-    <main className="px-6 py-10 space-y-12 bg-blancoSuave text-marronOscuro">
-      {/* Carrusel */}
-      <div className="w-full overflow-hidden rounded-lg h-60 md:h-96">
+    <main className="px-6 py-10 space-y-16 bg-blancoSuave text-marronOscuro font-nunito">
+
+      {/* 🎞 Carrusel */}
+      <div className="w-full overflow-hidden rounded-2xl shadow-xl h-60 md:h-96">
         <Swiper
           modules={[Navigation, Pagination, Autoplay]}
           spaceBetween={30}
@@ -33,8 +34,7 @@ const HomeContent = () => {
                   src={src}
                   alt={`Imagen carrusel ${index + 1}`}
                   fill
-                  style={{ objectFit: "cover" }}
-                  className="rounded-lg"
+                  className="object-cover rounded-2xl"
                   priority={index === 0}
                 />
               </div>
@@ -43,22 +43,19 @@ const HomeContent = () => {
         </Swiper>
       </div>
 
-      {/* Donación destacada */}
-      <div className="space-y-2 text-center">
-        <h2 className="text-xl font-semibold text-[#2A5559]">
-          Fundación PawForPaw
-        </h2>
+      {/* ❤️ Donación destacada */}
+      <div className="text-center space-y-3">
+        <h2 className="text-2xl font-bold text-verdeOscuro">Fundación PawForPaw</h2>
         <a
           href={routes.perritos}
-          className="inline-block px-4 py-2 text-sm font-medium bg-[#33A69A] rounded-full hover:text-[#2A5559]"
-          style={{ color: "white" }}
+          className="inline-block px-6 py-3 rounded-full text-white bg-verdeClaro hover:bg-verdeOscuro transition-colors font-semibold"
         >
           ¿Quieres colaborar con una donación?
         </a>
       </div>
 
-      {/* Tarjetas */}
-      <div className="grid grid-cols-1 gap-6 text-center md:grid-cols-3">
+      {/* 🧩 Misión / Visión / Valores */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {[
           {
             titulo: "🐾 Misión",
@@ -76,23 +73,23 @@ const HomeContent = () => {
               "Compasión, Responsabilidad, Compromiso, Transparencia, Educación y Trabajo en equipo. Cada acción que realizamos está guiada por estos principios para garantizar el bienestar integral de nuestros peludos.",
           },
         ].map((item, index) => (
-          <div key={index} className="p-6 bg-[#B4D9C4] rounded-lg shadow-md">
-            <h3 className="mb-2 font-bold text-[#2A5559]">{item.titulo}</h3>
-            <p className="text-sm text-gray-700">{item.contenido}</p>
+          <div key={index} className="p-6 bg-blancoConVerde rounded-2xl shadow-xl">
+            <h3 className="text-lg font-bold text-verdeOscuro mb-2">{item.titulo}</h3>
+            <p className="text-sm text-marronOscuro leading-relaxed">{item.contenido}</p>
           </div>
         ))}
       </div>
 
-      {/* ¿Cómo encontrarnos? */}
-      <div className="grid items-center grid-cols-1 gap-8 md:grid-cols-2">
-        <div className="p-6 bg-[#B4D9C4] rounded-lg">
-          <p className="text-sm text-gray-700">
+      {/* 📍 Cómo encontrarnos */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+        <div className="p-6 bg-blancoConVerde rounded-2xl shadow-xl space-y-2">
+          <h3 className="text-lg font-bold text-verdeOscuro">¿Dónde encontrarnos?</h3>
+          <p className="text-sm text-marronOscuro">
             Nuestro refugio está siempre abierto para quienes quieran conocer,
             ayudar o adoptar. Ven a compartir un rato con nuestras mascotas.
           </p>
         </div>
-        <div className="flex items-center justify-center h-40 bg-[#B4D9C4] rounded-lg">
-          <span className="text-4xl">📍</span>
+        <div className="overflow-hidden rounded-2xl shadow-xl h-64">
           <iframe
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d975.3066629339471!2d-77.04174603044275!3d-12.09663029925902!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9105c85b30b87b41%3A0x808e31b993fde15b!2sAv.%20Nicol%C3%A1s%20de%20Ribera%20311%2C%20Lima%2015073!5e0!3m2!1ses-419!2spe!4v1749923584145!5m2!1ses-419!2spe"
             width="100%"
