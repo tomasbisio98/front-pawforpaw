@@ -16,4 +16,8 @@ export const routes = {
   usuarios: "/dashboard/usuarios",
   productsDogs: "/products-dog",
 
+   // 🆕 Rutas públicas para Stripe
+  donacionExitosa: "/donations/success",
+  donacionCancelada: "/donations/cancel",
+
 };
