@@ -5,7 +5,7 @@ import { IUsers2 } from "@/interface/IUsers2";
 
 const axiosApiBack = axios.create({
     //la baseurl es lo que permite llamar por partes la url
-     baseURL: "https://back-pawforpaw-production.up.railway.app",
+     baseURL: process.env.NEXT_PUBLIC_API_URL,
 })
 
 console.log("URL del backend:", process.env.NEXT_PUBLIC_API_URL);
@@ -75,9 +75,6 @@ export const updateStatusUsuario = async (
 export const getUserById = async (id: string, token: string): Promise<IUsers> => {
 
   try {
-    console.log("📡 URL construida:", `https://back-pawforpaw-production.up.railway.app/users/${id}`);
-console.log("🧠 ID:", id);
-console.log("🔐 Token:", token);
     const response = await axiosApiBack.get(`/users/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,

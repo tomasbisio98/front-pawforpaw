@@ -25,7 +25,6 @@
 
 //   return <ProductsClient perrito={perrito} />;
 // }
-
 export default function PlaceholderPage() {
   return null;
 }

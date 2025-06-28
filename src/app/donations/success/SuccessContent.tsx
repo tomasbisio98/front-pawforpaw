@@ -5,7 +5,7 @@ import Link from "next/link";
 
 export default function SuccessContent() {
   const searchParams = useSearchParams();
-  const donationId = searchParams.get("donationId");
+  const donationId = searchParams?.get("donationId");
 
   console.log("👉 donationId:", donationId); // 👈 esto debe mostrar algo
 
