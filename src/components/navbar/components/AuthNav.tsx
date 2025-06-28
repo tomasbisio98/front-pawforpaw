@@ -15,7 +15,6 @@ const AuthNav = () => {
 
         setTimeout(()=>{
             
-           
             location.assign(routes.inicio)
         }, 500)
     }

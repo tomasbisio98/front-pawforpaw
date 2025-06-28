@@ -45,19 +45,29 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     };
 
     useEffect(() => {
-        const storage = JSON.parse(localStorage?.getItem("user") || " {}")
+          try {
+    const storage = localStorage.getItem("user");
+    const token = localStorage.getItem("token");
 
+    if (!storage || !token) {
+      setIsAuth(false);
+      return;
+    }
 
-        // estaba logueada y se desloguea 
-        if (storage === undefined || !Object.keys(storage)?.length) {
-            setIsAuth(false);
-            return;
-        }
-        const storageType = storage  //esto es para que no de error al acceder a las propiedades;
+    const parsed = JSON.parse(storage);
 
-        setUser(storageType?.user);
-        setIsAuth(true);
-        setToken(storageType?.token);
+    if (!parsed.user || !parsed.token) {
+      setIsAuth(false);
+      return;
+    }
+
+    setUser(parsed.user);
+    setToken(parsed.token);
+    setIsAuth(true);
+  } catch (error) {
+    console.error("Error al recuperar usuario:", error);
+    setIsAuth(false); // 👈 Esto evita el spinner eterno
+  }
     }, [])
 
     return (
