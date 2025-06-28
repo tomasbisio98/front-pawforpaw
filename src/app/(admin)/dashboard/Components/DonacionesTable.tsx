@@ -30,7 +30,7 @@ export default function DonacionesHistorial() {
     const fetchHistorial = async () => {
       try {
         const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/donations/historial`
+          `${process.env.NEXT_PUBLIC_API_URL}donations/historial`
         );
         setDonaciones(response.data);
       } catch (error) {
@@ -153,18 +153,18 @@ export default function DonacionesHistorial() {
                       "text-sm font-semibold px-2 py-1 rounded-full",
                       {
                         "bg-green-100 text-green-700":
-                          d.estado.toLowerCase() === "exitoso",
+                          d.estado.toLowerCase() === "Exitoso",
                         "bg-red-100 text-red-700":
-                          d.estado.toLowerCase() === "fallido",
+                          d.estado.toLowerCase() === "Fallido",
                         "bg-yellow-100 text-yellow-700":
-                          d.estado.toLowerCase() === "en proceso",
+                          d.estado.toLowerCase() === "En proceso",
                         "bg-gray-100 text-gray-700":
-                          d.estado.toLowerCase() === "bloqueado",
+                          d.estado.toLowerCase() === "Bloqueado",
                         "bg-gray-200 text-gray-800": ![
-                          "exitoso",
-                          "fallido",
-                          "en proceso",
-                          "bloqueado",
+                          "Exitoso",
+                          "Fallido",
+                          "En proceso",
+                          "Bloqueado",
                         ].includes(d.estado.toLowerCase()),
                       }
                     )}
