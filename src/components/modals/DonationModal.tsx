@@ -21,18 +21,18 @@ const DonationModal = ({
   dogId,
 }: DonationModalProps) => {
   const { token, isAuth } = useAuthContext();
-  const router = useRouter()
+  const router = useRouter();
 
   if (!open || !product) return null;
 
   const handleDonate = async () => {
     if (!isAuth) {
-    // Mostrar mensaje y redirigir
-    toast.warn("Tienes que tener cuenta para poder donar 🐾", {
-      onClose: () => router.push("/authpag"), // o "/auth/register"
-    })
-    return
-  }
+      // Mostrar mensaje y redirigir
+      toast.warn("Tienes que tener cuenta para poder donar 🐾", {
+        onClose: () => router.push("/authpag"), // o "/auth/register"
+      });
+      return;
+    }
     const payload = {
       products: [
         {
@@ -58,6 +58,7 @@ const DonationModal = ({
 
       const data = await response.json();
       if (data?.url) {
+        console.log("🔗 URL de Stripe:", data.url); // 👈 Agregado para ver en consola
         window.location.href = data.url;
       } else {
         console.error("⚠️ Respuesta sin URL:", data);
