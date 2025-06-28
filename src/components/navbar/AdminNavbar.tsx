@@ -8,51 +8,55 @@ import { useAuthContext } from "@/context/authContext";
 
 export default function AdminNavbar() {
   const router = useRouter();
-   const authContext = useAuthContext();
-      const {resetUserData} = authContext;
-  
-const handleLogout = () => {
-    
-     resetUserData();
-    console.log("Cerrando sesión...");
-    setTimeout(()=>{
-        router.push(routes.AuthPage); // Ajusta si usas otra ruta de login
-            
-    }, 500)
+  const { resetUserData } = useAuthContext();
+
+  const handleLogout = () => {
+    resetUserData();
+    setTimeout(() => {
+      router.push(routes.AuthPage);
+    }, 500);
   };
+
   return (
-    <nav className="bg-[#2A5559] text-white px-6 py-4 flex justify-between items-center shadow">
-      <div className="text-xl font-bold tracking-wide">Admin PawForPaw</div>
+    <nav className="bg-verdeOscuro px-6 py-4 shadow text-white">
+      <div className="flex items-center justify-between max-w-screen-xl mx-auto">
+        {/* Título */}
+        <h1 className="text-2xl font-semibold tracking-wide uppercase">
+          Admin PawForPaw
+        </h1>
 
-      <div className="flex items-center gap-6 text-sm font-semibold">
-        <Link href={routes.Dashboard} className="hover:text-[#B4D9C4]">
-          Inicio
-        </Link>
-        <Link href={routes.perritoAdmin} className="hover:text-[#B4D9C4]">
-          Perritos
-        </Link>
-        <Link href={routes.donaciones} className="hover:text-[#B4D9C4]">
-          Donaciones
-        </Link>
-        <Link href={routes.usuarios} className="hover:text-[#B4D9C4]">
-          Usuarios
-        </Link>
+        {/* Navegación */}
+        <div className="flex items-center gap-8 text-base font-medium">
+          <Link href={routes.Dashboard} className="hover:text-verdeClaro transition-colors">
+            Inicio
+          </Link>
+          <Link href={routes.perritoAdmin} className="hover:text-verdeClaro transition-colors">
+            Perritos
+          </Link>
+          <Link href={routes.donaciones} className="hover:text-verdeClaro transition-colors">
+            Donaciones
+          </Link>
+          <Link href={routes.usuarios} className="hover:text-verdeClaro transition-colors">
+            Usuarios
+          </Link>
 
-        <div className="flex items-center gap-3">
-          {/* Avatar */}
-          <div className="w-8 h-8 rounded-full bg-[#B4D9C4] text-[#2A5559] flex items-center justify-center font-bold">
-            A
+          {/* Perfil + Logout */}
+          <div className="flex items-center gap-3">
+            {/* Avatar */}
+            <div className="w-9 h-9 rounded-full bg-verdeClaro text-verdeOscuro flex items-center justify-center font-bold text-base">
+              A
+            </div>
+
+            {/* Botón de salir */}
+            <button
+              onClick={handleLogout}
+              title="Cerrar sesión"
+              className="flex items-center gap-1 hover:text-red-300 transition-colors text-base"
+            >
+              <LogOut size={18} />
+              <span className="hidden md:inline">Salir</span>
+            </button>
           </div>
-
-          {/* Logout */}
-          <button
-            onClick={handleLogout}
-            className="flex items-center gap-1 transition hover:text-red-300"
-            title="Cerrar sesión"
-          >
-            <LogOut size={18} />
-            <span className="hidden md:inline">Salir</span>
-          </button>
         </div>
       </div>
     </nav>
