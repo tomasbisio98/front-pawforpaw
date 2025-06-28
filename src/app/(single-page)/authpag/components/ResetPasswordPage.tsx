@@ -24,7 +24,7 @@ export default function ResetPasswordPage() {
     }
 
     try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/recover/reset-password`, {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}recover/reset-password`, {
         token,
         newPassword: password,
       })
