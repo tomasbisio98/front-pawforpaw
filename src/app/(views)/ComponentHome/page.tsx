@@ -10,7 +10,7 @@ import "swiper/css/pagination";
 import { routes } from "@/routes";
 
 const HomeContent = () => {
-  const imagenes = ["/carrusel12.png", "/carrusel2.png", "/carrusel3.png"];
+  const imagenes = ["/public/carrusel12.png", "/public/carrusel23.png", "/public/carrusel3.png"];
 
   return (
     <main className="px-6 py-10 space-y-12 bg-blancoSuave text-marronOscuro">
