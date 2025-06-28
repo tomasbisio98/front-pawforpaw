@@ -7,7 +7,8 @@ import Image from 'next/image'
 
 export default function ResetPasswordPage() {
   const params = useParams();
-  const token = params?.token as string | undefined;
+  const tokenParam = params ? params['token'] : undefined;
+  const token = Array.isArray(tokenParam) ? tokenParam[0] : tokenParam;
   const router = useRouter()
 
   const [password, setPassword] = useState('')

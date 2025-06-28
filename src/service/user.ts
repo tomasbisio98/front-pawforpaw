@@ -73,7 +73,7 @@ export const updateStatusUsuario = async (
 
 
 export const getUserById = async (id: string, token: string): Promise<IUsers> => {
-  
+
   try {
     const response = await axiosApiBack.get(`/users/${id}`, {
       headers: {

@@ -3,7 +3,7 @@ import SuccessContent from "./SuccessContent";
 
 export default function SuccessPage() {
   return (
-    <Suspense fallback={<div className="text-center p-10">Cargando...</div>}>
+    <Suspense fallback={<div className="p-4 text-center">Cargando...</div>}>
       <SuccessContent />
     </Suspense>
   );

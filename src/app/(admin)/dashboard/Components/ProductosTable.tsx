@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Pencil } from "lucide-react";
+import Image from "next/image";
 import { getDogId } from "@/service/dogs";
 import { IProducts } from "@/interface/IProducts";
 import ProductModal from "./ProductModal";
@@ -132,11 +133,12 @@ export default function ProductTable({ perrito, refreshKey }: Props) {
                       </div>
                     </label>
                   </td>
-
                   <td className="p-3">
-                    <img
+                    <Image
                       src={product.imgUrl}
                       alt={product.name}
+                      width={40}
+                      height={40}
                       className="object-cover w-10 h-10 rounded"
                     />
                   </td>
