@@ -6,7 +6,9 @@ import axios from 'axios'
 import Image from 'next/image'
 
 export default function ResetPasswordPage() {
-  const { token } = useParams()
+  const params = useParams();
+  const tokenParam = params ? params['token'] : undefined;
+  const token = Array.isArray(tokenParam) ? tokenParam[0] : tokenParam;
   const router = useRouter()
 
   const [password, setPassword] = useState('')

@@ -8,7 +8,7 @@ const axiosApiBack = axios.create({
      baseURL: "https://back-pawforpaw-production.up.railway.app",
 })
 
-console.log("URL del backend:", process.env.NEXT_PUBLIC_EXPRESS_API);
+console.log("URL del backend:", process.env.NEXT_PUBLIC_API_URL);
 
 // Obtener usuarios
 export const getUser = async (): Promise<IUsers> => {
@@ -73,7 +73,7 @@ export const updateStatusUsuario = async (
 
 
 export const getUserById = async (id: string, token: string): Promise<IUsers> => {
-  
+
   try {
     console.log("📡 URL construida:", `https://back-pawforpaw-production.up.railway.app/users/${id}`);
 console.log("🧠 ID:", id);

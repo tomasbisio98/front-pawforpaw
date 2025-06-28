@@ -22,7 +22,7 @@ const HomeContent = () => {
           slidesPerView={1}
           navigation
           pagination={{ clickable: true }}
-          autoplay={{ delay: 3000 }}
+          autoplay={{ delay: 6000 }}
           loop
           className="h-full"
         >
