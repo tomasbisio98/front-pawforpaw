@@ -58,7 +58,7 @@ export default function DogDetailPage() {
         <>
           <div className="flex flex-col items-center justify-center w-full max-w-lg rounded-2xl shadow-md bg-white mb-6 px-6 py-8">
             <Image
-              src={dog.imgUrl}
+              src={dog.imgUrl || "/placeholder-dog.png"}
               alt={`Foto de ${dog.name}`}
               width={400}
               height={256}
