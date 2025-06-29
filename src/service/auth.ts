@@ -5,7 +5,6 @@ import { ISignupInput } from "@/interface/ISignupInput";
 import axios from "axios";
 
 const axiosApiBack = axios.create({
-    
     baseURL: process.env.NEXT_PUBLIC_API_URL, 
 })
 
