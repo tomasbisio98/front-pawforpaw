@@ -21,25 +21,14 @@ export default function AdminPerritos() {
   const [busqueda, setBusqueda] = useState("");
   const [filtroVisible, setFiltroVisible] = useState(false);
   const [filtroEstado, setFiltroEstado] = useState("");
-
-  const esUrlImagen = (url: string): boolean =>
-    /\.(jpeg|jpg|gif|png|webp|bmp)$/i.test(url);
-
-  const validarImagen = (url: string): Promise<boolean> => {
-    return new Promise((resolve) => {
-      const img = new Image();
-      img.src = url;
-      img.onload = () => resolve(true);
-      img.onerror = () => resolve(false);
-    });
-  };
+  const [imagenFile, setImagenFile] = useState<File | null>(null);
 
   const [form, setForm] = useState<DogFormData>({
     name: "",
     sex: "",
     city: "",
     description: "",
-    imgUrl: "",
+    imgUrl: "", // <--- Agrega esto
     status: false,
   });
 
@@ -54,7 +43,6 @@ export default function AdminPerritos() {
   const abrirModal = (perrito?: IDogs) => {
     if (perrito) {
       setEditando(perrito);
-      // dogId is not used, so we can skip destructuring
       setForm({ ...perrito });
     } else {
       setEditando(null);
@@ -67,6 +55,7 @@ export default function AdminPerritos() {
         status: false,
       });
     }
+    setImagenFile(null);
     setModalVisible(true);
   };
 
@@ -78,30 +67,109 @@ export default function AdminPerritos() {
   const guardarPerrito = async () => {
     try {
       if (form.sex !== "H" && form.sex !== "M") {
-      toast.error("El sexo debe ser 'H' (Hembra) o 'M' (Macho).");
-      return;
-    }
-      if (!esUrlImagen(form.imgUrl)) {
-        toast.error("La URL debe terminar en .jpg, .png, .webp, etc.");
+        toast.error("El sexo debe ser 'H' (Hembra) o 'M' (Macho).");
         return;
       }
-      const esValida = await validarImagen(form.imgUrl);
-      if (!esValida) {
-        toast.error("La imagen no se pudo cargar. Revisa la URL.");
-        return;
-      }
+
+      // EDITAR
       if (editando && typeof editando.dogId === "string") {
-        await updateDog(editando.dogId, form);
+        const updatePayload = {
+          name: form.name,
+          sex: form.sex,
+          city: form.city,
+          description: form.description,
+          status: typeof form.status === "boolean" ? form.status : undefined,
+          imgUrl:
+            typeof form.imgUrl === "string" && form.imgUrl.startsWith("http")
+              ? form.imgUrl
+              : undefined,
+        };
+
+        console.log("📤 Payload UPDATE sin imagen nueva:", updatePayload);
+        await updateDog(editando.dogId, updatePayload);
         toast.success("Perrito actualizado correctamente.");
+
+        if (imagenFile) {
+          const formData = new FormData();
+          formData.append("file", imagenFile);
+
+          if (!imagenFile || imagenFile.size === 0) {
+            toast.error("La imagen seleccionada está vacía o es inválida.");
+            return;
+          }
+
+          const res = await fetch(
+            `${process.env.NEXT_PUBLIC_API_URL}/file/uploadDogImage/${editando.dogId}`,
+            { method: "POST", body: formData }
+          );
+
+          const data = await res.json();
+
+          const updatePayload = {
+            name: form.name,
+            sex: form.sex,
+            city: form.city,
+            description: form.description,
+            status: form.status,
+            imgUrl: data.imageUrl?.startsWith("blob:")
+              ? undefined
+              : data.imageUrl,
+          };
+
+          console.log("📤 Payload UPDATE con imagen:", updatePayload);
+          await updateDog(editando.dogId, updatePayload);
+          setForm((prev) => ({ ...prev, imgUrl: data.imageUrl }));
+          toast.success("Imagen actualizada");
+        }
       } else {
-        await createDog(form);
-        toast.success("Perrito creado correctamente.");
+        // CREAR
+        const payload = { ...form };
+        if (!payload.imgUrl || payload.imgUrl.startsWith("blob:")) {
+          delete payload.imgUrl;
+        }
+
+        console.log("🐶 Payload que se enviará al backend:", payload);
+        const nuevoPerrito = await createDog(payload);
+        console.log("🐶 Perrito creado:", nuevoPerrito);
+
+        if (!nuevoPerrito?.dogId) {
+          toast.error("No se pudo obtener el ID del nuevo perrito.");
+          return;
+        }
+
+        if (imagenFile) {
+          const formData = new FormData();
+          formData.append("file", imagenFile);
+          const res = await fetch(
+            `${process.env.NEXT_PUBLIC_API_URL}/file/uploadDogImage/${nuevoPerrito.dogId}`,
+            { method: "POST", body: formData }
+          );
+          const data = await res.json();
+
+          const updatePayload = {
+            name: form.name,
+            sex: form.sex,
+            city: form.city,
+            description: form.description,
+            status: form.status,
+            imgUrl: data.imageUrl?.startsWith("blob:")
+              ? undefined
+              : data.imageUrl,
+          };
+
+          console.log("📤 Payload UPDATE luego de imagen:", updatePayload);
+          await updateDog(nuevoPerrito.dogId, updatePayload);
+          setForm((prev) => ({ ...prev, imgUrl: data.imageUrl }));
+          toast.success("Imagen subida con éxito");
+        }
       }
+
       const perritosActualizados = await getDogsFilter({ page, limit });
       setPerritos(perritosActualizados);
       cerrarModal();
+      setImagenFile(null);
     } catch (error) {
-      console.error("Error al guardar el perrito:", error);
+      console.error("❌ Error al guardar el perrito:", error);
       toast.error("Ocurrió un error. Revisa la consola.");
     }
   };
@@ -115,8 +183,12 @@ export default function AdminPerritos() {
 
   return (
     <div className="min-h-screen bg-[#F2F2F0] p-6">
-      <h1 className="mb-2 text-3xl font-bold text-center text-[#2A5559]">VISUALIZACIÓN DE PERRITOS</h1>
-      <h2 className="mb-6 text-xl font-bold text-center text-[#2A5559]">Gestión de perritos</h2>
+      <h1 className="mb-2 text-3xl font-bold text-center text-[#2A5559]">
+        VISUALIZACIÓN DE PERRITOS
+      </h1>
+      <h2 className="mb-6 text-xl font-bold text-center text-[#2A5559]">
+        Gestión de perritos
+      </h2>
 
       <div className="flex flex-col items-center justify-between gap-3 mb-4 sm:flex-row">
         <button
@@ -145,7 +217,9 @@ export default function AdminPerritos() {
 
             {filtroVisible && (
               <div className="absolute right-0 z-10 w-40 p-2 mt-2 bg-white border rounded shadow-md">
-                <label className="block text-sm mb-1 font-semibold text-[#2A5559]">Estado</label>
+                <label className="block text-sm mb-1 font-semibold text-[#2A5559]">
+                  Estado
+                </label>
                 <select
                   className="w-full p-1 text-sm border rounded"
                   value={filtroEstado}
@@ -161,7 +235,9 @@ export default function AdminPerritos() {
         </div>
       </div>
 
-      <div className="text-2xl font-semibold mb-2 text-[#444]">TABLA DE PERRITOS / VISUALIZAR</div>
+      <div className="text-2xl font-semibold mb-2 text-[#444]">
+        TABLA DE PERRITOS / VISUALIZAR
+      </div>
 
       <div className="overflow-x-auto">
         <table className="w-full text-left bg-white rounded-lg shadow-md">
@@ -259,7 +335,11 @@ export default function AdminPerritos() {
             </h3>
 
             <div className="space-y-3 text-black">
-              {(["name", "imgUrl", "sex", "city", "description"] as Array<keyof DogFormData>).map((field) => (
+              {/* Campos de texto */}
+              {/* Campos de texto (name, city, description) */}
+              {(
+                ["name", "city", "description"] as Array<keyof DogFormData>
+              ).map((field) => (
                 <input
                   key={field}
                   type="text"
@@ -271,6 +351,50 @@ export default function AdminPerritos() {
                   }
                 />
               ))}
+
+              {/* Campo SEX (select con opciones válidas para el DTO) */}
+              <select
+                className="w-full p-2 border rounded-md"
+                value={form.sex}
+                onChange={(e) =>
+                  setForm({ ...form, sex: e.target.value as "M" | "H" })
+                }
+              >
+                <option value="">Selecciona sexo</option>
+                <option value="M">Macho</option>
+                <option value="H">Hembra</option>
+              </select>
+
+              {/* Subir imagen */}
+              <input
+                type="file"
+                accept="image/*"
+                className="w-full p-2 border rounded-md"
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (file) {
+                    setImagenFile(file);
+                    const vistaTemporal = URL.createObjectURL(file);
+                    setForm((prev) => ({ ...prev, imgUrl: vistaTemporal }));
+                  }
+                }}
+              />
+              {form.imgUrl && (
+                <div className="mt-2">
+                  <p className="text-sm font-medium text-[#2A5559] mb-1">
+                    Vista previa:
+                  </p>
+                  <img
+                    src={form.imgUrl}
+                    alt="Vista previa"
+                    className="w-24 h-24 object-cover rounded border border-gray-300"
+                    onError={(e) =>
+                      (e.currentTarget.src =
+                        "https://img.freepik.com/vector-gratis/sello-textura-huellas-patas_78370-2951.jpg?semt=ais_hybrid&w=740")
+                    }
+                  />
+                </div>
+              )}
 
               <select
                 className="w-full p-2 border rounded-md"

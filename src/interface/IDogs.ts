@@ -6,7 +6,7 @@ export interface IDogs {
   sex: string;
   city: string;
   description: string;
-  imgUrl: string;
+  imgUrl?: string;
   status: boolean;
   products?: IProducts[];
 }
