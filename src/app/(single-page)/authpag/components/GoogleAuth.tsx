@@ -14,7 +14,7 @@ const GoogleAuthButton = () => {
   const handleLoginSuccess = async (credentialResponse: CredentialResponse) => {
     try {
       const res = await postGoogleAuth(credentialResponse);
-      console.log("👉 response de postGoogleAuth", res);
+    
       localStorage.setItem("token", res.token);
       saveUserData(res);
       toast.success("Bienvenido a PawForPaw");
