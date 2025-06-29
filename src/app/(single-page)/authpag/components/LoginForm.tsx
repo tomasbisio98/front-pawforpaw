@@ -1,14 +1,13 @@
-'use client';
+"use client";
 
-import { Formik, Field } from 'formik';
-import { validationLogin } from '@/helpers/validationAuth';
-import Link from 'next/link';
-import styles from '../../../../styles/AuthUsers.module.css'
-import { postLogin } from '@/service/auth';
-import { useRouter } from 'next/navigation';
-import { toast } from 'react-toastify';
-import { useAuthContext } from '@/context/authContext';
-
+import { Formik, Field } from "formik";
+import { validationLogin } from "@/helpers/validationAuth";
+import Link from "next/link";
+import styles from "../../../../styles/AuthUsers.module.css";
+import { postLogin } from "@/service/auth";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
+import { useAuthContext } from "@/context/authContext";
 
 type LoginValues = {
   email: string;
@@ -16,76 +15,100 @@ type LoginValues = {
 };
 
 const initialValues: LoginValues = {
-email: '',
-password: '',
+  email: "",
+  password: "",
 };
 
 const validationSchema = validationLogin;
 
 const LoginForm = () => {
   const router = useRouter();
-  const  {saveUserData,} = useAuthContext();
+  const { saveUserData } = useAuthContext();
 
-  const handleLogin = async (values: LoginValues,   { resetForm }: { resetForm: () => void }) => {
+  const handleLogin = async (
+    values: LoginValues,
+    { resetForm }: { resetForm: () => void }
+  ) => {
+    try {
+      const res = await postLogin(values);
+      console.log("👉 response de postLogin", res);
 
-        try {
-          const res = await postLogin(values)
-         console.log("👉 response de postLogin", res)
+      localStorage.setItem("token", res.token);
+      saveUserData(res);
 
-         localStorage.setItem("token", res.token);
-          saveUserData(res)
+      toast.success("Bienvenido a PawForPaw");
+      resetForm();
 
-          toast.success("Bienvenido a PawForPaw")
-          resetForm();
-
-          setTimeout(() => {
-            if (res.user.isAdmin) {
-              router.push("/dashboard");
-            } else {
-              router.push("/");
-            }
-          }, 3000);
-
-        } catch (e) {
-          console.warn("error al loguearse el usuario", e);
-          toast.error("Email o contraseña incorrectos")
+      setTimeout(() => {
+        if (res.user.isAdmin) {
+          router.push("/dashboard");
+        } else {
+          router.push("/");
         }
+      }, 3000);
+    } catch (e) {
+      console.warn("error al loguearse el usuario", e);
+      toast.error("Email o contraseña incorrectos");
+    }
 
-  console.log('Enviando datos:', values);
+    console.log("Enviando datos:", values);
   };
 
-    return  (
+  return (
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
       onSubmit={handleLogin}
     >
-      {({ handleSubmit, handleChange, values, touched, errors,isSubmitting, isValid}) => (
-        <form onSubmit={handleSubmit} className="justify-center items-center flex flex-col space-y-4">
-
-          <div >
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700">Correo Electrónico</label>
-            <Field name="email" type="email" className={`${styles.input} ${
-              touched.email && errors.email ? styles.inputError : ''
-            }`}placeholder="ejemplo@email.com"/>
+      {({
+        handleSubmit,
+        handleChange,
+        values,
+        touched,
+        errors,
+        isSubmitting,
+        isValid,
+      }) => (
+        <form
+          onSubmit={handleSubmit}
+          className="justify-center items-center flex flex-col space-y-4"
+        >
+          <div>
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Correo Electrónico
+            </label>
+            <Field
+              name="email"
+              type="email"
+              className={`${styles.input} ${
+                touched.email && errors.email ? styles.inputError : ""
+              }`}
+              placeholder="ejemplo@email.com"
+            />
             {touched.email && errors.email && (
               <p className="text-sm text-red-500 mt-1">{errors.email}</p>
             )}
           </div>
 
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="password-login"
+              className="block text-sm font-medium text-gray-700"
+            >
               Contraseña
             </label>
             <Field
-              id="password"
+              id="password-login"
               name="password"
               type="password"
               value={values.password}
               onChange={handleChange}
               className={`${styles.input} ${
-              touched.password && errors.password ? styles.inputError : ''
-            }`}
+                touched.password && errors.password ? styles.inputError : ""
+              }`}
               placeholder="••••••"
             />
             {touched.password && errors.password && (
@@ -93,11 +116,15 @@ const LoginForm = () => {
             )}
           </div>
 
-            <div className="flex items-center justify-between mt-4">
-
-            <Link href="/forgot-password" className="text-verdeClaro text-sm hover:underline"> ¿Has olvidado tu contraseña? </Link>
-
-            </div>
+          <div className="flex items-center justify-between mt-4">
+            <Link
+              href="/forgot-password"
+              className="text-verdeClaro text-sm hover:underline"
+            >
+              {" "}
+              ¿Has olvidado tu contraseña?{" "}
+            </Link>
+          </div>
 
           <button
             type="submit"
@@ -106,11 +133,10 @@ const LoginForm = () => {
           >
             Ingresar
           </button>
-
         </form>
       )}
     </Formik>
   );
-}
+};
 
 export default LoginForm;
