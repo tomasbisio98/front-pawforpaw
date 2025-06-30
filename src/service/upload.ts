@@ -5,7 +5,7 @@ export const uploadUserImage = async (userId: string, file: File, token: string)
   formData.append("file", file);
 
   const response = await axios.post(
-    `${process.env.NEXT_PUBLIC_API_URL}file/uploadUserImage/${userId}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/file/uploadUserImage/${userId}`,
     formData,
     {
       headers: {

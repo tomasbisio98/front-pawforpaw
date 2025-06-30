@@ -19,7 +19,7 @@ export default async function handler(
     console.log("📦 Payload recibido del frontend:", JSON.stringify(req.body, null, 2));
 
     const response = await axios.post(
-      `${process.env.NEXT_PUBLIC_API_URL}donations/checkout`,
+      `${process.env.NEXT_PUBLIC_API_URL}/donations/checkout`,
       req.body,
       {
         headers: {
