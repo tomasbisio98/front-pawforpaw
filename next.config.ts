@@ -1,28 +1,35 @@
+/** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
+    domains: [
+      "drive.google.com",
+      "res.cloudinary.com",
+      "cloudfront-us-east-1.images.arcpublishing.com",
+      "example.com",
+    ],
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: 'res.cloudinary.com',
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+        pathname: "/**",
       },
       {
-        protocol: 'https',
-        hostname: 'img.canal1.com.co',
+        protocol: "https",
+        hostname: "drive.google.com",
+        pathname: "/**",
       },
       {
-        protocol: 'https',
-        hostname: 'cloudfront-us-east-1.images.arcpublishing.com',
+        protocol: "https",
+        hostname: "cloudfront-us-east-1.images.arcpublishing.com",
+        pathname: "/**",
       },
       {
-        protocol: 'https',
-        hostname: 'blog.laikamascotas.cl',
-      },
-            {
-        protocol: 'https',
-        hostname: 'example.com',
+        protocol: "https",
+        hostname: "example.com",
+        pathname: "/**",
       },
     ],
   },
 };
 
-export default nextConfig;
+module.exports = nextConfig;

@@ -73,8 +73,7 @@ export const getDogId = async (id:string):Promise<IDogs | null> => {
     }
 };
 
-
-export const createDog = async (dogData: Omit<IDogs, "id">): Promise<IDogs | null> => {
+export const createDog = async (dogData: Omit<IDogs, "dogId">): Promise<IDogs | null> => {
   try {
     const response = await axiosApiBack.post("/dogs", dogData);
     return response.data;
@@ -87,7 +86,8 @@ export const createDog = async (dogData: Omit<IDogs, "id">): Promise<IDogs | nul
 
 export const updateDog = async (id: string, dogData: Partial<IDogs>): Promise<IDogs | null> => {
   try {
-    const response = await axiosApiBack.put(`/dogs/${id}`, dogData);
+    console.log("📤 Enviando actualización del perrito:", { id, dogData });
+    const response = await axiosApiBack.put(`dogs/${id}`, dogData);
     return response.data;
   } catch (error) {
     console.error("❌ Error al actualizar perrito:", error);
@@ -96,7 +96,7 @@ export const updateDog = async (id: string, dogData: Partial<IDogs>): Promise<ID
 };
 
 export const assignProductsToDog = async (dogId: string, productIds: string[]) => {
-  const response = await axios.patch(`/dogs/${dogId}/products`, {
+  const response = await axiosApiBack.patch(`/dogs/${dogId}/products`, {
     productIds,
   });
   return response.data;

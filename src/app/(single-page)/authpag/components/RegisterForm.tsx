@@ -9,7 +9,6 @@ import { toast } from "react-toastify";
 
 const initialValues: IUsers = {
   name: "",
-  // dni: '',
   phone: "",
   email: "",
   password: "",
@@ -25,7 +24,6 @@ const RegisterForm = () => {
   ) => {
     console.log("Datos del formulario:", values);
 
-    // Solo incluir los campos requeridos por el backend
     const dataToSend = {
       name: values.name,
       email: values.email,
@@ -37,9 +35,7 @@ const RegisterForm = () => {
       const res = await postRegister(dataToSend);
       console.log("Respuesta del backend:", res);
 
-      //
       toast.success("Usuario registrado exitosamente");
-
       resetForm();
 
       setTimeout(() => {
@@ -61,12 +57,13 @@ const RegisterForm = () => {
         <Form className="justify-center items-center flex flex-col space-y-4">
           <div>
             <label
-              htmlFor="nombre"
+              htmlFor="register-name"
               className="block text-sm font-medium text-gray-700"
             >
               Nombre
             </label>
             <Field
+              id="register-name"
               name="name"
               type="text"
               className={`${styles.input} ${
@@ -78,25 +75,15 @@ const RegisterForm = () => {
             )}
           </div>
 
-          {/* <div>
-
-            <label htmlFor="dni" className="block text-sm font-medium text-gray-700">DNI</label>
-            <Field name="dni" type="text" className={`${styles.input} ${
-              touched.dni && errors.dni ? styles.inputError : ''
-            }`} />
-             {touched.dni && errors.dni && (
-               <p className="text-sm text-red-500 mt-1">{errors.dni}</p>
-              )}
-            </div> */}
-
           <div>
             <label
-              htmlFor="telefono"
+              htmlFor="register-phone"
               className="block text-sm font-medium text-gray-700"
             >
               Teléfono
             </label>
             <Field
+              id="register-phone"
               name="phone"
               type="text"
               className={`${styles.input} ${
@@ -110,12 +97,13 @@ const RegisterForm = () => {
 
           <div>
             <label
-              htmlFor="email"
+              htmlFor="register-email"
               className="block text-sm font-medium text-gray-700"
             >
               Correo Electrónico
             </label>
             <Field
+              id="register-email"
               name="email"
               type="email"
               className={`${styles.input} ${
@@ -130,13 +118,13 @@ const RegisterForm = () => {
 
           <div>
             <label
-              htmlFor="password"
+              htmlFor="register-password"
               className="block text-sm font-medium text-gray-700"
             >
               Contraseña
             </label>
             <Field
-              id="password"
+              id="register-password"
               name="password"
               type="password"
               value={values.password}
@@ -153,13 +141,13 @@ const RegisterForm = () => {
 
           <div>
             <label
-              htmlFor="confirmPassword"
+              htmlFor="register-confirmPassword"
               className="block text-sm font-medium text-gray-700"
             >
               Confirmar Contraseña
             </label>
             <Field
-              id="confirmPassword"
+              id="register-confirmPassword"
               name="confirmPassword"
               type="password"
               value={values.confirmPassword}
