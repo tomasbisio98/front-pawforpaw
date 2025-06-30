@@ -2,13 +2,17 @@ import { IDogs } from "@/interface/IDogs";
 import axiosApiBack from "./axiosApiBack";
 
 // Obtener todos los perritos con paginación
-export const getDogsFilter = async (
-  page: number,
-  limit: number
-): Promise<{ data: IDogs[]; total: number }> => {
+export const getDogsFilter = async ({
+  page,
+  limit,
+}: {
+  page: number;
+  limit: number;
+}): Promise<{ data: IDogs[]; total: number }> => {
   const response = await axiosApiBack.get(`/dogs?page=${page}&limit=${limit}`);
   return response.data;
 };
+
 
 // Obtener perritos con filtros dinámicos
 export const getDogsFiltered = async (filters?: {
