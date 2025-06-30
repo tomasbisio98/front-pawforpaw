@@ -40,9 +40,15 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:underline">
-                  contactanos@pawforpaw.org
+                <Link
+                  href="https://mail.google.com/mail/?view=cm&fs=1&to=pawforpaw2025@gmail.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:underline"
+                >
+                  pawforpaw2025@gmail.com
                 </Link>
+
               </li>
             </ul>
           </div>

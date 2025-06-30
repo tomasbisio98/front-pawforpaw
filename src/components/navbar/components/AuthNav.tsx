@@ -31,7 +31,6 @@ const AuthNav = () => {
           href={routes.DashboardUser}
           className="text-white flex items-center space-x-2 hover:text-verdeSuave transition px-3"
         >
-          {/* ✅ Imagen del usuario */}
           {user?.profileImgUrl ? (
             <div className="w-9 h-9 relative rounded-full overflow-hidden border border-white">
               <Image

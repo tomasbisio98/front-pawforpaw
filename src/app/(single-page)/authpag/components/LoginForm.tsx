@@ -46,12 +46,12 @@ const LoginForm = () => {
           router.push("/");
         }
       }, 3000);
+
+      console.log("Enviando datos:", values);
     } catch (e) {
       console.warn("error al loguearse el usuario", e);
       toast.error("Email o contraseña incorrectos");
     }
-
-    console.log("Enviando datos:", values);
   };
 
   return (
@@ -121,8 +121,7 @@ const LoginForm = () => {
               href="/forgot-password"
               className="text-verdeClaro text-sm hover:underline"
             >
-              {" "}
-              ¿Has olvidado tu contraseña?{" "}
+              ¿Has olvidado tu contraseña?
             </Link>
           </div>
 

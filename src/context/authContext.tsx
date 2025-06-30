@@ -65,6 +65,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setToken(storageType?.token);
   }, []);
 
+<<<<<<< HEAD
   return (
     <AuthContext.Provider
       value={{
@@ -79,6 +80,48 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     </AuthContext.Provider>
   );
 };
+=======
+    };
+
+    useEffect(() => {
+          try {
+    const storage = localStorage.getItem("user");
+    const token = localStorage.getItem("token");
+
+    if (!storage || !token) {
+      setIsAuth(false);
+      return;
+    }
+
+    const parsed = JSON.parse(storage);
+
+    if (!parsed.user || !parsed.token) {
+      setIsAuth(false);
+      return;
+    }
+
+    setUser(parsed.user);
+    setToken(parsed.token);
+    setIsAuth(true);
+  } catch (error) {
+    console.error("Error al recuperar usuario:", error);
+    setIsAuth(false); // 👈 Esto evita el spinner eterno
+  }
+    }, [])
+
+    return (
+        <AuthContext.Provider value={{
+            user: user || null,
+            isAuth,
+            saveUserData,
+            resetUserData,
+            token,
+        }}>
+            {children}
+        </AuthContext.Provider>
+    )
+}
+>>>>>>> 15779e69b66b17b0f42db0b16f267f4a28b2565a
 
 export const useAuthContext = () => {
   const context = useContext(AuthContext);

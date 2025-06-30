@@ -1,8 +1,15 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { getUserById, updateUserById } from "@/service/user";
-import { useEffect, useState } from "react";
-import { Field, Form, Formik, ErrorMessage } from "formik";
+import { useEffect, useRef, useState } from "react";
+import {
+  Field,
+  Form,
+  Formik,
+  ErrorMessage,
+  FormikProps,
+} from "formik";
 import { useAuthContext } from "@/context/authContext";
 import { toast } from "react-toastify";
 import { validationInfoUser } from "@/helpers/validationAuth";
@@ -10,15 +17,20 @@ import { FaUserEdit } from "react-icons/fa";
 import { HiOutlineInformationCircle } from "react-icons/hi";
 import { IUsers } from "@/interface/IUsers";
 import usePrivate from "@/hooks/usePrivate";
+import ConfirmModal from "@/components/modals/ConfirmModal";
 import { uploadUserImage } from "@/service/upload";
 import Image from "next/image";
 
 const UserDataUI = () => {
   const [preview, setPreview] = useState<string | null>(null);
   const [imageFile, setImageFile] = useState<File | null>(null);
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [pendingValues, setPendingValues] = useState<{ name: string; phone: string } | null>(null);
+
   const { user, token, saveUserData } = useAuthContext();
   const [userData, setUserData] = useState<IUsers | null>(null);
   const [loading, setLoading] = useState(true);
+  const formikRef = useRef<FormikProps<{ name: string; phone: string }> | null>(null);
 
   usePrivate();
 
@@ -92,50 +104,60 @@ const UserDataUI = () => {
             <FaUserEdit /> Editar Perfil
           </h2>
 
+          <ConfirmModal
+            open={showConfirm}
+            title="¿Estás segura?"
+            message="Se actualizará tu perfil con los nuevos datos."
+            onCancel={() => {
+              setShowConfirm(false);
+              setPendingValues(null);
+            }}
+            onConfirm={async () => {
+              if (!pendingValues) return;
+
+              try {
+                let profileImgUrl = userData.profileImgUrl;
+
+                if (imageFile) {
+                  profileImgUrl = await uploadUserImage(
+                    user.id as string,
+                    imageFile,
+                    token
+                  );
+                }
+
+                const updated = await updateUserById(
+                  user.id as string,
+                  { ...pendingValues, profileImgUrl },
+                  token
+                );
+                saveUserData({ user: updated, token });
+                toast.success("🎉 Perfil actualizado con éxito");
+                setUserData(updated);
+                setPreview(null);
+                setImageFile(null);
+                formikRef.current?.resetForm();
+              } catch (e) {
+                console.error("⚠️ Error actualizando perfil:", e);
+                toast.error("Hubo un error al actualizar el perfil");
+              } finally {
+                setShowConfirm(false);
+                setPendingValues(null);
+              }
+            }}
+          />
+
           <Formik
+            innerRef={formikRef}
             enableReinitialize
             initialValues={{
               name: userData.name || "",
               phone: userData.phone || "",
             }}
             validationSchema={validationInfoUser}
-            onSubmit={async (values, { resetForm }) => {
-              toast.info("🧠 Confirmando cambios...", { autoClose: 2500 });
-
-              setTimeout(async () => {
-                const confirm = window.confirm(
-                  "¿Estás segura que quieres actualizar tu perfil?"
-                );
-                if (!confirm) return;
-
-                try {
-                  let profileImgUrl = userData.profileImgUrl;
-
-                  if (imageFile) {
-                    profileImgUrl = await uploadUserImage(
-                      user.id as string,
-                      imageFile,
-                      token
-                    );
-                  }
-
-                  const updated = await updateUserById(
-                    user.id as string,
-                    { ...values, profileImgUrl },
-                    token
-                  );
-
-                  saveUserData({ user: updated, token });
-                  toast.success("🎉 Perfil actualizado con éxito");
-                  setUserData(updated);
-                  resetForm();
-                  setPreview(null);
-                  setImageFile(null);
-                } catch (e) {
-                  console.error("⚠️ Error actualizando perfil:", e);
-                  toast.error("Hubo un error al actualizar el perfil");
-                }
-              }, 1500);
+            onSubmit={(values) => {
+              setPendingValues(values);
+              setShowConfirm(true);
             }}
           >
             <Form className="space-y-5">
@@ -191,15 +213,11 @@ const UserDataUI = () => {
                     fill
                     className="object-cover"
                   />
-
-                  {/* Overlay al hacer hover */}
                   <div className="absolute inset-0 bg-black bg-opacity-40 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                     <span className="text-white text-xs font-semibold">
                       📷 Cambiar
                     </span>
                   </div>
-
-                  {/* Input transparente encima */}
                   <input
                     type="file"
                     accept="image/*"

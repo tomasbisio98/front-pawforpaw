@@ -24,7 +24,7 @@ export default function ForgotPasswordPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-blancoSuave font-nunito">
+    <div className="flex m-10 mb-28 items-center justify-center bg-blancoSuave font-nunito">
       <div className="w-full max-w-md bg-white p-8 rounded-2xl shadow-lg text-negro">
         <div className="flex justify-center mb-6">
           <Image src="/paw2.png" alt="Logo Fundación" width={200} height={150} />
