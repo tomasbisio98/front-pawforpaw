@@ -1,11 +1,17 @@
 import { IDogs } from "@/interface/IDogs";
-import axios from "axios";
+import axiosApiBack from "./axiosApiBack";
 
-const axiosApiBack = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL,
-});
+// Obtener todos los perritos con paginación
+export const getDogsFilter = async (
+  page: number,
+  limit: number
+): Promise<{ data: IDogs[]; total: number }> => {
+  const response = await axiosApiBack.get(`/dogs?page=${page}&limit=${limit}`);
+  return response.data;
+};
 
-export const getDogsFilter = async (filters?: {
+// Obtener perritos con filtros dinámicos
+export const getDogsFiltered = async (filters?: {
   name?: string;
   gender?: string;
   city?: string;
@@ -23,7 +29,6 @@ export const getDogsFilter = async (filters?: {
 
     const response = await axiosApiBack.get(`/dogs?${params.toString()}`);
 
-    // Caso 1: response.data tiene forma { data: [], total: 12 }
     if (Array.isArray(response.data?.data)) {
       return {
         data: response.data.data,
@@ -31,7 +36,6 @@ export const getDogsFilter = async (filters?: {
       };
     }
 
-    // Caso 2: response.data es directamente el array
     if (Array.isArray(response.data)) {
       return {
         data: response.data,
@@ -39,7 +43,6 @@ export const getDogsFilter = async (filters?: {
       };
     }
 
-    // Cualquier otro caso inesperado
     return { data: [], total: 0 };
   } catch (error) {
     console.error("❌ Ocurrió un error al obtener los perritos", error);
@@ -47,35 +50,43 @@ export const getDogsFilter = async (filters?: {
   }
 };
 
+// Obtener todos los perritos (sin filtros)
 export const getDogs = async (): Promise<IDogs[]> => {
   try {
     const response = await axiosApiBack.get("/dogs");
-    const data = response.data;
-
-    return data;
+    return response.data;
   } catch (error) {
     console.error("❌ Error al obtener perritos:", error);
     return [];
   }
 };
 
-export const getDogId = async (id:string):Promise<IDogs | null> => {
-    try {
-        const response = await axiosApiBack.get("/dogs/" + id)
-
-        if(!response?.data){
-            return null
-        }
-        return response.data
-    } catch (error) {
-        console.error("Ocurrio un error al obtener el perrito", error)
-        return null
-    }
+// Obtener un perrito por ID
+export const getDogId = async (id: string): Promise<IDogs | null> => {
+  try {
+    const response = await axiosApiBack.get("/dogs/" + id);
+    return response?.data || null;
+  } catch (error) {
+    console.error("❌ Ocurrió un error al obtener el perrito:", error);
+    return null;
+  }
 };
 
-export const createDog = async (dogData: Omit<IDogs, "dogId">): Promise<IDogs | null> => {
+// Crear un nuevo perrito
+export const createDog = async (
+  dogData: Partial<IDogs>
+): Promise<IDogs | null> => {
   try {
-    const response = await axiosApiBack.post("/dogs", dogData);
+    const payload = {
+      name: dogData.name?.trim(),
+      sex: dogData.sex,
+      city: dogData.city?.trim(),
+      description: dogData.description?.trim(),
+      ...(dogData.imgUrl && { imgUrl: dogData.imgUrl }),
+      ...(dogData.status !== undefined && { status: dogData.status }),
+    };
+
+    const response = await axiosApiBack.post("/dogs", payload);
     return response.data;
   } catch (error) {
     console.error("❌ Error al crear perrito:", error);
@@ -83,11 +94,14 @@ export const createDog = async (dogData: Omit<IDogs, "dogId">): Promise<IDogs | 
   }
 };
 
-
-export const updateDog = async (id: string, dogData: Partial<IDogs>): Promise<IDogs | null> => {
+// Actualizar un perrito existente
+export const updateDog = async (
+  id: string,
+  dogData: Partial<IDogs>
+): Promise<IDogs | null> => {
   try {
     console.log("📤 Enviando actualización del perrito:", { id, dogData });
-    const response = await axiosApiBack.put(`dogs/${id}`, dogData);
+    const response = await axiosApiBack.put(`/dogs/${id}`, dogData);
     return response.data;
   } catch (error) {
     console.error("❌ Error al actualizar perrito:", error);
@@ -95,19 +109,18 @@ export const updateDog = async (id: string, dogData: Partial<IDogs>): Promise<ID
   }
 };
 
-export const assignProductsToDog = async (dogId: string, productIds: string[]) => {
-  const response = await axiosApiBack.patch(`/dogs/${dogId}/products`, {
-    productIds,
-  });
-  return response.data;
+// Asignar productos a un perrito
+export const assignProductsToDog = async (
+  dogId: string,
+  productIds: string[]
+): Promise<IDogs> => {
+  try {
+    const response = await axiosApiBack.patch(`/dogs/${dogId}/products`, {
+      productIds,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("❌ Error al asignar productos al perrito:", error);
+    throw error;
+  }
 };
-
-// export const deleteDog = async (id: string): Promise<boolean> => {
-//   try {
-//     await axiosApiBack.delete(`/dogs/${id}`);
-//     return true;
-//   } catch (error) {
-//     console.error("❌ Error al eliminar perrito:", error);
-//     return false;
-//   }
-// };
