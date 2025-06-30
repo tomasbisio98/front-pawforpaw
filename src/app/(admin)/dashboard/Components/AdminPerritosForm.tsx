@@ -99,7 +99,7 @@ export default function AdminPerritos() {
           }
 
           const res = await fetch(
-            `${process.env.NEXT_PUBLIC_API_URL}file/uploadDogImage/${editando.dogId}`,
+            `${process.env.NEXT_PUBLIC_API_URL}/file/uploadDogImage/${editando.dogId}`,
             { method: "POST", body: formData }
           );
 
@@ -141,7 +141,7 @@ export default function AdminPerritos() {
           const formData = new FormData();
           formData.append("file", imagenFile);
           const res = await fetch(
-            `${process.env.NEXT_PUBLIC_API_URL}file/uploadDogImage/${nuevoPerrito.dogId}`,
+            `${process.env.NEXT_PUBLIC_API_URL}/file/uploadDogImage/${nuevoPerrito.dogId}`,
             { method: "POST", body: formData }
           );
           const data = await res.json();

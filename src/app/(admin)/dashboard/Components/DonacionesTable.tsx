@@ -30,7 +30,7 @@ export default function DonacionesHistorial() {
     const fetchHistorial = async () => {
       try {
         const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}donations/historial`
+          `${process.env.NEXT_PUBLIC_API_URL}/donations/historial`
         );
         setDonaciones(response.data);
       } catch (error) {
