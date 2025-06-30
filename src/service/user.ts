@@ -1,12 +1,13 @@
-'use client';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+"use client";
 import { IUsers } from "@/interface/IUsers";
 import axios from "axios";
 import { IUsers2 } from "@/interface/IUsers2";
 
 const axiosApiBack = axios.create({
-    //la baseurl es lo que permite llamar por partes la url
-     baseURL: process.env.NEXT_PUBLIC_API_URL,
-})
+  //la baseurl es lo que permite llamar por partes la url
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
+});
 
 console.log("URL del backend:", process.env.NEXT_PUBLIC_API_URL);
 
@@ -67,13 +68,10 @@ export const updateStatusUsuario = async (
   }
 };
 
-
-
-
-
-
-export const getUserById = async (id: string, token: string): Promise<IUsers> => {
-
+export const getUserById = async (
+  id: string,
+  token: string
+): Promise<IUsers> => {
   try {
     const response = await axiosApiBack.get(`/users/${id}`, {
       headers: {
@@ -89,14 +87,17 @@ export const getUserById = async (id: string, token: string): Promise<IUsers> =>
   }
 };
 
-
-export const updateUserById = async (id: string, data: Partial<IUsers>, token: string): Promise<IUsers> => {
+export const updateUserById = async (
+  id: string,
+  data: Partial<IUsers>,
+  token: string
+): Promise<IUsers> => {
   try {
     console.log("🛠️ Enviando a la API:", {
-  id,
-  data,
-  headers: { Authorization: `Bearer ${token}` },
-});
+      id,
+      data,
+      headers: { Authorization: `Bearer ${token}` },
+    });
 
     const response = await axiosApiBack.put(`/users/${id}`, data, {
       headers: {
@@ -104,15 +105,14 @@ export const updateUserById = async (id: string, data: Partial<IUsers>, token: s
       },
     });
     return response.data;
-  } catch (error) {
-    console.error("❌ Error al actualizar el usuario:", error);
+  } catch (error: any) {
+    console.error(
+      "❌ Detalle del error:",
+       JSON.stringify(error?.response?.data, null, 2)
+    );
     throw new Error("No se pudo actualizar el usuario");
   }
 };
-
-
-
-
 
 export const getUser2 = async (params: {
   page: number;
@@ -120,7 +120,7 @@ export const getUser2 = async (params: {
   orderBy: string;
   order: string;
   status?: string;
-}): Promise<{ data: IUsers2[]; total: number}> => {
+}): Promise<{ data: IUsers2[]; total: number }> => {
   try {
     const token = localStorage.getItem("token");
 
@@ -129,25 +129,25 @@ export const getUser2 = async (params: {
       limit: params.limit.toString(),
       orderBy: params.orderBy,
       order: params.order,
-});
+    });
 
     if (params.status) {
       query.append("status", params.status);
-}
+    }
 
     const response = await axiosApiBack.get(`/users/list?${query}`, {
       headers: {
         Authorization: `Bearer ${token}`,
-},
-});
+      },
+    });
 
     // El backend retorna directamente un array, así que:
     const data = response.data;
     const total = data.length; // opcionalmente ajustable
 
-    return { data, total};
-} catch (error) {
+    return { data, total };
+  } catch (error) {
     console.error("❌ Error en getUser2:", error);
     throw new Error("No se pudo obtener la lista de usuarios");
-}
+  }
 };

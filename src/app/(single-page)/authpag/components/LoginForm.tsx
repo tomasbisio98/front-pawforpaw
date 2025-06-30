@@ -36,6 +36,8 @@ const LoginForm = () => {
       localStorage.setItem("token", res.token);
       saveUserData(res);
 
+      console.log("👤 Usuario guardado:", res.user);
+
       toast.success("Bienvenido a PawForPaw");
       resetForm();
 
