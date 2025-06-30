@@ -1,30 +1,29 @@
-// import { getDogId } from "@/service/dogs";
-// import ProductsClient from "../../Components/ProductsClient";
+import { getDogId } from "@/service/dogs";
+import ProductsClient from "../../Components/ProductsClient";
 
-// type PageProps = {
-//   params: {
-//     id: string;
-//   };
-// };
+// En Next.js 15, params es ahora un Promise.
+// No necesitas definir un type separado; puedes tipar inline.
+export default async function ProductosPorPerrito({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
 
-// export default async function ProductosPorPerrito({ params }: PageProps) {
-//   const dog = await getDogId(params.id);
+  const dog = await getDogId(id);
 
-//   if (!dog) {
-//     return (
-//       <div className="p-6">
-//         <h1 className="text-red-500 text-xl font-bold">Perrito no encontrado</h1>
-//       </div>
-//     );
-//   }
+  if (!dog) {
+    return (
+      <div className="p-6">
+        <h1 className="text-red-500 text-xl font-bold">Perrito no encontrado</h1>
+      </div>
+    );
+  }
 
-//   const perrito = {
-//     id: dog.dogId!,
-//     nombre: dog.name,
-//   };
+  const perrito = {
+    id: dog.dogId!,
+    nombre: dog.name,
+  };
 
-//   return <ProductsClient perrito={perrito} />;
-// }
-export default function PlaceholderPage() {
-  return null;
+  return <ProductsClient perrito={perrito} />;
 }
