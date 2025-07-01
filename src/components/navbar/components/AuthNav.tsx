@@ -37,6 +37,7 @@ const AuthNav = () => {
                 src={user.profileImgUrl}
                 alt="Foto de perfil"
                 fill
+                sizes="36px"
                 className="object-cover"
               />
             </div>

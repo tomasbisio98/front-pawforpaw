@@ -22,41 +22,37 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<AuthContextType["user"]>();
+  const [user, setUser] = useState<IUsers | null>(null);
   const [token, setToken] = useState<string | null>(null);
-  const [isAuth, setIsAuth] = useState<AuthContextType["isAuth"]>(null);
+  const [isAuth, setIsAuth] = useState<boolean | null>(null);
 
+  // ✅ Guardar datos en localStorage
   const saveUserData = (data: { user: IUsers; token: string }) => {
     setUser(data.user);
-    setIsAuth(true);
     setToken(data.token);
-
-    localStorage.setItem("user", JSON.stringify(data));
-    localStorage.setItem("token", data.token);
-
-    console.log("🔐 TOKEN guardado en localStorage:", localStorage.getItem("token"));
+    setIsAuth(true);
+    localStorage.setItem("auth", JSON.stringify(data));
+    console.log("🔐 Usuario autenticado:", data.user);
   };
 
+  // ✅ Eliminar datos del almacenamiento local al cerrar sesión
   const resetUserData = () => {
     setUser(null);
-    setIsAuth(false);
     setToken(null);
-    localStorage.removeItem("user");
-    localStorage.removeItem("token");
+    setIsAuth(false);
+    localStorage.removeItem("auth");
   };
 
+  // ✅ Recuperar sesión al recargar o volver a abrir
   useEffect(() => {
     try {
-      const storage = localStorage.getItem("user");
-      const localToken = localStorage.getItem("token");
-
-      if (!storage || !localToken) {
+      const stored = localStorage.getItem("auth");
+      if (!stored) {
         setIsAuth(false);
         return;
       }
 
-      const parsed = JSON.parse(storage);
-
+      const parsed = JSON.parse(stored);
       if (!parsed.user || !parsed.token) {
         setIsAuth(false);
         return;
@@ -66,7 +62,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setToken(parsed.token);
       setIsAuth(true);
     } catch (error) {
-      console.error("Error al recuperar usuario:", error);
+      console.error("⚠️ Error al recuperar sesión:", error);
       setIsAuth(false);
     }
   }, []);
@@ -74,11 +70,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   return (
     <AuthContext.Provider
       value={{
-        user: user || null,
+        user,
+        token,
         isAuth,
         saveUserData,
         resetUserData,
-        token,
       }}
     >
       {children}

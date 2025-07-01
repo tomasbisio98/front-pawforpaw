@@ -28,7 +28,7 @@ export default function AdminPerritos() {
     sex: "",
     city: "",
     description: "",
-    imgUrl: "", // <--- Agrega esto
+    imgUrl: "",
     status: false,
   });
 
@@ -71,72 +71,24 @@ export default function AdminPerritos() {
         return;
       }
 
-      // EDITAR
-      if (editando && typeof editando.dogId === "string") {
-        const updatePayload = {
-          name: form.name,
-          sex: form.sex,
-          city: form.city,
-          description: form.description,
-          status: typeof form.status === "boolean" ? form.status : undefined,
-          imgUrl:
-            typeof form.imgUrl === "string" && form.imgUrl.startsWith("http")
-              ? form.imgUrl
-              : undefined,
-        };
+      let perritoActualizado: IDogs;
 
-        console.log("📤 Payload UPDATE sin imagen nueva:", updatePayload);
-        await updateDog(editando.dogId, updatePayload);
-        toast.success("Perrito actualizado correctamente.");
-
-        if (imagenFile) {
-          const formData = new FormData();
-          formData.append("file", imagenFile);
-
-          if (!imagenFile || imagenFile.size === 0) {
-            toast.error("La imagen seleccionada está vacía o es inválida.");
-            return;
-          }
-
-          const res = await fetch(
-            `${process.env.NEXT_PUBLIC_API_URL}/file/uploadDogImage/${editando.dogId}`,
-            { method: "POST", body: formData }
-          );
-
-          const data = await res.json();
-
-          const updatePayload = {
-            name: form.name,
-            sex: form.sex,
-            city: form.city,
-            description: form.description,
-            status: form.status,
-            imgUrl: data.imageUrl?.startsWith("blob:")
-              ? undefined
-              : data.imageUrl,
-          };
-
-          console.log("📤 Payload UPDATE con imagen:", updatePayload);
-          await updateDog(editando.dogId, updatePayload);
-          setForm((prev) => ({ ...prev, imgUrl: data.imageUrl }));
-          toast.success("Imagen actualizada");
-        }
-      } else {
-        // CREAR
+      // CREAR
+      if (!editando) {
         const payload = { ...form };
         if (!payload.imgUrl || payload.imgUrl.startsWith("blob:")) {
           delete payload.imgUrl;
         }
 
-        console.log("🐶 Payload que se enviará al backend:", payload);
         const nuevoPerrito = await createDog(payload);
-        console.log("🐶 Perrito creado:", nuevoPerrito);
-
         if (!nuevoPerrito?.dogId) {
           toast.error("No se pudo obtener el ID del nuevo perrito.");
           return;
         }
 
+        perritoActualizado = nuevoPerrito;
+
+        // Si hay imagen, súbela
         if (imagenFile) {
           const formData = new FormData();
           formData.append("file", imagenFile);
@@ -145,23 +97,53 @@ export default function AdminPerritos() {
             { method: "POST", body: formData }
           );
           const data = await res.json();
-
-          const updatePayload = {
-            name: form.name,
-            sex: form.sex,
-            city: form.city,
-            description: form.description,
-            status: form.status,
-            imgUrl: data.imageUrl?.startsWith("blob:")
-              ? undefined
-              : data.imageUrl,
-          };
-
-          console.log("📤 Payload UPDATE luego de imagen:", updatePayload);
-          await updateDog(nuevoPerrito.dogId, updatePayload);
-          setForm((prev) => ({ ...prev, imgUrl: data.imageUrl }));
+          const updatedDog = await updateDog(nuevoPerrito.dogId, {
+            imgUrl: data.imageUrl,
+          });
+          if (!updatedDog) {
+            toast.error("No se pudo actualizar la imagen del perrito.");
+            return;
+          }
+          perritoActualizado = updatedDog;
           toast.success("Imagen subida con éxito");
         }
+
+        setPerritos((prev) => ({
+          ...prev,
+          data: [perritoActualizado, ...prev.data],
+          total: prev.total + 1,
+        }));
+      }
+
+      // EDITAR
+      else {
+        const updatePayload = {
+          name: form.name,
+          sex: form.sex,
+          city: form.city,
+          description: form.description,
+          status: form.status,
+        };
+
+        if (!editando.dogId) {
+          toast.error("El ID del perrito es inválido.");
+          return;
+        }
+        await updateDog(editando.dogId as string, updatePayload);
+
+        if (imagenFile) {
+          const formData = new FormData();
+          formData.append("file", imagenFile);
+          const res = await fetch(
+            `${process.env.NEXT_PUBLIC_API_URL}/file/uploadDogImage/${editando.dogId}`,
+            { method: "POST", body: formData }
+          );
+          const data = await res.json();
+          await updateDog(editando.dogId, { imgUrl: data.imageUrl });
+          toast.success("Imagen actualizada");
+        }
+
+        toast.success("Perrito actualizado correctamente.");
       }
 
       const perritosActualizados = await getDogsFilter({ page, limit });
