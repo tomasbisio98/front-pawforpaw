@@ -276,37 +276,39 @@ export default function AdminPerritos() {
         </table>
       </div>
 
-      <div className="flex justify-center items-center gap-6 mt-8">
-        <button
-          onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
-          disabled={page === 1}
-          className={`px-5 py-2 rounded-md text-white font-semibold transition ${
-            page === 1
-              ? "bg-gray-400 cursor-not-allowed"
-              : "bg-[#2A5559] hover:bg-[#1d3e3e]"
-          }`}
-        >
-          ← Anterior
-        </button>
+      <div className="mt-12 flex justify-center">
+        <div className="flex items-center space-x-2 bg-white px-4 py-2 rounded-lg shadow-sm border">
+          <button
+            onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+            disabled={page === 1}
+            className={`px-3 py-1 rounded font-medium text-sm ${
+              page === 1
+                ? "bg-gray-200 text-gray-500 cursor-not-allowed"
+                : "bg-[#2A5559] text-white hover:bg-[#1d3e3e]"
+            }`}
+          >
+            Anterior
+          </button>
 
-        <span className="text-lg font-medium text-gray-700">
-          Página {page} de {Math.ceil(perritos.total / limit)}
-        </span>
+          <span className="text-[#2A5559] font-semibold text-sm">
+            Página {page} de {Math.ceil(perritos.total / limit)}
+          </span>
 
-        <button
-          onClick={() => {
-            const totalPages = Math.ceil(perritos.total / limit);
-            if (page < totalPages) setPage((prev) => prev + 1);
-          }}
-          disabled={page >= Math.ceil(perritos.total / limit)}
-          className={`px-5 py-2 rounded-md text-white font-semibold transition ${
-            page >= Math.ceil(perritos.total / limit)
-              ? "bg-gray-400 cursor-not-allowed"
-              : "bg-[#2A5559] hover:bg-[#1d3e3e]"
-          }`}
-        >
-          Siguiente →
-        </button>
+          <button
+            onClick={() => {
+              const totalPages = Math.ceil(perritos.total / limit);
+              if (page < totalPages) setPage((prev) => prev + 1);
+            }}
+            disabled={page >= Math.ceil(perritos.total / limit)}
+            className={`px-3 py-1 rounded font-medium text-sm ${
+              page >= Math.ceil(perritos.total / limit)
+                ? "bg-gray-200 text-gray-500 cursor-not-allowed"
+                : "bg-[#2A5559] text-white hover:bg-[#1d3e3e]"
+            }`}
+          >
+            Siguiente
+          </button>
+        </div>
       </div>
 
       {modalVisible && (
