@@ -2,14 +2,17 @@
 
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Pencil } from "lucide-react";
+import { Edit } from "lucide-react";
 import Image from "next/image";
 import { getDogId } from "@/service/dogs";
 import { IProducts } from "@/interface/IProducts";
 import ProductModal from "./ProductModal";
-import { assignProductToDog, createProduct, updateProduct } from "@/service/products";
-import { toast } from "react-toastify"
-import classNames from "classnames";
+import {
+  assignProductToDog,
+  createProduct,
+  updateProduct,
+} from "@/service/products";
+import { toast } from "react-toastify";
 
 interface Perrito {
   id: string;
@@ -25,7 +28,9 @@ export default function ProductTable({ perrito, refreshKey }: Props) {
   const router = useRouter();
   const [products, setProducts] = useState<IProducts[]>([]);
   const [showModal, setShowModal] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState<IProducts | null>(null);
+  const [selectedProduct, setSelectedProduct] = useState<IProducts | null>(
+    null
+  );
   const [refreshTrigger, setRefreshTrigger] = useState(0);
 
   useEffect(() => {
@@ -45,18 +50,18 @@ export default function ProductTable({ perrito, refreshKey }: Props) {
   };
 
   return (
-    <div className="p-6 bg-[#F2F2F0] min-h-screen">
-      <div className="flex items-center justify-between mb-6">
+    <div className="min-h-screen bg-[#F2F2F0] p-6">
+      <div className="flex flex-col sm:flex-row items-center justify-between mb-6 gap-4">
         <button
           onClick={router.back}
-          className="bg-[#B4D9C4] text-[#2A5559] px-6 py-2 rounded-full font-semibold shadow hover:bg-[#33A69A] transition"
+          className="bg-[#B4D9C4] px-4 py-2 rounded-md font-semibold text-[#2A5559] hover:bg-[#9fceb3] transition"
         >
           Volver a perritos
         </button>
 
         <button
           onClick={handleAddProduct}
-          className="bg-[#D9E400] text-[#2A5559] px-6 py-2 rounded-full font-bold hover:bg-[#C0CC00] transition"
+          className="bg-[#B4D9C4] px-4 py-2 rounded-md font-semibold text-[#2A5559] hover:bg-[#9fceb3] transition"
         >
           + Agregar producto a {perrito.nombre}
         </button>
@@ -73,94 +78,55 @@ export default function ProductTable({ perrito, refreshKey }: Props) {
           </p>
         </div>
       ) : (
-        <div>
-          <table className="w-full overflow-hidden text-left shadow rounded-xl">
-            <thead className="bg-[#D0CBC7] text-[#593723]">
+        <div className="overflow-x-auto">
+          <table className="w-full text-left bg-white rounded-lg shadow-md">
+            <thead className="bg-[#2A5559] text-white">
               <tr>
-                <th className="p-3">Producto</th>
-                <th className="p-3">Precio</th>
-                <th className="p-3">Estado</th>
-                <th className="p-3">Img</th>
-                <th className="p-3">Acciones</th>
+                <th className="p-2">Producto</th>
+                <th className="p-2">Precio</th>
+                <th className="p-2">Estado</th>
+                <th className="p-2">Imagen</th>
+                <th className="p-2">Editar</th>
               </tr>
             </thead>
-            <tbody className="bg-white text-[#2A5559]">
+            <tbody>
               {products.map((product) => (
-                <tr key={product.productId} className="border-b hover:bg-[#E6EFEA] transition">
-                  <td className="p-3">
-                    <span className="bg-[#F2F2F0] text-[#2A5559] px-3 py-1 rounded-full font-medium border border-[#B4D9C4]">
-                      {product.name}
-                    </span>
+                <tr
+                  key={product.productId}
+                  className="border-t hover:bg-gray-100 text-black transition"
+                >
+                  <td className="p-2">{product.name}</td>
+                  <td className="p-2">
+                    $
+                    {typeof product.price === "number"
+                      ? product.price.toFixed(2)
+                      : product.price}
                   </td>
-                  <td className="p-3 font-medium">
-                    ${typeof product.price === "number" ? product.price.toFixed(2) : product.price}
+                  <td className="p-2">
+                    {product.status ? "Activo" : "Inactivo"}
                   </td>
-                  <td className="p-3">
-                    <label className="inline-flex items-center cursor-pointer">
-                      <input
-                        type="checkbox"
-                        checked={product.status}
-                        onChange={async () => {
-                          try {
-                            await updateProduct(product.productId!, {
-                              status: !product.status,
-                            });
-                            toast.success(
-                              product.status
-                                ? "Producto desactivado 📴"
-                                : "Producto activado ✅"
-                            );
-                            setRefreshTrigger((prev) => prev + 1);
-                          } catch (error) {
-                            toast.error("Error al cambiar el estado del producto 😓");
-                            console.error("Error al actualizar estado:", error);
-                          }
-                        }}
-                        className="sr-only peer"
-                      />
-                      <div
-                        className={classNames(
-                          "w-11 h-6 bg-gray-300 rounded-full transition-colors relative",
-                          { "bg-[#33A69A]": product.status }
-                        )}
-                      >
-                        <div
-                          className={classNames(
-                            "absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform",
-                            { "translate-x-5": product.status }
-                          )}
-                        ></div>
-                      </div>
-                    </label>
-                  </td>
-                  <td className="p-3">
+                  <td className="p-2">
                     <Image
                       src={product.imgUrl}
                       alt={product.name}
-                      width={40}
-                      height={40}
-                      className="object-cover w-10 h-10 rounded"
+                      width={48}
+                      height={48}
+                      className="w-12 h-12 rounded object-cover"
                     />
                   </td>
-                  <td className="flex gap-2 p-3">
-                    <a href="#">
-                      <Pencil
-                        className="w-5 h-5 text-[#2A5559] hover:text-[#33A69A] cursor-pointer"
-                        onClick={() => {
-                          setSelectedProduct(product); // <- setea el producto actual
-                          setShowModal(true);          // <- abre el modal
-                        }}
-                      />
-                    </a>
+                  <td className="p-2">
+                    <Edit
+                      className="w-5 h-5 text-[#2A5559] hover:text-black cursor-pointer"
+                      onClick={() => {
+                        setSelectedProduct(product);
+                        setShowModal(true);
+                      }}
+                    />
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
-
-          <div className="text-center mt-6 text-[#2A5559] font-medium">
-            1 2 3 <span className="underline cursor-pointer">siguiente &gt;</span>
-          </div>
         </div>
       )}
 
@@ -170,7 +136,6 @@ export default function ProductTable({ perrito, refreshKey }: Props) {
           onSave={async (product) => {
             try {
               if (selectedProduct) {
-                // 🔁 MODO EDICIÓN
                 await updateProduct(product.productId!, {
                   name: product.name,
                   price: product.price,
@@ -178,7 +143,6 @@ export default function ProductTable({ perrito, refreshKey }: Props) {
                 });
                 toast.success("Producto actualizado correctamente 🛠️");
               } else {
-                // 🆕 MODO CREACIÓN
                 const nuevoProducto = await createProduct({
                   name: product.name,
                   price: product.price,
@@ -189,7 +153,6 @@ export default function ProductTable({ perrito, refreshKey }: Props) {
                 toast.success("Producto agregado correctamente 🐶");
               }
 
-              // 🔄 Finalizar
               setShowModal(false);
               setSelectedProduct(null);
               setRefreshTrigger((prev) => prev + 1);
@@ -203,7 +166,6 @@ export default function ProductTable({ perrito, refreshKey }: Props) {
             setSelectedProduct(null);
           }}
         />
-
       )}
     </div>
   );

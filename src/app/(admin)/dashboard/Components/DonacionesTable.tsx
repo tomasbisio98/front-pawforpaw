@@ -15,7 +15,7 @@ interface Donacion {
   estado: string;
 }
 
-const estadosOpciones = ["exitoso", "fallido", "en proceso", "bloqueado"];
+const estadosOpciones = ["Exitoso", "Fallido", "En Proceso", "Bloqueado"];
 
 export default function DonacionesHistorial() {
   const [donaciones, setDonaciones] = useState<Donacion[]>([]);

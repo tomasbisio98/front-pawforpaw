@@ -53,15 +53,16 @@ export const updateStatusUsuario = async (
   try {
     const token = localStorage.getItem("token");
 
-    await axiosApiBack.put(
-      `/users/${id}`,
-      { status },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    // ⚠️ Solo enviamos 'status' sin arrastrar otros campos
+    const payload = { status };
+
+    const response = await axiosApiBack.put(`/users/${id}`, payload, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    console.log("✅ Estado actualizado correctamente:", response.data);
   } catch (error) {
     console.error("Error al actualizar el estado del usuario:", error);
     throw new Error("No se pudo actualizar el estado");
@@ -153,9 +154,11 @@ export const getUser2 = async (params: {
       },
     });
 
-    // El backend retorna directamente un array, así que:
-    const data = response.data;
-    const total = data.length; // opcionalmente ajustable
+    // // El backend retorna directamente un array, así que:
+    // const data = response.data;
+    // const total = data.length; // opcionalmente ajustable
+
+    const { data, total } = response.data; // ✅ CORRECTO
 
     return { data, total };
   } catch (error) {
