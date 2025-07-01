@@ -7,6 +7,7 @@ export const getDogsFilter = async (filters?: {
   city?: string;
   page?: number;
   limit?: number;
+  sort?: string;
 }): Promise<{ data: IDogs[]; total: number }> => {
   try {
     const params = new URLSearchParams();
@@ -16,6 +17,7 @@ export const getDogsFilter = async (filters?: {
     if (filters?.city) params.append("city", filters.city);
     if (filters?.page) params.append("page", filters.page.toString());
     if (filters?.limit) params.append("limit", filters.limit.toString());
+    if (filters?.sort) params.append("sort", filters.sort);
 
     const response = await axiosApiBack.get(`/dogs?${params.toString()}`);
 
