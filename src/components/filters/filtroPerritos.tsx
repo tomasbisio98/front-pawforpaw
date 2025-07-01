@@ -9,6 +9,7 @@ interface Filters {
   city: string;
   page: number;
   limit: number;
+  sort: string;
 }
 
 interface Props {
@@ -68,6 +69,19 @@ const FiltroPerritos = ({ filters, setFilters }: Props) => {
           placeholder="Ciudad"
           className="pl-10 pr-4 py-2 w-52 rounded-lg border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-verdeOscuro text-sm text-gray-700 placeholder-gray-400 transition-all duration-200 ease-in-out focus:shadow-md"
         />
+      </div>
+
+      {/* Ordenar por */}
+      <div className="relative">
+        <select
+          name="sort"
+          value={filters.sort}
+          onChange={handleChange}
+          className="pl-3 pr-4 py-2 w-52 rounded-lg border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-verdeOscuro text-sm text-gray-700 transition-all duration-200 ease-in-out focus:shadow-md"
+        >
+          <option value="">Sin ordenar</option>
+          <option value="name">Nombre (A-Z)</option>
+        </select>
       </div>
     </div>
   );
