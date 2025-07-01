@@ -38,11 +38,12 @@ const Historia = () => {
       {/* Galería de fotos */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-5xl px-4">
         {[
-          "https://www.snau.es/blog/wp-content/uploads/2019/04/perros.jpg",
-          "https://elmundo.cr/wp-content/uploads/2024/07/Zaguaton-2.jpg",
-          "https://us.123rf.com/450wm/dekazigzag/dekazigzag2210/dekazigzag221000391/192825598-ni%C3%B1o-y-ni%C3%B1a-activos-hermano-y-hermana-abrazando-amorosamente-a-su-perro-mascota-al-aire-libre-en.jpg?ver=6",
-          "https://assets.softr-files.com/applications/0e79382a-98c2-4048-a1d9-ff03b405c263/assets/b0fd3eda-e536-4827-90d3-b0470b299cdd.jpeg",
-          "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Dog_in_animal_shelter_in_Washington%2C_Iowa.jpg/960px-Dog_in_animal_shelter_in_Washington%2C_Iowa.jpg","https://cdn.wamiz.fr/cdn-cgi/image/format=auto,quality=80,width=1200,height=900,fit=cover/article/main-picture/61c1e89eba75f483865930.jpg"
+          "https://res.cloudinary.com/dziccimdv/image/upload/v1751335797/perros1_lngkqj.jpg",
+          "https://res.cloudinary.com/dziccimdv/image/upload/v1751335797/perritos-corriendo2_bjvhdi.png",
+          "https://res.cloudinary.com/dziccimdv/image/upload/v1751335797/perrito_y_ni%C3%B1os3_tq6inm.jpg",
+          "https://res.cloudinary.com/dziccimdv/image/upload/v1751335798/perritos4_r7o7dy.jpg",
+          "https://res.cloudinary.com/dziccimdv/image/upload/v1751335797/perritos5_q8urlk.jpg",
+          "https://res.cloudinary.com/dziccimdv/image/upload/v1751335796/perritoSolo6_auscxz.jpg"
         ].map((src, i) => (
           <img
             key={i}

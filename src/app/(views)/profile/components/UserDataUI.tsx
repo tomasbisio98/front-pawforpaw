@@ -93,7 +93,11 @@ const UserDataUI = () => {
               <strong>Email:</strong> {userData.email}
             </p>
             <p className="text-negro">
-              <strong>Teléfono:</strong> {userData?.phone || "No registrado"}
+              <strong>Teléfono:</strong>{" "}
+{!userData?.phone || userData.phone === "0" || /^0+$/.test(userData.phone)
+  ? "No registrado"
+  : userData.phone}
+
             </p>
           </div>
         </div>
@@ -106,7 +110,7 @@ const UserDataUI = () => {
 
           <ConfirmModal
             open={showConfirm}
-            title="¿Estás segura?"
+            title="¿Confirmar cambios?"
             message="Se actualizará tu perfil con los nuevos datos."
             onCancel={() => {
               setShowConfirm(false);
