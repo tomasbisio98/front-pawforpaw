@@ -1,43 +1,46 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-// hooks/protection/AdminRoute.tsx
-'use client'
+"use client";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useAuthContext } from "@/context/authContext";
+import { routes } from "@/routes";
 
-import { useEffect, useState } from "react"
-import { useRouter } from "next/navigation"
-import { useAuthContext } from "@/context/authContext"
-import { routes } from "@/routes"
-
-/**
- * Envuelve contenido solo visible para usuarios administradores.
- * Redirige a login si no hay sesión, o al home si no es admin.
- */
 const AdminRoute = ({ children }: { children: React.ReactNode }) => {
-  const { user, isAuth } = useAuthContext()
-  const router = useRouter()
-  const [loading, setLoading] = useState(true)
+  const { user, isAuth } = useAuthContext();
+  const router = useRouter();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (isAuth === null) return
+    // Si aún no sabemos si hay sesión, esperamos
+    if (isAuth === null) return;
 
+    // Si no hay sesión, redirigimos al login
     if (!isAuth || !user) {
-      router.push(routes.AuthPage)
-      return
+      router.replace(routes.AuthPage);
+      return;
     }
 
+    // Si hay sesión pero no es admin, lo echamos al inicio
     if (!user.isAdmin) {
-      router.push(routes.inicio)
-      return
+      router.replace(routes.inicio);
+      return;
     }
 
-    setLoading(false)
-  }, [isAuth, user])
+    // Si todo bien, dejamos de cargar
+    setLoading(false);
+  }, [isAuth, user]);
 
-  if (loading) return (
-    <div className="flex items-center justify-center h-screen bg-white">
-      <div className="w-8 h-8 border-4 border-verdeOscuro border-t-transparent rounded-full animate-spin" />
-    </div>
-  )
-  return <>{children}</>
-}
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-screen bg-white">
+        <div className="w-8 h-8 border-4 border-verdeOscuro border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
 
-export default AdminRoute
+  return <>{children}</>;
+};
+
+export default AdminRoute;
+
+
