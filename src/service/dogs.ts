@@ -1,9 +1,5 @@
 import { IDogs } from "@/interface/IDogs";
-import axios from "axios";
-
-const axiosApiBack = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL,
-});
+import axiosApiBack from "@/lib/axiosApiBack";
 
 export const getDogsFilter = async (filters?: {
   name?: string;
@@ -59,23 +55,32 @@ export const getDogs = async (): Promise<IDogs[]> => {
   }
 };
 
-export const getDogId = async (id:string):Promise<IDogs | null> => {
-    try {
-        const response = await axiosApiBack.get("/dogs/" + id)
+export const getDogId = async (id: string): Promise<IDogs | null> => {
+  try {
+    const response = await axiosApiBack.get("/dogs/" + id);
 
-        if(!response?.data){
-            return null
-        }
-        return response.data
-    } catch (error) {
-        console.error("Ocurrio un error al obtener el perrito", error)
-        return null
+    if (!response?.data) {
+      return null;
     }
+    return response.data;
+  } catch (error) {
+    console.error("Ocurrio un error al obtener el perrito", error);
+    return null;
+  }
 };
 
-export const createDog = async (dogData: Omit<IDogs, "dogId">): Promise<IDogs | null> => {
+export const createDog = async (
+  dogData: Omit<IDogs, "dogId">
+): Promise<IDogs | null> => {
   try {
-    const response = await axiosApiBack.post("/dogs", dogData);
+    const token = JSON.parse(localStorage.getItem("user") || "{}")?.token;
+
+    const response = await axiosApiBack.post("/dogs", dogData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
     return response.data;
   } catch (error) {
     console.error("❌ Error al crear perrito:", error);
@@ -83,8 +88,10 @@ export const createDog = async (dogData: Omit<IDogs, "dogId">): Promise<IDogs | 
   }
 };
 
-
-export const updateDog = async (id: string, dogData: Partial<IDogs>): Promise<IDogs | null> => {
+export const updateDog = async (
+  id: string,
+  dogData: Partial<IDogs>
+): Promise<IDogs | null> => {
   try {
     console.log("📤 Enviando actualización del perrito:", { id, dogData });
     const response = await axiosApiBack.put(`dogs/${id}`, dogData);
@@ -95,7 +102,10 @@ export const updateDog = async (id: string, dogData: Partial<IDogs>): Promise<ID
   }
 };
 
-export const assignProductsToDog = async (dogId: string, productIds: string[]) => {
+export const assignProductsToDog = async (
+  dogId: string,
+  productIds: string[]
+) => {
   const response = await axiosApiBack.patch(`/dogs/${dogId}/products`, {
     productIds,
   });
