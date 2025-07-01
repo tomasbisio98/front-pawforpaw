@@ -93,22 +93,34 @@ export const updateUserById = async (
   token: string
 ): Promise<IUsers> => {
   try {
+    // 🔧 LIMPIAR CAMPOS INVÁLIDOS O VACÍOS
+    const cleanData: Partial<IUsers> = {};
+    if (data.name && data.name.trim() !== "") cleanData.name = data.name;
+    if (typeof data.phone === "string") cleanData.phone = data.phone;
+    if (typeof data.status === "boolean") cleanData.status = data.status;
+    if (
+      typeof data.profileImgUrl === "string" &&
+      data.profileImgUrl.trim() !== ""
+    )
+      cleanData.profileImgUrl = data.profileImgUrl;
+
     console.log("🛠️ Enviando a la API:", {
       id,
-      data,
+      data: cleanData,
       headers: { Authorization: `Bearer ${token}` },
     });
 
-    const response = await axiosApiBack.put(`/users/${id}`, data, {
+    const response = await axiosApiBack.put(`/users/${id}`, cleanData, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
+
     return response.data;
   } catch (error: any) {
     console.error(
       "❌ Detalle del error:",
-       JSON.stringify(error?.response?.data, null, 2)
+      JSON.stringify(error?.response?.data, null, 2)
     );
     throw new Error("No se pudo actualizar el usuario");
   }

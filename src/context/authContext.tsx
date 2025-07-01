@@ -28,6 +28,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   // ✅ Guardar datos en localStorage
   const saveUserData = (data: { user: IUsers; token: string }) => {
+    // ⚠️ Verificación previa
+    if (typeof data.user !== "object" || data.user === null || !data.user.id) {
+      console.error("❌ Datos inválidos al intentar guardar usuario:", data);
+      throw new Error("Usuario inválido en la respuesta");
+    }
+
     setUser(data.user);
     setToken(data.token);
     setIsAuth(true);
