@@ -13,7 +13,6 @@ if (typeof window !== "undefined") {
     if (auth) {
       const { token } = JSON.parse(auth);
       config.headers.Authorization = `Bearer ${token}`;
-      console.log("📦 Enviando solicitud con headers:", config.headers); // Opcional para debug
     }
     return config;
   });
