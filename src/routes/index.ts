@@ -14,7 +14,7 @@ export const routes = {
   productModal: (dogId: string | number) => `/dashboard/perritos/${dogId}/agregar-producto`,
   donaciones: "/dashboard/donaciones",
   usuarios: "/dashboard/usuarios",
-  productsDogs: "/products-dog",
+  
 
    // 🆕 Rutas públicas para Stripe
   donacionExitosa: "/donations/success",

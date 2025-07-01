@@ -1,37 +1,37 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-// hooks/protection/usePrivate.ts
-'use client'
-
-import { useAuthContext } from "@/context/authContext"
-import { routes } from "@/routes"
-import { useRouter } from "next/navigation"
-import { useEffect, useState } from "react"
+'use client';
+import { useAuthContext } from '@/context/authContext';
+import { useRouter } from 'next/navigation';
+import { routes } from '@/routes';
+import { useEffect, useState } from 'react';
 
 /**
- * Bloquea acceso a páginas privadas si no hay sesión.
- * Usar en /perfil, /mis-turnos, etc.
+ * Hook que protege páginas solo visibles para usuarios logueados normales (no admins).
+ * Redirige según el estado y devuelve `true` si está cargando.
  */
 const usePrivate = () => {
-  const { isAuth } = useAuthContext()
-  const router = useRouter()
-  const [loading, setLoading] = useState(true)
+  const { isAuth, user } = useAuthContext();
+  const router = useRouter();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (isAuth === null) return
-    if (!isAuth) {
-      router.push(routes.AuthPage)
+    if (isAuth === null) return; // Aún cargando auth
+
+    if (!isAuth || !user) {
+      router.replace(routes.AuthPage); // No logueado
+    } else if (user.isAdmin) {
+      router.replace(routes.Dashboard); // Admin
     } else {
-      setLoading(false)
+      setLoading(false); // Usuario normal: ok
     }
-  }, [isAuth])
+  }, [isAuth, user]);
 
-  if (loading) return (
-    <div className="flex items-center justify-center h-screen bg-white">
-      <div className="w-8 h-8 border-4 border-verdeOscuro border-t-transparent rounded-full animate-spin" />
-    </div>
-  )
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-screen bg-white">
+        <div className="w-8 h-8 border-4 border-verdeOscuro border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
+};
 
-  return null
-}
-
-export default usePrivate
+export default usePrivate;
