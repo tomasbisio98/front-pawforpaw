@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 import { useAuthContext } from '@/context/authContext';
 import { useRouter } from 'next/navigation';

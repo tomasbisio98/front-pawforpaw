@@ -123,7 +123,7 @@ const HomeContent = () => {
           href={routes.perritos}
           className="inline-block px-8 py-3 bg-white text-verdeOscuro rounded-full font-semibold hover:scale-105 transition-all"
         >
-          Ver perritos disponibles
+          Conocer a los perritos 🐶
         </a>
       </section>
 
