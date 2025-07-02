@@ -22,6 +22,7 @@ export default function AdminPerritos() {
   const [filtroVisible, setFiltroVisible] = useState(false);
   const [filtroEstado, setFiltroEstado] = useState("");
   const [imagenFile, setImagenFile] = useState<File | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [form, setForm] = useState<DogFormData>({
     name: "",
@@ -62,17 +63,43 @@ export default function AdminPerritos() {
   const cerrarModal = () => {
     setModalVisible(false);
     setEditando(null);
+    setImagenFile(null);
+
   };
 
   const guardarPerrito = async () => {
+    setIsLoading(true);
+
     try {
-      if (form.sex !== "H" && form.sex !== "M") {
-        toast.error("El sexo debe ser 'H' (Hembra) o 'M' (Macho).");
+      const camposRequeridos = ["name", "sex", "city", "description"] as const;
+      const camposFaltantes = camposRequeridos.filter(
+        (campo) => !form[campo]?.trim()
+      );
+
+      if (camposFaltantes.length > 0) {
+        toast.error("Por favor, completa todos los campos obligatorios.");
+        return;
+      }
+
+      if (!editando && !imagenFile) {
+        toast.error("Debes subir una imagen para el nuevo perrito.");
         return;
       }
 
       let perritoActualizado: IDogs;
 
+      if (form.name.length < 2 || form.name.length > 30) {
+        toast.error("El nombre debe tener entre 3 y 30 caracteres.");
+        return;
+      }
+      if (form.description.length < 2 || form.description.length > 300) {
+        toast.error("La descripción no debe superar 300 caracteres.");
+        return;
+      }
+      if (!["H", "M"].includes(form.sex)) {
+        toast.error("Selecciona un género válido para el perrito.");
+        return;
+      }
       // CREAR
       if (!editando) {
         const payload = { ...form };
@@ -153,6 +180,8 @@ export default function AdminPerritos() {
     } catch (error) {
       console.error("❌ Error al guardar el perrito:", error);
       toast.error("Ocurrió un error. Revisa la consola.");
+    } finally {
+      setIsLoading(false); // Siempre al final
     }
   };
 
@@ -352,17 +381,38 @@ export default function AdminPerritos() {
               {/* Subir imagen */}
               <input
                 type="file"
-                accept="image/*"
+                accept="image/jpeg,image/jpg,image/png,image/webp"
                 className="w-full p-2 border rounded-md"
                 onChange={(e) => {
                   const file = e.target.files?.[0];
-                  if (file) {
-                    setImagenFile(file);
-                    const vistaTemporal = URL.createObjectURL(file);
-                    setForm((prev) => ({ ...prev, imgUrl: vistaTemporal }));
+                  if (!file) return;
+
+                  const maxSizeBytes = 1 * 1024 * 1024;
+                  const allowedTypes = [
+                    "image/jpeg",
+                    "image/jpg",
+                    "image/png",
+                    "image/webp",
+                  ];
+
+                  if (!allowedTypes.includes(file.type)) {
+                    toast.error(
+                      "Formato no permitido. Solo se aceptan JPEG, JPG, PNG y WebP."
+                    );
+                    return;
                   }
+
+                  if (file.size > maxSizeBytes) {
+                    toast.error("La imagen supera el tamaño máximo de 1MB.");
+                    return;
+                  }
+
+                  setImagenFile(file);
+                  const vistaTemporal = URL.createObjectURL(file);
+                  setForm((prev) => ({ ...prev, imgUrl: vistaTemporal }));
                 }}
               />
+
               {form.imgUrl && (
                 <div className="mt-2">
                   <p className="text-sm font-medium text-[#2A5559] mb-1">
@@ -394,10 +444,19 @@ export default function AdminPerritos() {
               <div className="flex justify-between mt-4">
                 <button
                   onClick={guardarPerrito}
-                  className="bg-[#2A5559] px-4 py-2 rounded-md text-white hover:bg-[#1d3e3e]"
+                  disabled={isLoading}
+                  className={`flex items-center justify-center gap-2 px-4 py-2 rounded-md text-white transition ${
+                    isLoading
+                      ? "bg-gray-400 cursor-not-allowed"
+                      : "bg-[#2A5559] hover:bg-[#1d3e3e]"
+                  }`}
                 >
-                  Guardar
+                  {isLoading && (
+                    <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
+                  )}
+                  {isLoading ? "Guardando..." : "Guardar"}
                 </button>
+
                 <button
                   onClick={cerrarModal}
                   className="bg-[#F2F2F0] px-4 py-2 rounded-md hover:bg-gray-200"
