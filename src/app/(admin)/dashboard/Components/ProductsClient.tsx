@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import ProductTable from "./ProductosTable";
-import AssignProducts from "./AdminAssignProducts";
 
 interface Props {
     perrito: {
@@ -12,9 +11,8 @@ interface Props {
 }
 
 export default function ProductsClient({ perrito }: Props) {
-    const [refreshKey, setRefreshKey] = useState(0);
+    const [refreshKey] = useState(0);
 
-    const handleRefresh = () => setRefreshKey((prev) => prev + 1);
 
     return (
         <div className="p-6">
@@ -22,9 +20,6 @@ export default function ProductsClient({ perrito }: Props) {
 
             <ProductTable perrito={perrito} refreshKey={refreshKey} />
 
-            <div className="mt-8">
-                <AssignProducts dogId={perrito.id} onAssignSuccess={handleRefresh} />
-            </div>
         </div>
     );
 }

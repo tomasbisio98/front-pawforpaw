@@ -140,6 +140,7 @@ export default function ProductTable({ perrito, refreshKey }: Props) {
                   name: product.name,
                   price: product.price,
                   imgUrl: product.imgUrl,
+                  status: product.status,
                 });
                 toast.success("Producto actualizado correctamente 🛠️");
               } else {

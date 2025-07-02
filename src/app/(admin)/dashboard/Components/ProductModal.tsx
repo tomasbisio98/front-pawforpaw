@@ -8,6 +8,7 @@ interface Product {
   name: string;
   imgUrl: string;
   price: number;
+  status?: boolean;
 }
 
 interface ProductModalProps {
@@ -25,12 +26,14 @@ export default function ProductModal({
   const [name, setName] = useState("");
   const [imgUrl, setImgUrl] = useState("");
   const [price, setPrice] = useState("");
+  const [status, setStatus] = useState(true);
 
   useEffect(() => {
     if (product) {
       setName(product.name);
       setImgUrl(product.imgUrl);
       setPrice(product.price.toString());
+      setStatus(product.status ?? true);
     }
   }, [product]);
 
@@ -45,7 +48,7 @@ export default function ProductModal({
       return toast.error("La imagen debe ser .jpg, .jpeg, .png, .webp o .gif");
     }
 
-    onSave({ ...product, name, imgUrl, price: parseFloat(price) });
+    onSave({ ...product, name, imgUrl, price: parseFloat(price), status });
   };
 
   return (
@@ -75,6 +78,20 @@ export default function ProductModal({
             value={price}
             onChange={(e) => setPrice(e.target.value)}
           />
+
+          <div className="flex flex-col">
+            <label htmlFor="statusSelect" className="mb-1 text-[#2A5559]">
+            </label>
+            <select
+              id="statusSelect"
+              className="border border-gray-300 rounded p-2 text-[#2A5559]"
+              value={status ? "activo" : "inactivo"}
+              onChange={(e) => setStatus(e.target.value === "activo")}
+            >
+              <option value="activo">Activo</option>
+              <option value="inactivo">Inactivo</option>
+            </select>
+          </div>
         </div>
 
         <div className="flex items-center justify-between mt-6">
@@ -92,17 +109,6 @@ export default function ProductModal({
             Salir
           </button>
         </div>
-
-        {product && (
-          <div className="mt-4 text-center">
-            {/* <button
-              onClick={onDelete}
-              className="px-4 py-2 text-white transition bg-red-400 rounded hover:bg-red-600"
-            >
-              Eliminar
-            </button> */}
-          </div>
-        )}
       </div>
     </div>
   );
