@@ -64,7 +64,6 @@ export default function AdminPerritos() {
     setModalVisible(false);
     setEditando(null);
     setImagenFile(null);
-
   };
 
   const guardarPerrito = async () => {
@@ -77,7 +76,7 @@ export default function AdminPerritos() {
       );
 
       if (camposFaltantes.length > 0) {
-        toast.error("Por favor, completa todos los campos obligatorios.");
+        toast.error("🚫 Todos los campos son obligatorios");
         return;
       }
 
@@ -427,6 +426,15 @@ export default function AdminPerritos() {
                         "https://img.freepik.com/vector-gratis/sello-textura-huellas-patas_78370-2951.jpg?semt=ais_hybrid&w=740")
                     }
                   />
+                  <button
+                    onClick={() => {
+                      setForm({ ...form, imgUrl: "" });
+                      setImagenFile(null);
+                    }}
+                    className="mt-2 text-sm text-red-600 hover:underline"
+                  >
+                    Quitar imagen seleccionada
+                  </button>
                 </div>
               )}
 
