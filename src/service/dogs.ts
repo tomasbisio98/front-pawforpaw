@@ -8,6 +8,7 @@ export const getDogsFilter = async (filters?: {
   page?: number;
   limit?: number;
   sort?: string;
+  status?: boolean; // 👈 añadimos status opcional
 }): Promise<{ data: IDogs[]; total: number }> => {
   try {
     const params = new URLSearchParams();
@@ -18,6 +19,7 @@ export const getDogsFilter = async (filters?: {
     if (filters?.page) params.append("page", filters.page.toString());
     if (filters?.limit) params.append("limit", filters.limit.toString());
     if (filters?.sort) params.append("sort", filters.sort);
+    if (filters?.status !== undefined) params.append("status", String(filters.status)); // 👈 añadimos aquí
 
     const response = await axiosApiBack.get(`/dogs?${params.toString()}`);
 
@@ -25,7 +27,7 @@ export const getDogsFilter = async (filters?: {
     if (Array.isArray(response.data?.data)) {
       return {
         data: response.data.data,
-        total: response.data.total || 0,
+        total: response.data.total || response.data.data.length || 0,
       };
     }
 

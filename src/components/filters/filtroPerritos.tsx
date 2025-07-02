@@ -10,6 +10,7 @@ interface Filters {
   page: number;
   limit: number;
   sort: string;
+  status: boolean;
 }
 
 interface Props {
@@ -18,15 +19,16 @@ interface Props {
 }
 
 const FiltroPerritos = ({ filters, setFilters }: Props) => {
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    setFilters((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-      page: 1,
-    }));
-  };
+const handleChange = (
+  e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+) => {
+  setFilters((prev) => ({
+    ...prev,
+    [e.target.name]: e.target.value,
+    page: 1,
+    status: true, // 👈 fuerza mantener activo siempre en frontoffice
+  }));
+};
 
   return (
     <div className="flex flex-wrap justify-center gap-6 items-center mb-6">

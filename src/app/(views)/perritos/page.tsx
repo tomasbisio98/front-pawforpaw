@@ -14,6 +14,7 @@ const Perritos = () => {
     page: 1,
     limit: 9,
     sort: '', // ✅ añadido para manejar el orden
+    status: true, // o false, según el valor por defecto deseado
   });
 
   const [dogs, setDogs] = useState<IDogs[]>([]);
