@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
+import { uploadTempProductImage } from "@/service/uploadProductImage";
+import Image from "next/image";
 
 interface Product {
   productId?: string;
@@ -14,7 +16,6 @@ interface Product {
 interface ProductModalProps {
   product?: Product;
   onSave: (product: Product) => void;
-  onDelete?: () => void;
   onClose: () => void;
 }
 
@@ -24,90 +25,181 @@ export default function ProductModal({
   onClose,
 }: ProductModalProps) {
   const [name, setName] = useState("");
-  const [imgUrl, setImgUrl] = useState("");
+  const [imgUrl, setImgUrl] = useState<File | null>(null);
   const [price, setPrice] = useState("");
   const [status, setStatus] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (product) {
       setName(product.name);
-      setImgUrl(product.imgUrl);
+      setImgUrl(null); // Reset, no precargar en input file
       setPrice(product.price.toString());
       setStatus(product.status ?? true);
     }
   }, [product]);
 
-  const handleSave = () => {
-    const validExtensions = /\.(jpg|jpeg|png|webp|gif)$/i;
-
-    if (!name || !imgUrl || !price) {
-      return alert("Todos los campos son obligatorios");
+  const handleSave = async () => {
+    if (!name.trim() || !price.trim()) {
+      toast.error("🚫 Todos los campos son obligatorios");
+      return;
     }
 
-    if (!validExtensions.test(imgUrl)) {
-      return toast.error("La imagen debe ser .jpg, .jpeg, .png, .webp o .gif");
+    if (!name.trim()) {
+      toast.error("📝 El nombre es obligatorio");
+      return;
     }
 
-    onSave({ ...product, name, imgUrl, price: parseFloat(price), status });
+    if (name.length < 3 || name.length > 30) {
+      toast.error("📝 El nombre debe tener entre 3 y 30 caracteres");
+      return;
+    }
+
+    if (!price.trim()) {
+      toast.error("💰 El precio es obligatorio");
+      return;
+    }
+
+    const precioNumerico = parseFloat(price);
+    if (isNaN(precioNumerico) || precioNumerico <= 0) {
+      toast.error("💸 El precio debe ser mayor a 0");
+      return;
+    }
+
+    try {
+      setIsLoading(true);
+
+      let finalImageUrl = product?.imgUrl || "";
+
+      if (imgUrl instanceof File) {
+        finalImageUrl = await uploadTempProductImage(imgUrl);
+      }
+
+      const productoFinal: Product = {
+        ...product,
+        name,
+        imgUrl: finalImageUrl,
+        price: parseFloat(price),
+        status,
+      };
+
+      onSave(productoFinal);
+    } catch (error) {
+      console.error("❌ Error al guardar producto:", error);
+      toast.error("Ocurrió un error al guardar");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-30">
-      <div className="bg-[#F2F2F0] p-6 rounded-xl shadow-lg w-full max-w-md">
-        <h2 className="text-xl font-semibold text-[#2A5559] mb-4 text-center">
-          AGREGA UN NUEVO PRODUCTO
-        </h2>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
+      <div className="w-full max-w-md p-6 bg-white rounded-xl">
+        <h3 className="mb-4 text-xl font-bold text-center text-[#2A5559]">
+          {product ? "Editar Producto" : "Agregar Producto"}
+        </h3>
 
-        <div className="space-y-3">
+        <div className="space-y-3 text-black">
+          {/* Nombre */}
           <input
-            className="w-full border border-gray-300 rounded p-2 text-[#2A5559] placeholder:text-gray-500"
+            type="text"
             placeholder="Nombre"
+            className="w-full p-2 border rounded-md"
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
+
+          {/* Imagen actual (modo edición) */}
+          {!imgUrl && product?.imgUrl && (
+            <div className="flex justify-center">
+              <Image
+                src={product.imgUrl}
+                alt="Imagen actual"
+                width={100}
+                height={100}
+                className="rounded object-cover"
+              />
+            </div>
+          )}
+
+          {/* Subir imagen */}
           <input
-            className="w-full border border-gray-300 rounded p-2 text-[#2A5559] placeholder:text-gray-500"
-            placeholder="URL de la imagen"
-            value={imgUrl}
-            onChange={(e) => setImgUrl(e.target.value)}
+            type="file"
+            accept="image/*"
+            className="w-full p-2 border rounded-md"
+            onChange={(e) => {
+              const file = e.target.files?.[0];
+              if (file) setImgUrl(file);
+            }}
           />
+
+          {/* Vista previa */}
+          {imgUrl && (
+            <div className="mt-2">
+              <p className="text-sm font-medium text-[#2A5559] mb-1">
+                Vista previa:
+              </p>
+              <img
+                src={URL.createObjectURL(imgUrl)}
+                alt="Vista previa"
+                className="w-24 h-24 object-cover rounded border border-gray-300"
+                onError={(e) =>
+                  (e.currentTarget.src =
+                    "https://img.freepik.com/vector-gratis/sello-textura-huellas-patas_78370-2951.jpg?semt=ais_hybrid&w=740")
+                }
+              />
+              <button
+                onClick={() => setImgUrl(null)}
+                className="mt-2 text-sm text-red-600 hover:underline"
+              >
+                Quitar imagen seleccionada
+              </button>
+            </div>
+          )}
+
+          {/* Precio */}
           <input
             type="number"
-            className="w-full border border-gray-300 rounded p-2 text-[#2A5559] placeholder:text-gray-500"
-            placeholder="Monto"
+            placeholder="Precio"
+            className="w-full p-2 border rounded-md"
             value={price}
             onChange={(e) => setPrice(e.target.value)}
           />
 
-          <div className="flex flex-col">
-            <label htmlFor="statusSelect" className="mb-1 text-[#2A5559]">
-            </label>
-            <select
-              id="statusSelect"
-              className="border border-gray-300 rounded p-2 text-[#2A5559]"
-              value={status ? "activo" : "inactivo"}
-              onChange={(e) => setStatus(e.target.value === "activo")}
+          {/* Estado */}
+          <select
+            className="w-full p-2 border rounded-md"
+            value={status ? "activo" : "inactivo"}
+            onChange={(e) => setStatus(e.target.value === "activo")}
+          >
+            <option value="activo">Activo</option>
+            <option value="inactivo">Inactivo</option>
+          </select>
+
+          {/* Botones */}
+          <div className="flex justify-between mt-4">
+            <button
+              onClick={handleSave}
+              disabled={isLoading}
+              className={`flex items-center justify-center gap-2 px-4 py-2 rounded-md text-white transition ${
+                isLoading
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-[#2A5559] hover:bg-[#1d3e3e]"
+              }`}
             >
-              <option value="activo">Activo</option>
-              <option value="inactivo">Inactivo</option>
-            </select>
+              {isLoading && (
+                <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
+              )}
+              {isLoading ? "Guardando..." : "Guardar"}
+            </button>
+
+            <button
+              onClick={onClose}
+              className="bg-[#F2F2F0] px-4 py-2 rounded-md hover:bg-gray-200"
+            >
+              Cancelar
+            </button>
           </div>
-        </div>
-
-        <div className="flex items-center justify-between mt-6">
-          <button
-            onClick={handleSave}
-            className="bg-[#33A69A] text-white px-4 py-2 rounded hover:bg-[#2A5559] transition"
-          >
-            Guardar producto
-          </button>
-
-          <button
-            onClick={onClose}
-            className="bg-[#B4D9C4] text-[#593723] px-4 py-2 rounded hover:bg-[#A3CDB7] transition"
-          >
-            Salir
-          </button>
         </div>
       </div>
     </div>
