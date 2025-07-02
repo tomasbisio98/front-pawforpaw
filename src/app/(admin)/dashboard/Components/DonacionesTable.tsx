@@ -15,7 +15,13 @@ interface Donacion {
   estado: string;
 }
 
-const estadosOpciones = ["Exitoso", "Fallido", "En Proceso", "Bloqueado"];
+const estadosOpciones = [
+  "Exitoso",
+  "Fallido",
+  "En Proceso",
+  "Cancelado",
+  "Bloqueado",
+];
 
 export default function DonacionesHistorial() {
   const [donaciones, setDonaciones] = useState<Donacion[]>([]);
@@ -43,7 +49,7 @@ export default function DonacionesHistorial() {
   const donacionesFiltradas = donaciones.filter(
     (d) =>
       d.usuario.toLowerCase().includes(busqueda.toLowerCase()) &&
-      (filtroEstado === "" || d.estado === filtroEstado)
+      (filtroEstado === "" || traducirEstado(d.estado) === filtroEstado)
   );
 
   const ordenarPorFecha = () => {
@@ -55,6 +61,22 @@ export default function DonacionesHistorial() {
     setOrdenFechaDesc(!ordenFechaDesc);
     setDonaciones(sorted); // Esto modifica el orden en pantalla
   };
+
+  // ✅ AQUÍ agregas la función
+  function traducirEstado(estado: string): string {
+    switch (estado) {
+      case "COMPLETED":
+        return "Exitoso";
+      case "PENDING":
+        return "En proceso";
+      case "FAILED":
+        return "Fallido";
+      case "CANCELED":
+        return "Cancelado";
+      default:
+        return estado;
+    }
+  }
 
   const indiceInicio = (paginaActual - 1) * filasPorPagina;
   const indiceFin = indiceInicio + filasPorPagina;
@@ -152,25 +174,28 @@ export default function DonacionesHistorial() {
                     className={clsx(
                       "text-sm font-semibold px-2 py-1 rounded-full flex items-center justify-center gap-1",
                       {
-                        "bg-green-100 text-green-700": d.estado === "Exitoso",
-                        "bg-red-100 text-red-700": d.estado === "Fallido",
+                        "bg-green-100 text-green-700":
+                          traducirEstado(d.estado) === "Exitoso",
+                        "bg-red-100 text-red-700":
+                          traducirEstado(d.estado) === "Fallido",
                         "bg-yellow-100 text-yellow-700":
-                          d.estado === "En proceso",
-                        "bg-gray-100 text-gray-700": d.estado === "Bloqueado",
-                        "bg-gray-200 text-gray-800": ![
+                          traducirEstado(d.estado) === "En proceso",
+                        "bg-gray-200 text-gray-700":
+                          traducirEstado(d.estado) === "Cancelado",
+                        "bg-gray-100 text-gray-800": ![
                           "Exitoso",
                           "Fallido",
                           "En proceso",
-                          "Bloqueado",
-                        ].includes(d.estado),
+                          "Cancelado",
+                        ].includes(traducirEstado(d.estado)),
                       }
                     )}
                   >
-                    {d.estado === "Exitoso" && "✅"}
-                    {d.estado === "Fallido" && "❌"}
-                    {d.estado === "En proceso" && "⏳"}
-                    {d.estado === "Bloqueado" && "🚫"}
-                    {d.estado}
+                    {traducirEstado(d.estado) === "Exitoso" && "✅"}
+                    {traducirEstado(d.estado) === "Fallido" && "❌"}
+                    {traducirEstado(d.estado) === "En proceso" && "⏳"}
+                    {traducirEstado(d.estado) === "Cancelado" && "🚫"}
+                    {traducirEstado(d.estado)}
                   </span>
                 </td>
               </tr>
