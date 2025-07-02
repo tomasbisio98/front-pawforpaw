@@ -1,15 +1,8 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { getUserById, updateUserById } from "@/service/user";
 import { useEffect, useRef, useState } from "react";
-import {
-  Field,
-  Form,
-  Formik,
-  ErrorMessage,
-  FormikProps,
-} from "formik";
+import { Field, Form, Formik, ErrorMessage, FormikProps } from "formik";
 import { useAuthContext } from "@/context/authContext";
 import { toast } from "react-toastify";
 import { validationInfoUser } from "@/helpers/validationAuth";
@@ -25,12 +18,17 @@ const UserDataUI = () => {
   const [preview, setPreview] = useState<string | null>(null);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [showConfirm, setShowConfirm] = useState(false);
-  const [pendingValues, setPendingValues] = useState<{ name: string; phone: string } | null>(null);
+  const [pendingValues, setPendingValues] = useState<{
+    name: string;
+    phone: string;
+  } | null>(null);
 
   const { user, token, saveUserData } = useAuthContext();
   const [userData, setUserData] = useState<IUsers | null>(null);
   const [loading, setLoading] = useState(true);
-  const formikRef = useRef<FormikProps<{ name: string; phone: string }> | null>(null);
+  const formikRef = useRef<FormikProps<{ name: string; phone: string }> | null>(
+    null
+  );
 
   usePrivate();
 
@@ -94,10 +92,11 @@ const UserDataUI = () => {
             </p>
             <p className="text-negro">
               <strong>Teléfono:</strong>{" "}
-{!userData?.phone || userData.phone === "0" || /^0+$/.test(userData.phone)
-  ? "No registrado"
-  : userData.phone}
-
+              {!userData?.phone ||
+              userData.phone === "0" ||
+              /^0+$/.test(userData.phone)
+                ? "No registrado"
+                : userData.phone}
             </p>
           </div>
         </div>

@@ -150,25 +150,26 @@ export default function DonacionesHistorial() {
                 <td className="p-2">
                   <span
                     className={clsx(
-                      "text-sm font-semibold px-2 py-1 rounded-full",
+                      "text-sm font-semibold px-2 py-1 rounded-full flex items-center justify-center gap-1",
                       {
-                        "bg-green-100 text-green-700":
-                          d.estado.toLowerCase() === "Exitoso",
-                        "bg-red-100 text-red-700":
-                          d.estado.toLowerCase() === "Fallido",
+                        "bg-green-100 text-green-700": d.estado === "Exitoso",
+                        "bg-red-100 text-red-700": d.estado === "Fallido",
                         "bg-yellow-100 text-yellow-700":
-                          d.estado.toLowerCase() === "En proceso",
-                        "bg-gray-100 text-gray-700":
-                          d.estado.toLowerCase() === "Bloqueado",
+                          d.estado === "En proceso",
+                        "bg-gray-100 text-gray-700": d.estado === "Bloqueado",
                         "bg-gray-200 text-gray-800": ![
                           "Exitoso",
                           "Fallido",
                           "En proceso",
                           "Bloqueado",
-                        ].includes(d.estado.toLowerCase()),
+                        ].includes(d.estado),
                       }
                     )}
                   >
+                    {d.estado === "Exitoso" && "✅"}
+                    {d.estado === "Fallido" && "❌"}
+                    {d.estado === "En proceso" && "⏳"}
+                    {d.estado === "Bloqueado" && "🚫"}
                     {d.estado}
                   </span>
                 </td>
