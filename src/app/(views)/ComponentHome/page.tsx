@@ -13,7 +13,7 @@ import WhySupportUs from "./components/WhysupportUs";
 
 
 const HomeContent = () => {
-  const imagenes = ["/carrusel12.png", "/carrusel23.png", "/carrusel3.png"];
+  const imagenes = ["/carrusel1-copia.png", "/carrusel23.png", "/carrusel3.png"];
 
   return (
     <main className="px-6 py-10 space-y-16 bg-blancoSuave text-marronOscuro font-nunito">
@@ -26,7 +26,7 @@ const HomeContent = () => {
           slidesPerView={1}
           navigation
           pagination={{ clickable: true }}
-          autoplay={{ delay: 6000 }}
+          autoplay={{ delay: 7000 }}
           loop
           className="h-full"
         >
@@ -114,7 +114,7 @@ const HomeContent = () => {
         </div>
       </section>
 
-     
+
 
       <section className="text-center py-20 px-6 bg-verdeClaro text-white rounded-2xl shadow-lg space-y-4">
         <h2 className="text-3xl font-bold">¿Listo para hacer la diferencia?</h2>
