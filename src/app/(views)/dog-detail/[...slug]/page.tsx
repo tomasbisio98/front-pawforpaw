@@ -29,7 +29,7 @@ export default function DogDetailPage() {
       const [id] = slug;
       if (!id || id === "undefined") return;
 
-      const fetchedDog = await getDogId(id);
+      const fetchedDog = await getDogId(id, true);
       setDog(fetchedDog || null);
     };
 

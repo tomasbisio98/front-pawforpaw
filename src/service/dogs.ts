@@ -8,6 +8,7 @@ export const getDogsFilter = async (filters?: {
   page?: number;
   limit?: number;
   sort?: string;
+  status?: boolean; // 👈 añadimos status opcional
 }): Promise<{ data: IDogs[]; total: number }> => {
   try {
     const params = new URLSearchParams();
@@ -18,6 +19,8 @@ export const getDogsFilter = async (filters?: {
     if (filters?.page) params.append("page", filters.page.toString());
     if (filters?.limit) params.append("limit", filters.limit.toString());
     if (filters?.sort) params.append("sort", filters.sort);
+    if (filters?.status !== undefined)
+      params.append("status", String(filters.status)); // 👈 añadimos aquí
 
     const response = await axiosApiBack.get(`/dogs?${params.toString()}`);
 
@@ -25,7 +28,7 @@ export const getDogsFilter = async (filters?: {
     if (Array.isArray(response.data?.data)) {
       return {
         data: response.data.data,
-        total: response.data.total || 0,
+        total: response.data.total || response.data.data.length || 0,
       };
     }
 
@@ -57,16 +60,23 @@ export const getDogs = async (): Promise<IDogs[]> => {
   }
 };
 
-export const getDogId = async (id: string): Promise<IDogs | null> => {
+export const getDogId = async (
+  id: string,
+  onlyActiveProducts = false
+): Promise<IDogs | null> => {
   try {
-    const response = await axiosApiBack.get("/dogs/" + id);
+    const response = await axiosApiBack.get("/dogs/" + id, {
+      params: {
+        ...(onlyActiveProducts && { onlyActiveProducts: true }),
+      },
+    });
 
     if (!response?.data) {
       return null;
     }
     return response.data;
   } catch (error) {
-    console.error("Ocurrio un error al obtener el perrito", error);
+    console.error("Ocurrió un error al obtener el perrito", error);
     return null;
   }
 };
