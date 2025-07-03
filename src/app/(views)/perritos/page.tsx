@@ -1,19 +1,20 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import DogsList from '@/components/dogsList/DogsList';
-import { getDogsFilter } from '@/service/dogs';
-import FiltroPerritos from '@/components/filters/filtroPerritos';
-import { IDogs } from '@/interface/IDogs';
+import { useEffect, useState } from "react";
+import DogsList from "@/components/dogsList/DogsList";
+import { getDogsFilter } from "@/service/dogs";
+import FiltroPerritos from "@/components/filters/filtroPerritos";
+import { IDogs } from "@/interface/IDogs";
+import clsx from "clsx";
 
 const Perritos = () => {
   const [filters, setFilters] = useState({
-    name: '',
-    gender: '',
-    city: '',
+    name: "",
+    gender: "",
+    city: "",
     page: 1,
     limit: 9,
-    sort: '', // ✅ añadido para manejar el orden
+    sort: "", // ✅ añadido para manejar el orden
     status: true, // o false, según el valor por defecto deseado
   });
 
@@ -41,7 +42,7 @@ const Perritos = () => {
         <DogsList list={dogs} />
       </div>
 
-      <div className="flex justify-center gap-4 items-center text-sm text-gray-600">
+      <div className="flex justify-center gap-4 items-center text-sm">
         <button
           onClick={() =>
             setFilters((prev) => ({
@@ -50,12 +51,17 @@ const Perritos = () => {
             }))
           }
           disabled={filters.page === 1}
-          className="px-3 py-1 border rounded disabled:opacity-40"
+          className={clsx(
+            "px-3 py-1 rounded font-medium text-sm transition-all",
+            filters.page === 1
+              ? "bg-gray-200 text-gray-500 cursor-not-allowed"
+              : "bg-[#2A5559] text-white hover:bg-[#1d3e3e]"
+          )}
         >
-          ← Anterior
+          Anterior
         </button>
 
-        <span>
+        <span className="text-[#2A5559] font-semibold text-sm">
           Página {filters.page} de {Math.ceil(total / filters.limit) || 1}
         </span>
 
@@ -67,9 +73,14 @@ const Perritos = () => {
             }))
           }
           disabled={filters.page >= Math.ceil(total / filters.limit)}
-          className="px-3 py-1 border rounded disabled:opacity-40"
+          className={clsx(
+            "px-3 py-1 rounded font-medium text-sm transition-all",
+            filters.page >= Math.ceil(total / filters.limit)
+              ? "bg-gray-200 text-gray-500 cursor-not-allowed"
+              : "bg-[#2A5559] text-white hover:bg-[#1d3e3e]"
+          )}
         >
-          Siguiente →
+          Siguiente
         </button>
       </div>
     </main>

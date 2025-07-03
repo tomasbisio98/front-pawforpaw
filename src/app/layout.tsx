@@ -5,11 +5,12 @@ import { Nunito, Nunito_Sans } from "next/font/google";
 import "./globals.css";
 import { Bounce, ToastContainer } from "react-toastify";
 import { AuthProvider } from "@/context/authContext";
+import PageLoaderWrapper from "@/components/PageLoaderWrapper"; // 👈 AÑADIR ESTO
 
 const nunito = Nunito({
   variable: "--font-nunito",
   subsets: ["latin"],
-  weight: ["200", "400", "600", "800"], // puedes personalizar los pesos
+  weight: ["200", "400", "600", "800"],
 });
 
 const nunitoSans = Nunito_Sans({
@@ -17,7 +18,6 @@ const nunitoSans = Nunito_Sans({
   subsets: ["latin"],
   weight: ["200", "400", "600", "800"],
 });
-
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -42,25 +42,27 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-      className={`${geistSans.variable} ${geistMono.variable} ${nunito.variable} ${nunitoSans.variable} antialiased`}
-    >
-      <AuthProvider>
+        className={`${geistSans.variable} ${geistMono.variable} ${nunito.variable} ${nunitoSans.variable} antialiased`}
+      >
+        <AuthProvider>
+          <PageLoaderWrapper>
+            {children}
+          </PageLoaderWrapper>
 
-        {children}
-        <ToastContainer
-          position="top-right"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick={false}
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="light"
-          transition={Bounce}
+          <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick={false}
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+            transition={Bounce}
           />
-      </AuthProvider>
+        </AuthProvider>
       </body>
     </html>
   );
