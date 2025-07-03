@@ -141,23 +141,34 @@ export default function DogDetailPage() {
 
           {/* MODAL ADOPTAR */}
           {showAdoptModal && (
-            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-              <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm text-center">
-                <h2 className="text-xl font-bold mb-4">¿Querés adoptar?</h2>
-                <p className="text-gray-700 mb-4">
-                  Contactanos a{" "}
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
+              <div className="bg-blancoSuave border-2 border-verdeClaro rounded-2xl shadow-2xl p-6 w-full max-w-md text-center space-y-5 animate-fadeIn">
+                {/* Ícono emocional */}
+                <div className="text-4xl">🐾</div>
+
+                <h2 className="text-2xl font-bold text-verdeOscuro">
+                  ¡Gracias por querer adoptar!
+                </h2>
+
+                <p className="text-negro text-sm">
+                  Estamos felices de que quieras darle un hogar a uno de
+                  nuestros peluditos. 💚
+                  <br />
+                  Escribinos a{" "}
                   <a
                     href="mailto:pawforpaw2025@gmail.com"
-                    className="text-blue-600 underline"
+                    className="text-[#1B9780] font-semibold underline hover:text-verdeClaro"
                   >
                     pawforpaw2025@gmail.com
-                  </a>
+                  </a>{" "}
+                  y te contamos cómo iniciar el proceso de adopción.
                 </p>
+
                 <button
                   onClick={() => setShowAdoptModal(false)}
-                  className="mt-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold px-4 py-2 rounded"
+                  className="mt-2 px-5 py-2 rounded-xl bg-[#1B9780] hover:bg-verdeClaro text-white font-semibold transition-all"
                 >
-                  Cerrar
+                  💌 Cerrar
                 </button>
               </div>
             </div>

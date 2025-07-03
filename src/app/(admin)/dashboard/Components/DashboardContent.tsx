@@ -3,33 +3,63 @@
 import { useDashboardData } from "./useDashboardData";
 import KPIBox from "./KPIBox";
 import NavigationCards from "./NavigationCards";
+import { PawPrint, Users, Package, DollarSign } from "lucide-react";
 
 export default function DashboardContent() {
   const { data, loading, error } = useDashboardData();
 
   if (loading)
     return (
-      <p className="text-center text-[#2C5959] font-nunito text-lg">
-        Cargando...
-      </p>
+      <div className="flex justify-center py-10">
+        <p className="text-center text-verdeOscuro font-nunito text-lg animate-pulse">
+          Cargando panel...
+        </p>
+      </div>
     );
+
   if (error || !data)
     return (
-      <p className="text-center text-red-600 font-nunito text-lg">
-        Error al cargar datos.
-      </p>
+      <div className="flex justify-center py-10">
+        <p className="text-center text-red-600 font-nunito text-lg">
+          Error al cargar los datos.
+        </p>
+      </div>
     );
 
   return (
-    <div className="space-y-6">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <KPIBox title="Total Perritos" value={data.totalDogs} />
-        <KPIBox title="Total Productos" value={data.totalProducts} />
-        <KPIBox title="Total Donado" value={`$${data.totalDonations}`} />
-        <KPIBox title="Total Usuarios" value={data.totalUsers} />
+    <div className="space-y-8 px-4 sm:px-6 lg:px-8 py-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <KPIBox
+          title="Total Perritos"
+          value={data.totalDogs}
+          icon={<PawPrint size={20} className="text-[#1B9780]" />}
+        />
+
+        <KPIBox
+          title="Total Productos"
+          value={data.totalProducts}
+          icon={<Package size={20} className="text-[#1B9780]" />}
+        />
+
+        <KPIBox
+          title="Total Donado"
+          value={`$${data.totalDonations}`}
+          icon={<DollarSign size={20} className="text-[#1B9780]" />}
+        />
+
+        <KPIBox
+          title="Total Usuarios"
+          value={data.totalUsers}
+          icon={<Users size={20} className="text-[#1B9780]" />}
+        />
       </div>
-      <NavigationCards />
+
+      <div>
+        <h2 className="text-xl font-semibold text-verdeOscuro mb-3 font-nunito">
+          Accesos rápidos
+        </h2>
+        <NavigationCards />
+      </div>
     </div>
   );
 }
-

@@ -10,7 +10,7 @@ import { FaUserEdit } from "react-icons/fa";
 import { HiOutlineInformationCircle } from "react-icons/hi";
 import { IUsers } from "@/interface/IUsers";
 import usePrivate from "@/hooks/usePrivate";
-import ConfirmModal from "@/components/modals/ConfirmModal";
+import ConfirmModal from "@/app/(views)/confirmModal/confirmModal";
 import { uploadUserImage } from "@/service/upload";
 import Image from "next/image";
 

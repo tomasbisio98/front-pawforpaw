@@ -1,35 +1,67 @@
 'use client';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 
 interface Props {
-    isOpen:boolean;
-  show?: boolean;
-  onCancel: () => void;
-  onConfirm: () => void;
+  open: boolean;
+  title?: string;
   message?: string;
+  onCancel: () => void;
+  onConfirm: () => Promise<void>;
 }
 
-const ConfirmMiniModal: FC<Props> = ({ show, onCancel, onConfirm, message }) => {
-  if (!show) return null;
+const ConfirmModal: FC<Props> = ({ open, title, message, onCancel, onConfirm }) => {
+  const [loading, setLoading] = useState(false);
+
+  if (!open) return null;
+
+  const handleConfirm = async () => {
+    setLoading(true);
+    try {
+      await onConfirm();
+    } catch (e) {
+      console.error("❌ Error en confirmación:", e);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="bg-white dark:bg-zinc-800 rounded-lg p-6 w-full max-w-sm shadow-lg space-y-4">
-        <p className="text-center text-zinc-700 dark:text-zinc-100 text-sm">
-          {message || '¿Seguro que quieres hacer esto?'}
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
+      <div className="bg-blancoSuave border-2 border-verdeClaro rounded-xl shadow-lg p-6 w-full max-w-md space-y-6 text-center">
+        {/* Ícono */}
+        <div className="text-3xl">⚠️</div>
+
+        {/* Título */}
+        {title && (
+          <h3 className="text-lg font-bold text-verdeOscuro">
+            {title}
+          </h3>
+        )}
+
+        {/* Mensaje */}
+        <p className="text-sm text-negro">
+          {message || "¿Seguro que quieres hacer esto?"}
         </p>
-        <div className="flex justify-end gap-3">
+
+        {/* Botones centrados */}
+        <div className="flex justify-center gap-4 mt-4">
           <button
             onClick={onCancel}
-            className="px-3 py-1 bg-gray-200 dark:bg-zinc-700 rounded hover:bg-gray-300 text-sm"
+            disabled={loading}
+            className="px-4 py-2 rounded-lg text-sm font-semibold bg-gray-200 text-negro hover:bg-gray-300 transition-all"
           >
             Cancelar
           </button>
           <button
-            onClick={onConfirm}
-            className="px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700 text-sm"
+            onClick={handleConfirm}
+            disabled={loading}
+            className={`px-4 py-2 rounded-lg text-sm font-semibold text-white flex items-center gap-2 transition-all
+              ${loading ? 'bg-[#78c0aa] cursor-not-allowed' : 'bg-[#1B9780] hover:bg-verdeClaro'}`}
           >
-            Confirmar
+            {loading && (
+              <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+            )}
+            <span>{loading ? "Confirmando..." : "Confirmar"}</span>
           </button>
         </div>
       </div>
@@ -37,4 +69,4 @@ const ConfirmMiniModal: FC<Props> = ({ show, onCancel, onConfirm, message }) => 
   );
 };
 
-export default ConfirmMiniModal;
+export default ConfirmModal;

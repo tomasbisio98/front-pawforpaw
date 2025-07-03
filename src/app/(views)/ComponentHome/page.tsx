@@ -13,7 +13,7 @@ import WhySupportUs from "./components/WhysupportUs";
 
 
 const HomeContent = () => {
-  const imagenes = ["/carrusel1-copia.png", "/carrusel23.png", "/carrusel3.png"];
+  const imagenes = ["/carrusel1-copia.png", "/carrusel2.png", "/carrusel3.png"];
 
   return (
     <main className="px-6 py-10 space-y-16 bg-blancoSuave text-marronOscuro font-nunito">
