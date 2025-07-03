@@ -63,12 +63,12 @@ export default function ProductTable({ perrito, refreshKey }: Props) {
           onClick={handleAddProduct}
           className="bg-[#B4D9C4] px-4 py-2 rounded-md font-semibold text-[#2A5559] hover:bg-[#9fceb3] transition"
         >
-          + Agregar producto a {perrito.nombre}
+          + Agregar producto a {perrito.nombre.toUpperCase()}
         </button>
       </div>
 
       <h1 className="text-3xl font-bold text-center text-[#2A5559] mb-8">
-        TABLA DE PRODUCTOS DE {perrito.nombre}
+        TABLA DE PRODUCTOS DE {perrito.nombre.toUpperCase()}
       </h1>
 
       {products.length === 0 ? (

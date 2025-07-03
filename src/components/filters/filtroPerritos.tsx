@@ -83,6 +83,7 @@ const handleChange = (
         >
           <option value="">Sin ordenar</option>
           <option value="name">Nombre (A-Z)</option>
+          
         </select>
       </div>
     </div>
