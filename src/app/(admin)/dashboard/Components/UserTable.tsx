@@ -127,7 +127,7 @@ const UserTable = () => {
     onChange={() => toggleBan(u.id, u.isBanned)}
   />
   {/* Fondo del switch */}
-  <div className="w-11 h-6 bg-[#e5e5ea] rounded-full peer-checked:bg-[#34c759] transition-colors duration-300 ease-in-out"></div>
+  <div className="w-11 h-6 bg-[#e5e5ea] rounded-full peer-checked:bg-[#fe0000] transition-colors duration-300 ease-in-out"></div>
   {/* Círculo interior */}
   <div className="absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow-md transition-transform duration-300 ease-in-out transform peer-checked:translate-x-5"></div>
 </label>

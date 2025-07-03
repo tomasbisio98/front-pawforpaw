@@ -120,6 +120,7 @@ export const getUser2 = async (params: {
   orderBy: string;
   order: string;
   status?: string;
+   isBanned?: boolean;
 }): Promise<{ data: IUsers2[]; total: number }> => {
   try {
     const token = localStorage.getItem("token");
