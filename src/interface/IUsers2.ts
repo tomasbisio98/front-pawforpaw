@@ -6,4 +6,5 @@ export interface IUsers2 {
   isAdmin?: boolean;
   status: boolean;
   montoDonado: number;
+  isBanned: boolean;
 }

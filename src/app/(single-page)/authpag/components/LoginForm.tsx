@@ -31,12 +31,12 @@ const LoginForm = () => {
   ) => {
     try {
       const res = await postLogin(values);
-    
+      console.log("👉 response de postLogin", res);
 
       localStorage.setItem("token", res.token);
       saveUserData(res);
 
-    
+      console.log("👤 Usuario guardado:", res.user);
 
       toast.success("Bienvenido a PawForPaw");
       resetForm();
@@ -49,7 +49,7 @@ const LoginForm = () => {
         }
       }, 3000);
 
-  
+      console.log("Enviando datos:", values);
     } catch (e) {
       console.warn("error al loguearse el usuario", e);
       toast.error("Email o contraseña incorrectos");

@@ -46,26 +46,19 @@ export const blockUser = async (userId: string): Promise<void> => {
 };
 
 // Actualizar status del usuario (PUT)
-export const updateStatusUsuario = async (
-  id: string,
-  status: boolean
-): Promise<void> => {
+export const updateBanUsuario = async (id: string, isBanned: boolean): Promise<void> => {
   try {
     const token = localStorage.getItem("token");
 
-    // ⚠️ Solo enviamos 'status' sin arrastrar otros campos
-    const payload = { status };
+    const payload = { isBanned };
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const response = await axiosApiBack.put(`/users/${id}`, payload, {
+    await axiosApiBack.put(`/users/${id}`, payload, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  } catch (error) {
-    throw new Error("No se pudo actualizar el estado");
+  } catch {
+    throw new Error("No se pudo actualizar el estado de banneo");
   }
 };
 
