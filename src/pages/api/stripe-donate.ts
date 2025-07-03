@@ -16,7 +16,6 @@ export default async function handler(
       return res.status(401).json({ message: "Token no proporcionado" });
     }
 
-    console.log("📦 Payload recibido del frontend:", JSON.stringify(req.body, null, 2));
 
     const response = await axios.post(
       `${process.env.NEXT_PUBLIC_API_URL}/donations/checkout`,

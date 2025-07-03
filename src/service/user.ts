@@ -56,15 +56,15 @@ export const updateStatusUsuario = async (
     // ⚠️ Solo enviamos 'status' sin arrastrar otros campos
     const payload = { status };
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const response = await axiosApiBack.put(`/users/${id}`, payload, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
 
-    console.log("✅ Estado actualizado correctamente:", response.data);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
-    console.error("Error al actualizar el estado del usuario:", error);
     throw new Error("No se pudo actualizar el estado");
   }
 };
@@ -79,7 +79,6 @@ export const getUserById = async (
         Authorization: `Bearer ${token}`,
       },
     });
-    console.log("📞 URL construida:", `/users/${id}`);
 
     return response.data;
   } catch (error) {
@@ -105,11 +104,6 @@ export const updateUserById = async (
     )
       cleanData.profileImgUrl = data.profileImgUrl;
 
-    console.log("🛠️ Enviando a la API:", {
-      id,
-      data: cleanData,
-      headers: { Authorization: `Bearer ${token}` },
-    });
 
     const response = await axiosApiBack.put(`/users/${id}`, cleanData, {
       headers: {

@@ -105,7 +105,6 @@ export const updateDog = async (
   dogData: Partial<IDogs>
 ): Promise<IDogs | null> => {
   try {
-    console.log("📤 Enviando actualización del perrito:", { id, dogData });
     const response = await axiosApiBack.put(`dogs/${id}`, dogData);
     return response.data;
   } catch (error) {

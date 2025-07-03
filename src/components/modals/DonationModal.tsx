@@ -42,9 +42,7 @@ const DonationModal = ({
         },
       ],
     };
-    console.log("🧪 dogId:", dogId);
-    console.log("🐶 Payload que se enviará:", payload);
-    console.log("🔐 Token:", token);
+
 
     try {
       const response = await fetch("/api/stripe-donate", {
@@ -58,7 +56,6 @@ const DonationModal = ({
 
       const data = await response.json();
       if (data?.url) {
-        console.log("🔗 URL de Stripe:", data.url); // 👈 Agregado para ver en consola
         window.location.href = data.url;
       } else {
         console.error("⚠️ Respuesta sin URL:", data);

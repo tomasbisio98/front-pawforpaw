@@ -22,7 +22,7 @@ const RegisterForm = () => {
     values: IUsers,
     { resetForm }: { resetForm: () => void }
   ) => {
-    console.log("Datos del formulario:", values);
+
 
     const dataToSend = {
       name: values.name,
@@ -32,8 +32,8 @@ const RegisterForm = () => {
     };
 
     try {
-      const res = await postRegister(dataToSend);
-      console.log("Respuesta del backend:", res);
+      await postRegister(dataToSend);
+
 
       toast.success("Usuario registrado exitosamente");
       resetForm();
