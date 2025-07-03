@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { getUser2 } from "@/service/user";
 import { IUsers2 } from "@/interface/IUsers2";
-import { updateStatusUsuario } from "@/service/user";
+import { updateBanUsuario } from "@/service/user";
 
 const UserTable = () => {
   const [usuarios, setUsuarios] = useState<IUsers2[]>([]);
@@ -39,33 +39,32 @@ const UserTable = () => {
   const [totalUsuarios, setTotalUsuarios] = useState(0);
   const totalPaginas = Math.ceil(totalUsuarios / itemsPorPagina);
 
-  const toggleEstado = async (id: string, currentStatus: boolean) => {
-    try {
-      const newStatus = !currentStatus;
+ const toggleBan = async (id: string, currentBanStatus: boolean) => {
+  try {
+    const newBanStatus = !currentBanStatus;
 
-      await updateStatusUsuario(id, newStatus); // 🔧 Aquí estaba el error
+    await updateBanUsuario(id, newBanStatus);
 
-      setUsuarios((prev) =>
-        prev.map((user) =>
-          user.id === id ? { ...user, status: newStatus } : user
-        )
+    setUsuarios((prev) =>
+      prev.map((user) =>
+        user.id === id ? { ...user, isBanned: newBanStatus } : user
+      )
+    );
+
+    const usuarioActualizado = usuarios.find((u) => u.id === id);
+    if (usuarioActualizado) {
+      setMensaje(
+        `✅ El usuario ${usuarioActualizado.name} (${usuarioActualizado.email}) ha sido ${
+          newBanStatus ? "baneado" : "desbaneado"
+        }.`
       );
-
-      const usuarioActualizado = usuarios.find((u) => u.id === id);
-      if (usuarioActualizado) {
-        setMensaje(
-          `✅ El usuario ${usuarioActualizado.name} (${
-            usuarioActualizado.email
-          }) ha sido ${newStatus ? "activado" : "desactivado"}.`
-        );
-
-        setTimeout(() => setMensaje(""), 3750);
-      }
-    } catch (error) {
-      console.error("Error al actualizar estado:", error);
-      alert("No se pudo actualizar el estado del usuario.");
+      setTimeout(() => setMensaje(""), 3750);
     }
-  };
+  } catch (error) {
+    console.error("Error al cambiar banneo:", error);
+    alert("No se pudo actualizar el estado de banneo del usuario.");
+  }
+};
 
   return (
     <div className="min-h-screen bg-[#F2F2F0] px-3 py-1">
@@ -120,18 +119,18 @@ const UserTable = () => {
                   <td>{u.email}</td>
                   <td>{u.phone}</td>
                   <td>
-                    <label className="relative inline-block w-11 h-6">
-                      <input
-                        type="checkbox"
-                        className="sr-only peer"
-                        checked={u.status}
-                        onChange={() => toggleEstado(u.id, u.status)}
-                      />
-                      {/* Fondo del switch */}
-                      <div className="w-11 h-6 bg-[#e5e5ea] rounded-full peer-checked:bg-[#34c759] transition-colors duration-300 ease-in-out"></div>
-                      {/* Círculo interior */}
-                      <div className="absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow-md transition-transform duration-300 ease-in-out transform peer-checked:translate-x-5"></div>
-                    </label>
+            <label className="relative inline-block w-11 h-6">
+  <input
+    type="checkbox"
+    className="sr-only peer"
+    checked={u.isBanned}
+    onChange={() => toggleBan(u.id, u.isBanned)}
+  />
+  {/* Fondo del switch */}
+  <div className="w-11 h-6 bg-[#e5e5ea] rounded-full peer-checked:bg-[#34c759] transition-colors duration-300 ease-in-out"></div>
+  {/* Círculo interior */}
+  <div className="absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow-md transition-transform duration-300 ease-in-out transform peer-checked:translate-x-5"></div>
+</label>
                   </td>
                 </tr>
               ))
