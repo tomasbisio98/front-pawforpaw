@@ -154,7 +154,7 @@ export default function DogDetailPage() {
                   Estamos felices de que quieras darle un hogar a uno de
                   nuestros peluditos. 💚
                   <br />
-                  Escribinos a{" "}
+                  Escríbenos a{" "}
                   <a
                     href="mailto:pawforpaw2025@gmail.com"
                     className="text-[#1B9780] font-semibold underline hover:text-verdeClaro"

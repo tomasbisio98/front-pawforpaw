@@ -25,7 +25,7 @@ const UserTable = () => {
           status: status || undefined,
         });
 
-        console.log("📦 Datos recibidos:", res);
+      
         setUsuarios(Array.isArray(res.data) ? res.data : []);
         setTotalUsuarios(res.total ?? 0);
       } catch (error) {

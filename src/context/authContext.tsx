@@ -38,7 +38,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setToken(data.token);
     setIsAuth(true);
     localStorage.setItem("auth", JSON.stringify(data));
-    console.log("🔐 Usuario autenticado:", data.user);
   };
 
   // ✅ Eliminar datos del almacenamiento local al cerrar sesión
